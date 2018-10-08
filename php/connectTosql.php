@@ -1,23 +1,15 @@
-<?php  
+<?php
 session_start();
-$DB_HOST = 'localhost';
-	$DB_USER = 'root';
-	$DB_PASSWORD = '';
-	$DB_DATABASE = 'tactic';
-//connect to mysql
-	 $con = mysql_connect($DB_HOST, $DB_USER, $DB_PASSWORD);
-	 global  $con;
-	if(!$con){
-	die('filed to connect to server'.mysql_error());
-				}
+$servername = "localhost";
+$username = 'root';
+$password = '';
+$dbname = "tactic";
 
-//SELECT DB
-$db = mysql_select_db($DB_DATABASE, $con);
-if(!$db){
-	die("Unable to select database");
-}
- if(isset($_GET['valid'])){
-      echo '<script type="text/javascript">alert("Invalid Username/Password")</script>';
-    }
-
-?>
+// Create connection
+$con = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($con->connect_error) {
+    die("Connection failed: " . $con->connect_error);
+} 
+// Change character set to utf8
+mysqli_set_charset($con,"utf8");
