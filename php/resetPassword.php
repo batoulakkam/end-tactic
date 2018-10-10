@@ -16,21 +16,22 @@ $mail->Username = "tactic.event@gmail.com";
 $mail->SMTPSecure = "ssl"; // ot TLS
  // set the SMTP port for the GMAIL server
     $mail->Port = "465"; // or 587 LTS
-$mail->Subject  =  'Reset Password';
+$mail->Subject  =  'استعادة كلمة المرور ';
       $token = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890<>()!#%&/$*';
       $token= str_shuffle($token);
       $token= substr($token,0,10);
 
-if(isset($_POST['emailOrg']))
+if(isset($_POST['Email']))
 {
-  $orgEmail= $_POST['emailOrg'];
-  $select=mysqli_query($con,"SELECT * FROM `account` WHERE `email-org` = '$orgEmail'");
+  $orgEmail= $_POST['Email'];
+  $select=mysqli_query($con,"SELECT * FROM account WHERE email-org = '$orgEmail'");
 	if($select)
 		echo "true";
   // if(!empty($row['emailOrg']))
    //   $email=$row['emailOrg'];
-    $link="<a href='http://localhost/tactic/newPassword.php?key=$token</a>";
-	$mail->Body    = 'Click On This Link to Reset Password '.$link.'';
+    $link="http://localhost/tactic/newPassword.php?key=".$token;
+	$mail->Body    = 'أهلا بك تم استلام طلب تغير كلمة المرور في حال أردت تغيرها اضغط على الرابط لاستعادة كلمة لمرور '.	
+		'http://localhost/tactic/newPassword.php?key='.$token;
 	$mail->setfrom('tactic.event@gmail.com','tactic');
     $mail->AddAddress($orgEmail);
      if($mail->Send())
@@ -44,4 +45,5 @@ if(isset($_POST['emailOrg']))
   
 
 }
+
 ?>
