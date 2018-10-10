@@ -34,7 +34,7 @@ $name= $_POST['nameAttendee'];
 $email=$_POST['emailAttendee'];
 $phone=$_POST['phoneAttendee'];
 $age=$_POST['ageAttendee'];
-$gender=$_POST['genderAttendee'];
+$gender=$_POST['gender_Att'];
 $ID =$_POST['IDAttendee'];
 $job=$_POST['jobAttendee'];
 $edu=$_POST['eduAttendee'];
@@ -132,13 +132,13 @@ header("location:confirmRegisterEvent.php?attendeeID=$attendeeID");}
 	  				<section class="form-control" style="height:70px" >
 	  <div class="form-check">
 		 
-          <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="انثى" checked>
+          <input class="form-check-input" type="radio" name="gender_Att" id="inlineRadio3" value="انثى" >
           <label class="form-check-label" for="gridRadios1">
             انثى
 		  </label>	
 		</div>
 		  <div class="form-check">
-          <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="ذكر" >
+          <input class="form-check-input" type="radio" name="gender_Att" id="inlineRadio3" value="ذكر" >
           <label class="form-check-label" for="gridRadios1">
             ذكر
 		  </label>
@@ -155,13 +155,13 @@ header("location:confirmRegisterEvent.php?attendeeID=$attendeeID");}
 	  			<section class="form-control" style="height:70px" >
 	  <div class="form-check">
 		 
-          <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="انثى" checked>
+          <input class="form-check-input" type="radio" name="gender_Att" id="inlineRadio3" value="انثى" checked>
           <label class="form-check-label" for="gridRadios1">
             انثى
 		  </label>	
 		</div>
 		  <div class="form-check">
-          <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="ذكر" >
+          <input class="form-check-input" type="radio" name="gender_Att" id="inlineRadio3" value="ذكر" >
           <label class="form-check-label" for="gridRadios1">
             ذكر
 		  </label>
