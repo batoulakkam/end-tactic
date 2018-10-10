@@ -21,17 +21,15 @@ $mail->Subject  =  'استعادة كلمة المرور ';
       $token= str_shuffle($token);
       $token= substr($token,0,10);
 
-if(isset($_POST['Email']))
+
+if(isset($_POST['submit_email']))
 {
   $orgEmail= $_POST['Email'];
-  $select=mysqli_query($con,"SELECT * FROM account WHERE email-org = '$orgEmail'");
-	if($select)
-		echo "true";
-  // if(!empty($row['emailOrg']))
-   //   $email=$row['emailOrg'];
-    $link="http://localhost/tactic/newPassword.php?key=".$token;
+  $select=mysqli_query($con,"SELECT token FROM account WHERE emailOrg = '$orgEmail'");
+$row = mysqli_fetch_array($select);
+     $token=$row['token'];
 	$mail->Body    = 'أهلا بك تم استلام طلب تغير كلمة المرور في حال أردت تغيرها اضغط على الرابط لاستعادة كلمة لمرور '.	
-		'http://localhost/tactic/newPassword.php?key='.$token;
+		'http://localhost/tactic2-master/newPassword.php?key='.$token;
 	$mail->setfrom('tactic.event@gmail.com','tactic');
     $mail->AddAddress($orgEmail);
      if($mail->Send())
