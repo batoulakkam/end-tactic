@@ -18,6 +18,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title> استعادة كلمة المرور </title>	
  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
