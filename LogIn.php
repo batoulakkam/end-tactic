@@ -40,6 +40,11 @@ $masg = " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
          <strong> فشل</strong>  من تطابق كلمة المرور
        </div> ";}
+if(isset($_GET['confirm']) ==false ){
+     $masg = " <div class='alert alert-danger alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+         <strong> فشل</strong> يرجى تأكيد البريد الالكتروني
+       </div> ";}
     
    
     if(isset($_GET['edit'])){

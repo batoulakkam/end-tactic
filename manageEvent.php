@@ -1,8 +1,13 @@
 <?php
 //connect to database
 require_once 'php/connectTosql.php';
-///delete event
 
+///delete event
+$organizerID = $_SESSION['organizerID'];
+
+ $queryconfirm= mysqli_query($con, "SELECT isEmailconfirm from  account  WHERE  organizer_ID = '$organizerID'") or die(mysqli_error($con));
+$rowCo =mysqli_fetch_array($queryconfirm);
+if($rowCo['isEmailconfirm'] == 1){
 if (isset($_GET['eventId']) && $_GET['eventId'] != '') {//retreive the hidden id in modal
 
  $eventId = $_GET['eventId'];
@@ -22,21 +27,26 @@ if (isset($_GET['eventId']) && $_GET['eventId'] != '') {//retreive the hidden id
 
  }
 
-} else {
- echo "Id is not set";
 }
 
 if (isset($_GET['eventName']) && $_GET['eventName'] != '') {
  $eventName = $_GET['eventName'];
- $query     = mysqli_query($con, "SELECT * FROM event  WHERE  name_Event like '%$eventName%' ") or die(mysqli_error($con));
+ $query     = mysqli_query($con, "SELECT * FROM event WHERE organizer_ID = '$organizerID ' AND  name_Event like '%$eventName%' ") or die(mysqli_error($con));	
+
+
 } else {
- $query = mysqli_query($con, "SELECT * FROM event") or die(mysqli_error($con));
+ $query = mysqli_query($con, "SELECT * FROM event WHERE organizer_ID = '$organizerID '") or die(mysqli_error($con));
+}
+}
+else {
+	header("location:logout.php?confirm= false");
 }
 
 ?>
 
 <!DOCTYPE html>
 <html>
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -62,8 +72,7 @@ if (isset($_GET['eventName']) && $_GET['eventName'] != '') {
 </head>
 
 <body>
-  <div id="includedContent"></div>
-  <div id="includedContent2"></div>
+  
 
   <div class="mainContent">
 
