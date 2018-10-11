@@ -18,7 +18,7 @@ if (isset($_POST['add'])) {
 )VALUES ('','$prizeName','$numOfPrize','$eventID','$subName')")or die(mysqli_error($con));
   
    if ($sql) {
-    header("location:managePrize.php");
+    header("location:mangePrize.php");
    exit;
    } else {
     echo " <div class='alert alert-danger alert-dismissible'>
@@ -137,7 +137,7 @@ if (isset($_POST['add'])) {
    function change_event(){
  
    var  xmlhttp=new XMLHttpRequest();//
-    xmlhttp.open("GET","ajax.php?Eventname="+document.getElementById("eventName").value,false);
+    xmlhttp.open("GET","addajaxsub.php?Eventname="+document.getElementById("eventName").value,false);
     xmlhttp.send(null);
     
     document.getElementById("SubEventName").innerHTML=xmlhttp.responseText;

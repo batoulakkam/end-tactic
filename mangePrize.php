@@ -109,6 +109,7 @@ $query = mysqli_query($con, $sql) or die(mysqli_error($con));
                 <tr>
                     <th>  الجائزة  </th>
                     <th>  اسم الحدث</th>
+                    <th>  اسم الحدث الفرعي </th>
                     <th> خيارات </th>
                 </tr>
 
@@ -118,11 +119,18 @@ $query = mysqli_query($con, $sql) or die(mysqli_error($con));
 <?php
 
 while ($row = mysqli_fetch_array($query)):
-
+$subeventid=$row['subevent_ID'];
  echo "<tr>";
  echo "<td><a  href='subEventDetails.php?prizeId=" . $row['prize_ID'] . "'>" . $row['namePrize'] . "</a></td>";
  echo "<td>" . $row['name_Event'] . "</td>";
- //echo "<td>" . $row['subevent_ID'] . "</td>";
+ $querysub = mysqli_query($con, "SELECT nameSubEvent ,subevent_ID from subevent where subevent_ID= '$subeventid'") or die(mysqli_error($con));
+ $rows =mysqli_fetch_array($querysub) ;
+    
+    if($rows[0] !=""){
+     echo "<td>" . $rows[0] . "</td>";
+    }
+     else  echo "<td> لا يوجد </td>";
+    
  echo "<td> <a id='aEditsubEvent' href='editPrize.php?prizeId=" . $row['prize_ID'] . "'><span class='fa fa-edit' style='font-size:24px;'></span></a>
 		        <a href='#' id='aDeletEvent' class='adelete' data-id=" . $row['prize_ID'] . "><span  class=' fa fa-trash' style='font-size:24px;color:red;  '></span> </a></td>
 		      </tr>";

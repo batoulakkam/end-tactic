@@ -159,7 +159,7 @@ require_once 'php/connectTosql.php';
     $(document).ready (function (){
  
    var  xmlhttp=new XMLHttpRequest();//
-    xmlhttp.open("GET","ajax.php?subeEventId=$subeEventName  &Eventname="+document.getElementById("eventName").value,false);
+    xmlhttp.open("GET","ajax.php?subeEventId=$subEventID  &Eventname="+document.getElementById("eventName").value,false);
     xmlhttp.send(null);
     
     document.getElementById("SubEventName").innerHTML=xmlhttp.responseText;
