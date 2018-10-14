@@ -1,12 +1,8 @@
 <?php
 require_once('php/connectTosql.php');
-$message="";
-if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
-$organizerid=$_SESSION['organizerID'];
+
   // this section for get the event name fro DB
-  $query = mysqli_query($con,"SELECT * FROM event where organizer_ID=  '$organizerid' ")or die(mysqli_error($con));
-
-
+  $query = mysqli_query($con,"SELECT * FROM event")or die(mysqli_error($con));
 if(isset($_POST['add'])){
   $eventID = $_POST["addSubEvent"];
   $subName = $_POST["subEventName"];
@@ -21,15 +17,7 @@ header("location: /tactic/manageSubEvent.php");
    <strong> فشل</strong>  لم تتم عملية الاضافة بنجاح يرجى التحقق
  </div> ";
   } 
-
-}// end if(isset($_POST['add']))
-} else {
-  $message= " <div class='alert alert-danger alert-dismissible'>
-         <button type='button' class='close' data-dismiss='alert'>&times;</button>
-          <strong> يرجى</strong>   تثبيت الايميل لكي تتمكن من أضافة حدث
-        </div> ";
- }
-
+}
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +39,7 @@ header("location: /tactic/manageSubEvent.php");
 
   <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
 
-    <script src="jquery.js"></script> 
+
     
 </head>
 
@@ -68,14 +56,10 @@ header("location: /tactic/manageSubEvent.php");
         </div>
         <div class="panel-body">
 
-          <form action="" class="formDiv" method="post">
-          <?php 
-            echo $message;
-            ?>
-
+          <form action="" class="formDivAddSubEvent" method="post">
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="eventName" class="control-label"> اسم الحدث</label>
+                <label for="eventName" class="control-label"> اسم الحدث<label style="color:red">*&nbsp; </label></label>
                 <select class="form-control" id="addSubEvent" name="addSubEvent" >
                   <?php
                   while ($row = mysqli_fetch_array($query)):
@@ -89,15 +73,14 @@ header("location: /tactic/manageSubEvent.php");
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="eventName" class="control-label"> اسم الحدث الفرعي</label>
-                <input type="text" class="form-control" id="txtSubEventName"  name="subEventName"
-                  required>
+                <label for="eventName" class="control-label"> اسم الحدث الفرعي<label style="color:red">*&nbsp; </label></label>
+                <input type="text" class="form-control" id="txtSubEventName"  name="subEventName">
               </div>
             </div>
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="txtDescription" class="control-label">وصف الحدث الفرعي </label>
+                <label for="txtDescription" class="control-label">وصف الحدث الفرعي<label style="color:red">*&nbsp; </label> </label>
                 <textarea type="textarea" class="form-control" id="txtDescription" rows="3" name="subDescription" ></textarea>
               </div>
             </div>
@@ -114,8 +97,11 @@ header("location: /tactic/manageSubEvent.php");
   
 
   <!-- end of  register inputs -->
+  <script src="jquery.js"></script> 
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <script src="js/appjs/subEvent.js"></script>
+ 
   <script>
     $(function () {
       $("#includedContent").load("php/TopNav.php");

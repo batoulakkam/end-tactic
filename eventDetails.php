@@ -1,22 +1,18 @@
 <?php
 require_once 'php/connectTosql.php';
-
 $query = null;
 if (isset($_GET['eventid']) && $_GET['eventid'] != '') {
  $eventId = $_GET['eventid'];
  $query   = mysqli_query($con, "SELECT * FROM event  WHERE event_ID ='$eventId' ") or die(mysqli_error($con));
  if ($query == null) {
-
  echo  "id is not exist";
  }
 } else {
  header('Location: myerrorpage.php');
 }
-
 $return_arr = array();
 $row        = null;
 if ($query) {
-
  $row              = mysqli_fetch_row($query);
  $evevtID          = $row[0];
  $eventName        = $row[1];
@@ -26,7 +22,6 @@ if ($query) {
  $location         = $row[5];
  $organizationName = $row[6];
  $maxAttendee      = $row[8];
-
 }
 ?>
 <!DOCTYPE html>

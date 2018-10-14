@@ -6,11 +6,14 @@ unset( $_SESSION['OrgName']);
 unset( $_SESSION['orgEmail']);
 unset( $_SESSION['password']);
 unset( $_SESSION['emailconfirm']);
-if(isset['confirm']){
-	if($_GET['confirm'] == false){
-		header("Location:login.php?confirm=false");
+
+
+ if(isset($_GET['confirm'])){
+	if($_GET['confirm'] == "false"){
+		header("Location:LogIn.php?confirm=false");
+		exit;
 	}
-}
-header("Location:login.php");
+ }
+header("Location:LogIn.php");
 
 ?>

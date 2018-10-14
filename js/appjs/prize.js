@@ -2,18 +2,19 @@ $(document).ready(function() {
 
     //delete event
     $(".adelete").click(function() {
-        $("#hdEventId").val($(this).data("id"));
+        $("#hdPrizeId").val($(this).data("id"));
         $('#modalDelete').modal('show');
     });
 
     $('#btnConfirmDelete').click(function() {
-        var eventId = $('#hdEventId').val();
+        var prizeId = $('#hdPrizeId').val();
         $.ajax({
             type: "GET",
             dataType: 'JSON',
-            url: "manageEvent.php",
+            url: "managePrize.php",
+
             data: {
-                eventId: eventId, //hdEventId
+                prizeId: prizeId, //hdPrizeId
                 isDeleteAction: true
             },
             //success enter data
@@ -37,7 +38,7 @@ $(document).ready(function() {
             }
         });
     });
-    $(".formDivAddEvent").validate({
+    $(".formDivAddPrize").validate({
         // Specify validation rules
         rules: {
             eventName: {
@@ -45,35 +46,20 @@ $(document).ready(function() {
                 maxlength: 30
             },
 
-            description: {
+            SubEventName: {
                 required: true,
-                maxlength: 200
-            },
-
-            sdaytime: {
-                required: true,
-            },
-
-            edaytime: {
-                required: true,
+                maxlength: 30
 
             },
-
-            location: {
+            prizeName: {
                 required: true,
                 maxlength: 30
             },
 
-            organizer: {
-                required: true,
-                maxlength: 30
-            },
-
-            maxAttendee: {
+            prizeNum: {
                 required: true,
                 maxlength: 11
             },
-
 
 
         },
@@ -84,42 +70,29 @@ $(document).ready(function() {
                 maxlength: "لايمكنك إدخال نص يزيد عن 30 محرف"
             },
 
-            description: {
-                required: "حقل مطلوب",
-                maxlength: "لايمكنك إدخال نص يزيد عن 200 محرف"
-            },
-
-            sdaytime: {
-                required: "حقل مطلوب",
-                maxlength: "لايمكنك إدخال نص يزيد عن 30 محرف"
-            },
-
-            edaytime: {
+            SubEventName: {
                 required: "حقل مطلوب",
                 maxlength: "لايمكنك إدخال نص يزيد عن 30 محرف"
 
             },
 
-            location: {
+            prizeName: {
                 required: "حقل مطلوب",
                 maxlength: "لايمكنك إدخال نص يزيد عن 30 محرف"
+
+
             },
 
-            organizer: {
-                required: "حقل مطلوب",
-                maxlength: "لايمكنك إدخال نص يزيد عن 30 محرف"
-            },
-
-            maxAttendee: {
+            prizeNum: {
                 required: "حقل مطلوب",
                 maxlength: "لايمكنك إدخال نص يزيد عن 11 محرف"
             },
 
         }
     });
-    // end of validate add event
+    // end of validate add Prize
 
-    $(".formDivEditEvent").validate({
+    $(".formDivEditPrize").validate({
         // Specify validation rules
         rules: {
             eventName: {
@@ -127,35 +100,20 @@ $(document).ready(function() {
                 maxlength: 30
             },
 
-            description: {
+            SubEventName: {
                 required: true,
-                maxlength: 200
-            },
-
-            sdaytime: {
-                required: true,
-            },
-
-            edaytime: {
-                required: true,
+                maxlength: 30
 
             },
-
-            location: {
+            prizeName: {
                 required: true,
                 maxlength: 30
             },
 
-            organizer: {
-                required: true,
-                maxlength: 30
-            },
-
-            maxAttendee: {
+            prizeNum: {
                 required: true,
                 maxlength: 11
             },
-
 
 
         },
@@ -166,38 +124,25 @@ $(document).ready(function() {
                 maxlength: "لايمكنك إدخال نص يزيد عن 30 محرف"
             },
 
-            description: {
-                required: "حقل مطلوب",
-                maxlength: "لايمكنك إدخال نص يزيد عن 200 محرف"
-            },
-
-            sdaytime: {
-                required: "حقل مطلوب",
-                maxlength: "لايمكنك إدخال نص يزيد عن 30 محرف"
-            },
-
-            edaytime: {
+            SubEventName: {
                 required: "حقل مطلوب",
                 maxlength: "لايمكنك إدخال نص يزيد عن 30 محرف"
 
             },
 
-            location: {
+            prizeName: {
                 required: "حقل مطلوب",
                 maxlength: "لايمكنك إدخال نص يزيد عن 30 محرف"
+
+
             },
 
-            organizer: {
-                required: "حقل مطلوب",
-                maxlength: "لايمكنك إدخال نص يزيد عن 30 محرف"
-            },
-
-            maxAttendee: {
+            prizeNum: {
                 required: "حقل مطلوب",
                 maxlength: "لايمكنك إدخال نص يزيد عن 11 محرف"
             },
 
         }
     });
-    // end of validate Edit event
+    // end of validate Edit prize
 });

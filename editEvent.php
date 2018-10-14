@@ -1,8 +1,5 @@
 <?php
 require_once 'php/connectTosql.php';
-
-if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
-
  if (isset($_POST['update'])) {
   $eventId          = $_GET['eventid'];
   $eventName        = $_POST['eventName'];
@@ -21,8 +18,6 @@ if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
        </div> ";
   } else {
 
-   $IDT = $_SESSION['organizerID'];
-
    $sql = " update event set
    name_Event='$eventName',
    descrption_Event='$EventDescription',
@@ -32,9 +27,7 @@ if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
    organization_name_Event='$organizationName',
    maxNumOfAttendee='$maxAttendee'
    where event_ID ='$eventId' ";
-
    $sql = mysqli_query($con, $sql) or die(mysqli_error($con));
-
    if ($sql) {
     header("location: /tactic/manageEvent.php");
     exit;
@@ -45,13 +38,6 @@ if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
        </div> ";
    }
   }}
-} else {
- echo " <div class='alert alert-danger alert-dismissible'>
-        <button type='button' class='close' data-dismiss='alert'>&times;</button>
-         <strong> يرجى</strong>   تثبيت الايميل لكي تتمكن من أضافة حدث
-       </div> ";
-}
-
 $query = null;
 if (isset($_GET['eventid']) && $_GET['eventid'] != '') {
  $eventId = $_GET['eventid'];
@@ -64,11 +50,9 @@ if (isset($_GET['eventid']) && $_GET['eventid'] != '') {
  // TODO
  //you shouls redirect him to error page
 }
-
 $return_arr = array();
 $row        = null;
 if ($query) {
-
  $row              = mysqli_fetch_row($query);
  $evevtID          = $row[0];
  $eventName        = $row[1];
@@ -78,7 +62,6 @@ if ($query) {
  $location         = $row[5];
  $organizationName = $row[6];
  $maxAttendee      = $row[8];
-
 }
 //Retrieve inserted values:*/
 ?>
@@ -121,28 +104,28 @@ if ($query) {
         </div>
         <div class="panel-body">
 
-          <form action="" class="formDiv" method="post">
+          <form action="" class="formDivEditEvent" method="post">
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="eventName" class="control-label"> اسم الحدث</label>
+                <label for="eventName" class="control-label"> اسم الحدث<label style="color:red">*&nbsp; </label></label>
                 <input type="text" class="form-control" id="txtEventName"  name="eventName" value="<?php echo $eventName ?>"
-                  required>
+                  >
               </div>
             </div>
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="txtOrganizer" class="control-label">اسم الشركة المنظمة</label>
+                <label for="txtOrganizer" class="control-label">اسم الشركة المنظمة<label style="color:red">*&nbsp; </label></label>
                 <input type="text" class="form-control" id="txtOrganizer" name="organizer"
                 value="<?php echo $organizationName ?>"
-                  required>
+                  >
               </div>
             </div>
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="txtMaxAttendee" class="control-label"> الحد الاقصى</label>
+                <label for="txtMaxAttendee" class="control-label"> الحد الاقصى<label style="color:red">*&nbsp; </label></label>
                 <select id="txtMaxAttendee" name="maxAttendee" class="form-control" value="<?php echo $maxAttendee ?>">
                   <option value="100" <?php if ($maxAttendee == "100") {echo ' selected="selected"';}?> >100</option>
                   <option value="200" <?php if ($maxAttendee == "200") {echo ' selected="selected"';}?>>200</option>
@@ -158,32 +141,32 @@ if ($query) {
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="txtLocation" class="control-label">مكان الحدث</label>
+                <label for="txtLocation" class="control-label">مكان الحدث<label style="color:red">*&nbsp; </label></label>
                 <input type="text" class="form-control" id="txtLocation" name="location" value="<?php echo $location ?>"
-                  required>
+                  >
               </div>
             </div>
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="txtSdaytime" class="control-label">تاريخ بدء الحدث</label>
+                <label for="txtSdaytime" class="control-label">تاريخ بدء الحدث<label style="color:red">*&nbsp; </label></label>
                 <input type="date" class="form-control" id="txtSdaytime" name="sdaytime" value="<?php echo $sdaytime ?>"
-                  required>
+                  >
               </div>
             </div>
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="txtEdaytime" class="control-label">تاريخ نهاية الحدث</label>
+                <label for="txtEdaytime" class="control-label">تاريخ نهاية الحدث<label style="color:red">*&nbsp; </label></label>
                 <input type="date" class="form-control" id="txtEdaytime" name="edaytime" value="<?php echo $edaytime ?>"
-                  required>
+                  >
               </div>
             </div>
 
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="txtDescription" class="control-label">وصف الحدث</label>
-                <textarea type="textarea" class="form-control" id="txtDescription" rows="3" name="description" required><?php echo $EventDescription ?></textarea>
+                <label for="txtDescription" class="control-label">وصف الحدث<label style="color:red">*&nbsp; </label></label>
+                <textarea type="textarea" class="form-control" id="txtDescription" rows="3" name="description" ><?php echo $EventDescription ?></textarea>
               </div>
             </div>
 
@@ -202,7 +185,7 @@ if ($query) {
 
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/appjs/event.js"></script>
+  <script src="js/appjs/validationOfPages.js"></script>
   <script src="js/appjs/common.js"></script>
 
   <script>

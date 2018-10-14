@@ -15,11 +15,9 @@ if ($query) {
 $masg = "";
   if (isset( $_POST['submit'])) {
      $name= $_POST['Name'];
-	  $gender=$_POST['gender'];
+	 $gender=$_POST['gender'];
      $DOB=$_POST['Birthday'];
 	  if (time() > strtotime('+18 years', strtotime($DOB))) {
-
-
 	$sql = mysqli_query($con,"UPDATE account SET name_org ='$name', gender_org ='$gender', DOB_org = '$DOB'  WHERE organizer_ID ='$orgID'")or die(mysqli_error($con));
 		if ($sql)
 			$masg =" <div class='alert alert-success alert-dismissible'>
@@ -80,13 +78,13 @@ else {
         </div>
         <div class="panel-body">
 
-          <form action="" class="formDiv" method="post"autocomplete="on">     
+          <form action="" class="formDivEditProfile" method="post"autocomplete="on">     
             
             <?php  if ($masg !="") echo $masg."<br>"; ?>
 			<div class="col-md-12">
           <div class="form-group form-group-lg">
 		<label for="eventName" class="control-label"> الاسم: </label> <label style="color:red">*&nbsp; </label>
-		<input type="text" class="form-control" id="txtOrganizer" name="Name" value = <?php echo $name ?>  title="هذا الحقل مطلوب" required   >
+		<input type="text" class="form-control" id="txtOrganizer" name="Name" value = <?php echo $name ?>  title="هذا الحقل مطلوب"    >
         </div>
             </div>    
     <div class="col-md-12">
@@ -99,7 +97,7 @@ else {
   	<div class="col-md-12">
     <div class="form-group form-group-lg">
      <label for="txtLocation" class="control-label">تاريخ الميلاد :</label><label style="color:red">*&nbsp; </label>
-	<input type="date" name="Birthday" class="form-control"  value="<?php echo $DOB ?>"   required   >
+	<input type="date" name="Birthday" class="form-control"  value="<?php echo $DOB ?>"      >
 	</div>
    </div> 
 	<div class="col-md-12">
@@ -139,7 +137,7 @@ else {
 
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/appjs/event.js"></script>
+  <script src="js/appjs/editProfile.js"></script>
   <script src="js/appjs/common.js"></script>
 	  <script>
     $(function () {

@@ -1,7 +1,6 @@
 <?php
 require_once 'php/connectTosql.php';
 if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
-
  if (isset($_POST['add'])) {
 $eventName        = $_POST['eventName'];
 $EventDescription = $_POST['description'];
@@ -12,18 +11,14 @@ $dateend          = date('Y-m-d', strtotime($edate));
 $location         = $_POST['location'];
 $organizationName = $_POST['organizer'];
 $maxAttendee      = $_POST['maxAttendee'];
-
   if ($datestart > $dateend) {
    echo " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
          <strong> فشل  </strong>  يرجى التحقق من تاريخ بداية ونهاية الحدث
        </div> ";
   } else {
-
    $IDT = $_SESSION['organizerID'];
-
    $sql = mysqli_query($con, "INSERT INTO event ( event_ID, name_Event, descrption_Event ,sartDate_Event,endDate_Event,location_Event,organization_name_Event,maxNumOfAttendee,organizer_ID) VALUES ('','$eventName','$EventDescription','$datestart','$dateend','$location','$organizationName','$maxAttendee','$IDT')") or die(mysqli_error($con));
-
    if ($sql) {
     header("location: /tactic/manageEvent.php");
    exit;
@@ -82,11 +77,11 @@ $maxAttendee      = $_POST['maxAttendee'];
         </div>
         <div class="panel-body">
 
-          <form action="" class="formDiv" method="post">
+          <form action="" class="formDivAddEvent" method="post">
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="eventName" class="control-label"> اسم الحدث</label>
+                <label for="eventName" class="control-label"> اسم الحدث<label style="color:red">*&nbsp; </label></label>
                 <input type="text" class="form-control" id="txtEventName"  name="eventName"
                   >
               </div>
@@ -94,7 +89,7 @@ $maxAttendee      = $_POST['maxAttendee'];
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="txtOrganizer" class="control-label">اسم الشركة المنظمة</label>
+                <label for="txtOrganizer" class="control-label">اسم الشركة المنظمة<label style="color:red">*&nbsp; </label></label>
                 <input type="text" class="form-control" id="txtOrganizer" name="organizer" 
                   >
               </div>
@@ -102,7 +97,7 @@ $maxAttendee      = $_POST['maxAttendee'];
 
              <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="txtMaxAttendee" class="control-label"> الحد الاقصى</label>
+                <label for="txtMaxAttendee" class="control-label"> الحد الاقصى<label style="color:red">*&nbsp; </label></label>
                 <select id="txtMaxAttendee" name="maxAttendee" class="form-control">
                   <option value="100"  >100</option>
                   <option value="200" >200</option>
@@ -119,14 +114,14 @@ $maxAttendee      = $_POST['maxAttendee'];
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="txtLocation" class="control-label">مكان الحدث</label>
+                <label for="txtLocation" class="control-label">مكان الحدث<label style="color:red">*&nbsp; </label></label>
                 <input type="text" class="form-control" id="txtLocation" name="location" 
                   >
               </div>
             </div>
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="txtSdaytime" class="control-label">تاريخ بدء الحدث</label>
+                <label for="txtSdaytime" class="control-label">تاريخ بدء الحدث<label style="color:red">*&nbsp; </label></label>
                 <input type="date" class="form-control" id="txtSdaytime" name="sdaytime" 
                   >
               </div>
@@ -134,7 +129,7 @@ $maxAttendee      = $_POST['maxAttendee'];
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="txtEdaytime" class="control-label">تاريخ نهاية الحدث</label>
+                <label for="txtEdaytime" class="control-label">تاريخ نهاية الحدث<label style="color:red">*&nbsp; </label></label>
                 <input type="date" class="form-control" id="txtEdaytime" name="edaytime" 
                   >
               </div>
@@ -143,7 +138,7 @@ $maxAttendee      = $_POST['maxAttendee'];
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="txtDescription" class="control-label">وصف الحدث</label>
+                <label for="txtDescription" class="control-label">وصف الحدث<label style="color:red">*&nbsp; </label></label>
                 <textarea type="textarea" class="form-control" id="txtDescription" rows="3" name="description" ></textarea>
               </div>
             </div>

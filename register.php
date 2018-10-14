@@ -4,12 +4,9 @@
     require("PHPMailer/src/PHPMailer.php");
     require("PHPMailer/src/SMTP.php");
     require("PHPMailer/src/Exception.php");
-
-
     
 // attribute to contan mesage
 $masg = "";
-
   if (isset( $_POST['submit'])) {
     
      $name= $_POST['Name'];
@@ -19,7 +16,6 @@ $masg = "";
      $gender=$_POST['gender'];
      $DOB=$_POST['Birthday'];
 	  if (time() > strtotime('+18 years', strtotime($DOB))) {
-
 	if($password !=$Password2)
            $masg = " <div class='alert alert-danger alert-dismissible'>
            <button type='button' class='close' data-dismiss='alert'>&times;</button>
@@ -38,12 +34,9 @@ $masg = "";
        </div> ";
         }
 		 else{
-
       $token = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890<>()!#%&/$*';
       $token= str_shuffle($token);
       $token= substr($token,0,10);
-
-
 			 $mail = new PHPMailer\PHPMailer\PHPMailer();
 		$mail->CharSet =  "utf-8";
 		$mail->Host = "smtp.gmail.com";
@@ -66,10 +59,8 @@ $masg = "";
   
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
     
-
           //add input to database
           
-
 		if(!$mail->send()) 
 		{
 		
@@ -87,12 +78,11 @@ $masg = "";
        </div> ";
 	
 		}
-    
+        
+        
+        
         }
-
       }
-
-
 }
 else {
 			   $masg = " <div class='alert alert-danger alert-dismissible'>
@@ -102,7 +92,6 @@ else {
 		
 }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -159,57 +148,54 @@ else {
         </div>
         <div class="panel-body">
 
-          <form action="" class="formDiv" method="post"autocomplete="on">     
+          <form action="" class="formDivRegister" method="post"autocomplete="on">     
             
             <?php  if ($masg !="") echo $masg."<br>"; ?>
 			<div class="col-md-12">
           <div class="form-group form-group-lg">
 		<label for="eventName" class="control-label"> الاسم: </label> <label style="color:red">*&nbsp; </label>
-		<input type="text" class="form-control" id="txtOrganizer" name="Name" placeholder="أدخل اسمك"   title="هذا الحقل مطلوب" required   >
+		<input type="text" class="form-control" id="txtOrganizer" name="Name" placeholder="أدخل اسمك"   title="هذا الحقل مطلوب"    >
         </div>
             </div>    
     <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <label class="control-label">  البريد الإلكتروني: </label><label style="color:red">*&nbsp; </label>
-  				<input type="email" class="form-control" id="email" name="Email" placeholder="أدخل بريدك الإلكتروني" autocomplete="on"  required >
+  				<input type="email" class="form-control" id="email" name="Email" placeholder="أدخل بريدك الإلكتروني" autocomplete="on"   >
  	 </div>
       </div>
   	<div class="col-md-12">
     <div class="form-group form-group-lg">
     <label for="txtMaxAttendee" class="control-label"> كلمة السر :<label style="color:red">*&nbsp; </label> </label>
-	<input type="password" class="form-control" id="password"  name="Password" placeholder="أدخل كلمة السر" autocomplete="on" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required title="يجب أن تحتوي على الأقل على 8 أحرف و حروف صغيرة و كبيرة" required   >
+	<input type="password" class="form-control" id="password"  name="Password" placeholder="       أدخل كلمة السر" autocomplete="on" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"  title="يجب أن تحتوي على الأقل على 8 أحرف و حروف صغيرة و كبيرة"    >
   </div>
    </div>
 	<div class="col-md-12">
     <div class="form-group form-group-lg">
      <label for="txtLocation" class="control-label">تأكيد كلمة السر :</label><label style="color:red">*&nbsp; </label>
-	<input type="password" class="form-control" id="confirm_password" name="Password2" placeholder=" تأكيد كلمة السر "  autocomplete="off" required >
+	<input type="password" class="form-control" id="confirm_password" name="Password2" placeholder="       تأكيد كلمة السر "  autocomplete="off"  >
 	</div>
    </div>
   	<div class="col-md-12">
     <div class="form-group form-group-lg">
      <label for="txtLocation" class="control-label">تاريخ الميلاد :</label><label style="color:red">*&nbsp; </label>
-	<input type="date" value="2013-01-30" name="Birthday" class="form-control"    required   >
+	<input type="date" name="Birthday" class="form-control"       >
 	</div>
    </div> 
 	<div class="col-md-12">
     <div class="form-group form-group-lg ">
      <label class="control-label form-check" >الجنس :</label><label style="color:red">*&nbsp; </label>
-	<section class="form-control" style="height:70px" >
 	  <div class="form-check">
-		 
           <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="انثى" checked>
           <label class="form-check-label" for="gridRadios1">
             انثى
 		  </label>	
 		</div>
 		  <div class="form-check">
-          <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="ذكر" >
+          <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="ذكر" checked>
           <label class="form-check-label" for="gridRadios1">
             ذكر
-		  </label>
+		  </label>	
 		</div>
-		</section>	
 
 	</div>
    </div>
@@ -231,8 +217,9 @@ else {
 
   <!-- end of  register inputs -->
   <script src="js/jquery.min.js"></script>
+  <script src="js/jquery.validate.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/appjs/event.js"></script>
+  <script src="js/appjs/register.js"></script>
   <script src="js/appjs/common.js"></script>
 
 </body>

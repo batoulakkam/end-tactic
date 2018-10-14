@@ -1,6 +1,5 @@
 <?php
 require_once('php/connectTosql.php');
-
 function redirect(){
   header('Location:login.php?register=false');
   exit();
@@ -13,7 +12,6 @@ else{
  
  $email =$_GET['email'];
  $token =$_GET['token'];
-
    $sql = mysqli_query($con,"SELECT organizer_ID FROM account WHERE emailOrg ='$email' AND token='$token' AND isEmailconfirm=0")or die(mysqli_error($con)) ;
  
        if( $sql){
@@ -23,7 +21,6 @@ else{
 	else {
 		header('Location:login.php?register=false');
 	}
-
   
 }
 ?>

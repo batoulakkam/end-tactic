@@ -1,47 +1,39 @@
 <?php
 //connect to database
 require_once 'php/connectTosql.php';
+$organizerID  = $_SESSION['organizerID'];
+
+if (isset($_GET['eventName']) && $_GET['eventName'] != '') {
+ $eventName = $_GET['eventName'];
+ $mainQuery = mysqli_query($con, "SELECT * FROM event WHERE organizer_ID = '$organizerID ' AND  name_Event like '%$eventName%' ") or die(mysqli_error($con));
+} else {
+ $mainQuery = mysqli_query($con, "SELECT * FROM event WHERE organizer_ID = '$organizerID '") or die(mysqli_error($con));
+}
 
 ///delete event
-$organizerID = $_SESSION['organizerID'];
-
- $queryconfirm= mysqli_query($con, "SELECT isEmailconfirm from  account  WHERE  organizer_ID = '$organizerID'") or die(mysqli_error($con));
-$rowCo =mysqli_fetch_array($queryconfirm);
-if($rowCo['isEmailconfirm'] == 1){
-if (isset($_GET['eventId']) && $_GET['eventId'] != '') {//retreive the hidden id in modal
-
+if (isset($_GET['isDeleteAction']) && $_GET['isDeleteAction'] != '') {
+if (isset($_GET['eventId']) && $_GET['eventId'] != '') {
+//retreive the hidden id in modal
  $eventId = $_GET['eventId'];
  $sql     = "delete from  event  WHERE  event_ID = '$eventId'";
  $query   = mysqli_query($con, $sql) or die(mysqli_error($con));
  //succsess to retreive id
-
  if ($query) {
   $retVal = true;
-  echo json_encode($retVal);//convert value to client side jQ
-
+  echo json_encode($retVal); //convert value to client side jQ
   exit;
  } else {
   $retVal = false;
   echo json_encode($retVal);
   exit;
-
  }
-
+}else  {
+   echo " <div class='alert alert-danger alert-dismissible'>
+           <button type='button' class='close' data-dismiss='alert'>&times;</button>
+            عملية حذف خاطئة الرجاء اختيار الحدث الفرعي  المراد حذفها
+					</div> ";
+ }
 }
-
-if (isset($_GET['eventName']) && $_GET['eventName'] != '') {
- $eventName = $_GET['eventName'];
- $query     = mysqli_query($con, "SELECT * FROM event WHERE organizer_ID = '$organizerID ' AND  name_Event like '%$eventName%' ") or die(mysqli_error($con));	
-
-
-} else {
- $query = mysqli_query($con, "SELECT * FROM event WHERE organizer_ID = '$organizerID '") or die(mysqli_error($con));
-}
-}
-else {
-	header("location:logout.php?confirm= false");
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +64,7 @@ else {
 </head>
 
 <body>
-  
+
 
   <div class="mainContent">
 
@@ -114,20 +106,17 @@ else {
       </tr>
 
       <?php
-
-while ($row = mysqli_fetch_array($query)):
-
+while ($row = mysqli_fetch_array($mainQuery)):
  echo "<tr>";
  echo "<td><a  href='eventDetails.php?eventid=" . $row['event_ID'] . "'>" . $row['name_Event'] . "</a></td>";
  echo "<td>" . $row['organization_name_Event'] . "</td>";
  echo "<td>" . $row['sartDate_Event'] . "</td>";
  echo "<td>" . $row['endDate_Event'] . "</td>";
  echo "<td> <a id='aEditEvent' href='editEvent.php?eventid=" . $row['event_ID'] . "'><span class='fa fa-edit' style='font-size:24px;'></span></a>
-		        <a href='#' id='aDeletEvent' class='adelete' data-id=" . $row['event_ID'] . "><span  class=' fa fa-trash' style='font-size:24px;color:red;  '></span> </a></td>
-		      </tr>";
-
+				        <a href='#' id='aDeletEvent' class='adelete' data-id=" . $row['event_ID'] . "><span  class=' fa fa-trash' style='font-size:24px;color:red;  '></span> </a></td>
+				      </tr>";
  ?>
-	      <?php endwhile;?>
+			      <?php endwhile;?>
 
 
     </table>
