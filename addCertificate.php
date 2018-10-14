@@ -22,7 +22,7 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
   $size     = $_FILES['fileToUpload']['size'];
   $type     = $_FILES['fileToUpload']['type'];
   $tmp_name = $_FILES['fileToUpload']['tmp_name'];
-  $location = "UploadFile/";
+  $location = "UploadFile/certificate/";
 
   $max_size = 100000;
   if ($size <= $max_size) {
