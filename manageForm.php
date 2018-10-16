@@ -7,7 +7,7 @@ $eventId = $_GET['eventId'];
  $sql     = "Update event SET eventLink ='' WHERE  event_ID = '$eventId'";
  $query   = mysqli_query($con, $sql) or die(mysqli_error($con));
 
- mysqli_query($con,"delete from  registration_form  WHERE  event_ID = '$eventId'") ;	
+ mysqli_query($con,"delete from  registration_form  WHERE  event_ID = '$eventId'") ; mysqli_query($con,"delete from  attendee WHERE  event_ID = '$eventId'") ;	
 
  //succsess to retreive id
 
