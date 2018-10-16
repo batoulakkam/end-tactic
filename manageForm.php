@@ -1,7 +1,7 @@
 <?php
 //connect to database
 require_once 'php/connectTosql.php';
-///delete event
+if (isset($_GET['isDeleteAction']) && $_GET['isDeleteAction'] != '') {
 if (isset($_GET['eventId']) && $_GET['eventId'] != '') {//retreive the hidden id in modal
 $eventId = $_GET['eventId'];
  $sql     = "Update event SET eventLink ='' WHERE  event_ID = '$eventId'";
@@ -24,6 +24,7 @@ $eventId = $_GET['eventId'];
  }
 
 } 
+}
 if (isset($_GET['eventName']) && $_GET['eventName'] != '') {
  $eventName = $_GET['eventName'];
  $query = mysqli_query($con, "SELECT * FROM event  WHERE  name_Event like '%$eventName%' ") or die(mysqli_error($con));
@@ -73,21 +74,20 @@ $orgID = $_SESSION['organizerID'];
         </div>
         <div class="panel-body">
 
-          <form action="manageEvent.php" class="manageEventFrm" method="Get">
+          <form action="manageForm.php" class="manageFormFrm" id="formDiv" method="Get">
 
-            <div class="col-md-12">
-              <div class="form-group form-group ">
+             <div class="col-md-12">
+              <div class="form-group form-group-lg">
                 <label for="eventName" class="control-label"> اسم الحدث</label>
-				 <div class="form-inline">
-                <input type="text" class=" form-control" id="txtEventName" name="eventName" required style="width: 450px">
-					 
-					 <input type="submit"  class=" btn btn-nor-primary  "  name="update" value = "بحث" style="width:145px"> 
-			</div>
-				
+                <input type="text" class="form-control" id="txtEventName" name="eventName" placeholder="بحث باسم الحدث  ..." >
               </div>
+            </div>
+			<div class="col-md-12">
+              <div class="form-group form-group-lg">
+			<input type="submit"  class=" btn btn-nor-primary  "  name="update" value = "بحث" style="width:145px">
 			 <a class="btn btn-nor-primary btn-sm" href="createForm.php" style="width:145px"> إضافة نموذج </a>
             </div>
-
+			  </div>
           
           </form>
         </div>
@@ -98,7 +98,9 @@ $orgID = $_SESSION['organizerID'];
       <tr>
         <th>اسم الحدث</th>
         <th> رابط الحدث   </th>
-        <th> خيارات </th>
+		  <th> كود الاشخاص المهمين </th>
+        <th colspan="2"> خيارات </th>
+		 <th> عرض المسجلين  </th>
       </tr>
 
       <?php
@@ -110,9 +112,15 @@ while ($row = mysqli_fetch_array($query)):
 $query2 = mysqli_query($con, "SELECT token FROM registration_form WHERE event_ID=".$row['event_ID']) or die(mysqli_error($con));
 $row2 = mysqli_fetch_array($query2);
 $token = $row2['token'];
- echo "<td><a href='Form.php?token=$token'>" .$row['eventLink'] . "</a></td>";
-  echo "<td> <a id='aEditEvent' href='editForm.php?token=$token'><span class='fa fa-edit' style='font-size:24px;'></span></a>
-		        <a href='#' id='aDeletEvent' class='adelete' data-id=" . $row['event_ID'] . "><span  class=' fa fa-trash' style='font-size:24px;color:red;  '></span> </a></td>
+echo "<td><a href='Form.php?token=$token'>" .$row['eventLink'] . "</a></td>";
+		$query3 = mysqli_query($con, "SELECT VIPCode FROM event WHERE event_ID=".$row['event_ID']) or die(mysqli_error($con));
+$row3 = mysqli_fetch_array($query3);
+		 echo "<td>".$row3['VIPCode']."</td>";
+  echo "<td> <a id='aEditEvent' href='editForm.php?token=$token'><span class='fa fa-edit' style='font-size:24px;'></span></a></td>";
+	 echo "<td> <a href='#' id='aDeletEvent' class='adelete' data-id=" . $row['event_ID'] . "><span  class=' fa fa-trash' style='font-size:24px;color:red;  '></span> </a></td>";
+		$IDevent = $row['event_ID'];
+echo "<td> <a href='registeredEvent.php?eID=$IDevent '><span class=' 	fa fa-eye	
+' style='font-size:24px;color:green;  '></span> </a></td>
 		      </tr>";
 
       
@@ -149,7 +157,7 @@ $token = $row2['token'];
   <script src="js/jquery.min.js"></script>
   <script src="js/jquery.validate.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/appjs/event.js"></script>
+  <script src="js/appjs/Form.js"></script>
   <script src="js/appjs/common.js"></script>
   
 

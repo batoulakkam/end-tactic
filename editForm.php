@@ -1,20 +1,37 @@
 <?php
 require_once('php/connectTosql.php');
-$organizerID = $_SESSION['organizerID'];
-$query = mysqli_query($con," SELECT event_ID , name_Event FROM event WHERE eventLink ='' AND  organizer_ID = '$organizerID ' ")or die(mysqli_error());
- if (isset($_POST['create'])){
-	$eventID = $_POST['eventID'];
+ $EditeventID='';
+if(isset($_GET['token'])){
+   $tokenEdit = $_GET['token'];
+	// كويري لجييب الايدي تبع لايفنت اللي ئلهم نفس التوكن
+   $query = mysqli_query($con,"SELECT name_of_field , event_ID  FROM registration_form WHERE token = '$tokenEdit'");
+	$row =mysqli_fetch_array($query);
+	$EditeventID = $row['event_ID'];
+	
+	// كويري لجيب اسم الايفنت اللي بدو نعدلو الفورم
+	$query2 = mysqli_query($con,"SELECT name_Event FROM event WHERE event_ID = '$EditeventID'");
+	$row2 =mysqli_fetch_array($query2);
+	$EditeventName = $row2['name_Event'];
+	// حذفت كلشي قديم مختارو للفورم مشان اعمل جديد 
+	$sql =  mysqli_query($con,"DELETE  FROM registration_form WHERE event_ID = '$EditeventID'");
+	
+
+// 
+
+
+  if (isset($_POST['create'])){
+	 $EditID= $_SESSION['EditeventID'];
 	$requierdField =0;
 	$selectedField = 0;
 	$length =0;
 // Name
 
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الاسم',1,1,$length,'$eventID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الاسم',1,1,$length,'$EditID')")or die(mysqli_error($con));
 
 
 // email
 
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الايميل',1,1,$length,'$eventID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الايميل',1,1,$length,'$EditID')")or die(mysqli_error($con));
 
 // phone
 	if(isset($_POST['choicedPhone'])){
@@ -22,7 +39,7 @@ $query = mysqli_query($con," SELECT event_ID , name_Event FROM event WHERE event
 	if( isset($_POST['requierdPhone']) )
 	$requierdField = $_POST['requierdPhone'];
 	$length = $_POST['LengthPhone'];
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الهاتف','$selectedField','$requierdField',$length,'$eventID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الهاتف','$selectedField','$requierdField',$length,'$EditID')")or die(mysqli_error($con));
 }
 	 
 // age
@@ -31,7 +48,7 @@ $query = mysqli_query($con," SELECT event_ID , name_Event FROM event WHERE event
 	$selectedField = $_POST['choicedAge'];
 	if( isset($_POST['requierdAge']) )
 	$requierdField = $_POST['requierdAge'];
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','العمر','$selectedField','$requierdField',$length,'$eventID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','العمر','$selectedField','$requierdField',$length,'$EditID')")or die(mysqli_error($con));
 }
 	 
 // gender
@@ -40,7 +57,7 @@ $query = mysqli_query($con," SELECT event_ID , name_Event FROM event WHERE event
 	$selectedField = $_POST['choicedGender'];
 	if( isset($_POST['requierdGender']) )
 	$requierdField = $_POST['requierdGender'];
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الجنس','$selectedField','$requierdField',$length,'$eventID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الجنس','$selectedField','$requierdField',$length,'$EditID')")or die(mysqli_error($con));
 }	
 // edu
 		 
@@ -48,7 +65,7 @@ $query = mysqli_query($con," SELECT event_ID , name_Event FROM event WHERE event
 	$selectedField = $_POST['choicedEdu'];
 	if( isset($_POST['requierdEdu']) )
 	$requierdField = $_POST['requierdEdu'];
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','التعليم','$selectedField','$requierdField',$length,'$eventID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','التعليم','$selectedField','$requierdField',$length,'$EditID')")or die(mysqli_error($con));
 }
 	
 // job
@@ -58,7 +75,7 @@ $query = mysqli_query($con," SELECT event_ID , name_Event FROM event WHERE event
 	if( isset($_POST['requierdJob']) )
 	$requierdField = $_POST['requierdJob'];
 	$length = $_POST['lengthJob'];
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','المهنة','$selectedField','$requierdField',$length,'$eventID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','المهنة','$selectedField','$requierdField',$length,'$EditID')")or die(mysqli_error($con));
 }	 
 	 
 // Nationality
@@ -68,7 +85,7 @@ $query = mysqli_query($con," SELECT event_ID , name_Event FROM event WHERE event
 	if( isset($_POST['requierdNationality']) )
 	$requierdField = $_POST['requierdNationality'];
 	//$length = $_POST['lengthNationality'];
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الجنسية','$selectedField','$requierdField',$length,'$eventID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الجنسية','$selectedField','$requierdField',$length,'$EditID')")or die(mysqli_error($con));
 }	
 	
 // ID
@@ -78,7 +95,7 @@ $query = mysqli_query($con," SELECT event_ID , name_Event FROM event WHERE event
 	if( isset($_POST['requierdID']) )
 	$requierdField = $_POST['requierdID'];
 	$length = $_POST['lengthID'];
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الهوية','$selectedField','$requierdField',$length,'$eventID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الهوية','$selectedField','$requierdField',$length,'$EditID')")or die(mysqli_error($con));
 }
 	 
 // ID
@@ -94,30 +111,30 @@ $query = mysqli_query($con," SELECT event_ID , name_Event FROM event WHERE event
       $VIP= str_shuffle($VIP);
       $VIP= substr($VIP,0,4);
 	
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الاشخاص المهمة','$selectedField','$requierdField',$length,'$eventID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الاشخاص المهمة','$selectedField','$requierdField',$length,'$EditID')")or die(mysqli_error($con));
 }
-	 
-	if(isset($_POST['optional'])){
+		if(isset($_POST['optional'])){
 	$nameField =$_POST['optional'];
 	$length = $_POST['lengthID'];
 	if( $nameField !='')
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,optional,length,event_ID) VALUES ('','$nameField','1','1',1,$length,'$eventID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,optional,length,event_ID) VALUES ('','$nameField','$selectedField','$requierdField',1,$length,'$EditID')")or die(mysqli_error($con));
 }
-	
-	  $token = 'abcdefghijkqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890';
+ $token = 'abcdefghijkqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890';
       $token= str_shuffle($token);
       $token= substr($token,0,10);
 	$link= "http://localhost/tactic/Form.php?token=".$token;
 	$sql = mysqli_query($con, "	UPDATE event SET 
-    eventLink = '$link' , VIPCode = '$VIP' WHERE event_ID = '$eventID'")or die(mysqli_error($con));
+    eventLink = '$link' , VIPCode = '$VIP' WHERE event_ID = '$EditID'")or die(mysqli_error($con));
 	$sql2 = mysqli_query($con, "UPDATE registration_form SET 
-    token='$token' WHERE event_ID = '$eventID'")or die(mysqli_error($con)); 
+    token='$token' WHERE event_ID = '$EditID'")or die(mysqli_error($con)); 
 	header('Location:manageForm.php');
+	  unset($_SESSION['EditeventID']);
 	 }
-
+}
+$_SESSION['EditeventID']= $EditeventID;
 	 
 	 
-	 ?> 		  
+	 ?> 			  
 			
 <!DOCTYPE html>
 <html>
@@ -127,7 +144,7 @@ $query = mysqli_query($con," SELECT event_ID , name_Event FROM event WHERE event
 
 
 <!-- lobrary of icon  fa fa- --->
-<title>إدارة نموذج التسجيل </title>
+<title>تعديل نموذج التسجيل </title>
 
 <link href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' rel='stylesheet' type='text/css' />
 <link href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' rel='stylesheet' type='text/css' />
@@ -146,42 +163,38 @@ $query = mysqli_query($con," SELECT event_ID , name_Event FROM event WHERE event
 </head>
 
 <body>
-  <div id="includedContent"></div>
-  <div id="includedContent2"></div>
 
   <div class="mainContent">
 
     <div class="container">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h4 class="panelTitle">إدارة نموذج التسجيل</h4>
+          <h4 class="panelTitle"> تعديل نموذج التسجيل <?php echo $EditeventName; ?></h4>
         </div>
         <div class="panel-body">
 		<form action="" class="formDiv" method="post">
 		<table class="table table-striped">
 		<thead>
-		    <tr> 
-		 <div class="col-md-12">
+		    <tr > 
+
+				 <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <label for="eventName" class="control-label"> اسم الحدث</label>
-        <select id="Event" name="eventID" class="form-control" >
-      <?php
-			while ($row = mysqli_fetch_array($query)):
-			echo "<option value='" . $row['event_ID'] . "'>" . $row['name_Event'] . "</option>";
-    	?>
-	     <?php endwhile;?>
+        <select id="Event" name="eventID" class="form-control" disabled >
+      <option value='<?php echo $EditeventID ; ?>'> <?php echo $EditeventName; ?></option>
+	    
      </select> 
 			 </div></div> 
+              
                 </tr>
            <tr height="50" >
         
 		 <th class="text-align" >اسم الحقل </th>
-		<th class="text-align" >اختيار الحقل  </th>
-		 <th class="text-align">نوع الحقل اجباري</th>
+		<th class="text-align" >اختيار </th>
+		 <th class="text-align">الحقل اجباري </th>
 		<th class="text-align">طول الحقل </th>
         
 		
-      </tr>
     </thead>
     <tbody class="text-align">
       <tr>
@@ -255,7 +268,6 @@ $query = mysqli_query($con," SELECT event_ID , name_Event FROM event WHERE event
         <td><div><input type="checkbox" name ="requierdVIP" value="1" class="form-control"> </div></td>
 		<td><input type="number" name="lengthVIP" value="4" class="form-control"></td>
       </tr>
-
 	   <tr>
         <td colspan="4" class="success" ><a  onclick="toggleMenu2()"><span class="fa fa-plus-circle " style="color:green " >  أضاقة حقل  </span></a></td>
       </tr>
@@ -266,41 +278,17 @@ $query = mysqli_query($con," SELECT event_ID , name_Event FROM event WHERE event
 		<td ><label  class="control-label"> طول الحقل </label><input type="number" name="lengthVIP" value="30" class="form-control"   ></td>
        
       </tr>
-
     </tbody>
  		  
   
 			</table>
 			
-		 
-  <a  href="manageForm.php"  class="bodyform btn btn-nor-danger btn-sm" >عودة</a>
-  <input type="submit" value="إضافة" name="create" class="btn btn-nor-primary btn-lg enable-overlay">
+  <input type="submit" value="تعديل" name="create" class="btn btn-nor-primary btn-lg enable-overlay">
    
 		
   
 			</form>
-        </div>
-      </div>
-
-
- </div>
-
-
-<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">حذف حدث</h4>
-      </div>
-      <div class="modal-body">
-        <p>هل انت متأكد من حذف الحدث</p>
-        <input type="hidden" id="hdEventId">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">إغلاق</button>
-        <button type="button" id="btnConfirmDelete" class="btn btn-primary">تأكيد الحذف</button>
-     </div>
+   </div>
     </div>
   </div>
 </div>
