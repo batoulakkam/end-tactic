@@ -627,7 +627,7 @@ a {
     padding: 0;
     height: 43px;
     line-height: 38px;
-    border-bottom: 2px solid rgba(0, 83, 80, 0.68)
+    /* border-bottom: 2px solid rgba(0, 83, 80, 0.68) */
 }
 
 .nor-panel .panel-body {
@@ -1235,8 +1235,8 @@ input[type=radio] {
 .dashboard_item {
     border-bottom: 5px solid #337AB7;
     padding: 0;
-    padding-top: 40px;
-    margin: 0 3%;
+    /* padding-top: 40px; */
+    margin: 12px 3%;
     width: 27%;
     background: #f5f5f5;
     background: -moz-linear-gradient(top, rgba(245, 245, 245, 1) 0%, rgba(242, 242, 242, 1) 100%);
@@ -1244,12 +1244,7 @@ input[type=radio] {
     background: linear-gradient(to bottom, rgba(245, 245, 245, 1) 0%, rgba(242, 242, 242, 1) 100%);
     filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#f5f5f5', endColorstr='#f2f2f2', GradientType=0);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.14);
-    transition: all .35s ease
-}
-
-.dashboard_item:hover {
-    border-color: #337AB7;
-    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3)
+    transition: all .35s ease;
 }
 
 .dashboard_item:hover.dashboard_item .dashboard_item_img:after,
@@ -1589,7 +1584,7 @@ input[type=radio] {
 }
 
 #wrapper {
-    padding: 0 20px 20px
+    padding: 60px 100px 20px;
 }
 
 .table .user-settings-drop {
@@ -2514,6 +2509,11 @@ MOBILE
 
 .modal-footer {
     text-align: left !important;
+}
+
+.dashboard_item:hover {
+    border-color: #005350;
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3)
 }
 
 .btncommentdelete {

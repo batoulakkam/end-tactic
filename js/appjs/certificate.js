@@ -37,6 +37,7 @@
              }
          });
      });
+
      $(".formDivAddCertificate").validate({
          // Specify validation rules
          rules: {
