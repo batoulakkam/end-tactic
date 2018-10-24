@@ -584,5 +584,17 @@ if (isset($_POST['register'])) {
             </div>
          </div>
       </div>
+	<script src="js/jquery.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/appjs/Form.js"></script>
+    <script src="js/appjs/common.js"></script>
+
+    <script>
+        $(function() {
+            $("#includedContent").load("php/TopNav.php");
+            $("#includedContent2").load("HTML/rightNav.html");
+        });
+    </script>
    </body>
 </html>
