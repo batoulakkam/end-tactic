@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2018 at 02:33 PM
+-- Generation Time: Oct 25, 2018 at 11:31 AM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 7.2.9
 
@@ -11,6 +11,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -20,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `tactic`
 --
-CREATE DATABASE IF NOT EXISTS `tactic` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `tactic`;
 
 -- --------------------------------------------------------
 
@@ -68,7 +67,8 @@ CREATE TABLE `attendee` (
   `nationality_Att` varchar(20) CHARACTER SET utf8 DEFAULT NULL,
   `national_ID_Att` int(11) DEFAULT NULL,
   `VIP_code` int(11) DEFAULT NULL,
-  `form_ID` int(11) NOT NULL,
+  `optional` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `form` varchar(30) NOT NULL,
   `event_ID` int(11) NOT NULL,
   `CheckInEventAttende` varchar(8) DEFAULT NULL,
   `Prize_ID` int(11) NOT NULL
@@ -95,11 +95,10 @@ CREATE TABLE `badge` (
 --
 
 INSERT INTO `badge` (`badge_ID`, `BadgeTypeId`, `event_ID`, `badgeTemplateName`, `badgeTemplateSize`, `badgeTemplateType`, `badgeTemplateLocation`) VALUES
-(1, 1, 50, 'Captureclasssmall.PNG', 35276, 'image/png', 'UploadFile/badges/Captureclasssmall.PNG'),
-(2, 2, 49, 'ClassDiagramV3.PNG', 52666, 'image/png', 'UploadFile/badges/ClassDiagramV3.PNG'),
-(3, 2, 53, 'ClassDiagramV2.PNG', 48534, 'image/png', 'UploadFile/badges/ClassDiagramV2.PNG'),
-(4, 1, 49, 'ClassDiagramV2.PNG', 48534, 'image/png', 'UploadFile/badges/ClassDiagramV2.PNG'),
-(5, NULL, 55, 'test', 0, '', '');
+(5, NULL, 55, 'test', 0, '', ''),
+(8, 2, 50, 'ClassDiagramV2.PNG', 48534, 'image/png', 'UploadFile/badges/ClassDiagramV2.PNG'),
+(9, 2, 53, 'badges_try.PNG', 71904, 'image/png', 'UploadFile/badges/badges_try.PNG'),
+(10, 1, 53, 'badges_badges_ClassDiagramV2 (1) (1).PNG', 48534, 'image/png', 'UploadFile/badges/badges_badges_ClassDiagramV2 (1) (1).PNG');
 
 -- --------------------------------------------------------
 
@@ -128,7 +127,6 @@ INSERT INTO `badgetype` (`Id`, `Name`) VALUES
 
 CREATE TABLE `certificate` (
   `certificate_ID` int(11) NOT NULL,
-  `certificate_templet` text NOT NULL,
   `event_ID` int(11) NOT NULL,
   `templateName` varchar(256) NOT NULL,
   `templateSize` int(11) NOT NULL,
@@ -140,10 +138,10 @@ CREATE TABLE `certificate` (
 -- Dumping data for table `certificate`
 --
 
-INSERT INTO `certificate` (`certificate_ID`, `certificate_templet`, `event_ID`, `templateName`, `templateSize`, `templateType`, `templateLocation`) VALUES
-(3, '', 49, 'ClassDiagramV3.PNG', 52666, 'image/png', 'UploadFile/ClassDiagramV3.PNG'),
-(4, '', 50, 'ClassDiagramV2.PNG', 48534, 'image/png', 'UploadFile/ClassDiagramV2.PNG'),
-(5, '', 53, 'ClassDiagramV3.PNG', 52666, 'image/png', 'UploadFile/ClassDiagramV3.PNG');
+INSERT INTO `certificate` (`certificate_ID`, `event_ID`, `templateName`, `templateSize`, `templateType`, `templateLocation`) VALUES
+(4, 50, 'ClassDiagramV2.PNG', 48534, 'image/png', 'UploadFile/certificate/ClassDiagramV2.PNG'),
+(6, 49, 'ClassDiagramV3.PNG', 52666, 'image/png', 'UploadFile/certificate/ClassDiagramV3.PNG'),
+(7, 53, 'badges_badges_ClassDiagramV2 (1) (1).PNG', 48534, 'image/png', 'UploadFile/certificate/badges_badges_ClassDiagramV2 (1) (1).PNG');
 
 -- --------------------------------------------------------
 
@@ -173,19 +171,20 @@ CREATE TABLE `event` (
   `organization_name_Event` varchar(30) CHARACTER SET utf8 NOT NULL,
   `eventLink` varchar(140) NOT NULL,
   `maxNumOfAttendee` int(11) NOT NULL,
-  `organizer_ID` int(11) NOT NULL
+  `organizer_ID` int(11) NOT NULL,
+  `VIPCode` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `event`
 --
 
-INSERT INTO `event` (`event_ID`, `name_Event`, `descrption_Event`, `sartDate_Event`, `endDate_Event`, `location_Event`, `organization_name_Event`, `eventLink`, `maxNumOfAttendee`, `organizer_ID`) VALUES
-(49, 'test manage', 'test manage', '2018-10-11', '2018-10-18', 'test manage', 'test manage', '', 100, 11),
-(50, 'badge', 'bad', '2018-10-03', '2018-10-17', 'bad', 'bad', '', 100, 11),
-(53, 'ah', 'desc', '2018-10-13', '2018-10-20', 'حجازي', 'اسم الشركة المنظمة', '', 100, 12),
-(54, 'ah', 'desc', '2018-10-13', '2018-10-20', 'حجازي', 'اسم الشركة المنظمة', '', 100, 12),
-(55, 'marwa', 'marwa', '2018-10-03', '2018-10-09', 'مروة', '', '', 0, 10);
+INSERT INTO `event` (`event_ID`, `name_Event`, `descrption_Event`, `sartDate_Event`, `endDate_Event`, `location_Event`, `organization_name_Event`, `eventLink`, `maxNumOfAttendee`, `organizer_ID`, `VIPCode`) VALUES
+(49, 'test manage', 'test manage', '2018-10-11', '2018-10-18', 'test manage', 'test manage', 'http://localhost/tactic2-master/Form.php?token=&rfnjJaKgu', 100, 11, 0),
+(50, 'badge', 'bad', '2018-10-03', '2018-10-17', 'bad', 'bad', '', 100, 11, 0),
+(53, 'ola', 'desc', '2018-10-13', '2018-10-20', 'حجازي', 'اسم الشركة المنظمة', '', 100, 12, 0),
+(55, 'marwa', 'marwa', '2018-10-03', '2018-10-09', 'مروة', '', '', 0, 10, 0),
+(57, 'ahmed', 'ahmed', '2018-10-12', '2018-10-26', 'ahmed', 'ahmed', '', 100, 11, 0);
 
 -- --------------------------------------------------------
 
@@ -198,8 +197,15 @@ CREATE TABLE `prize` (
   `namePrize` varchar(100) NOT NULL,
   `numOfPrize` int(11) NOT NULL,
   `event_ID` int(11) NOT NULL,
-  `subevent_ID` int(11) NOT NULL
+  `subevent_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `prize`
+--
+
+INSERT INTO `prize` (`Prize_ID`, `namePrize`, `numOfPrize`, `event_ID`, `subevent_ID`) VALUES
+(37, 'OLA', 2, 53, 11);
 
 -- --------------------------------------------------------
 
@@ -234,12 +240,25 @@ CREATE TABLE `rate` (
 
 CREATE TABLE `registration_form` (
   `form_ID` int(11) NOT NULL,
+  `token` varchar(30) NOT NULL,
   `name_of_field` varchar(25) NOT NULL,
   `selected_field` tinyint(1) NOT NULL DEFAULT '1',
   `required_field` tinyint(1) NOT NULL DEFAULT '1',
-  `length` int(11) DEFAULT NULL,
+  `optional` tinyint(1) NOT NULL DEFAULT '0',
   `event_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `registration_form`
+--
+
+INSERT INTO `registration_form` (`form_ID`, `token`, `name_of_field`, `selected_field`, `required_field`, `optional`, `event_ID`) VALUES
+(1, '', '?????', 1, 1, 0, 49),
+(2, '', '???????', 1, 1, 0, 49),
+(3, '', '??????', 1, 0, 0, 49),
+(4, '', '?????', 1, 0, 0, 49),
+(5, '', '??????', 1, 0, 0, 49),
+(6, '', '??????', 1, 0, 0, 49);
 
 -- --------------------------------------------------------
 
@@ -259,10 +278,7 @@ CREATE TABLE `subevent` (
 --
 
 INSERT INTO `subevent` (`subevent_ID`, `event_ID`, `nameSubEvent`, `description_subevent`) VALUES
-(5, 49, 'new', 'new'),
-(6, 49, '', ''),
-(7, 49, '', ''),
-(8, 49, '', '');
+(11, 53, 'olaSub', 'des');
 
 --
 -- Indexes for dumped tables
@@ -279,7 +295,6 @@ ALTER TABLE `account`
 --
 ALTER TABLE `attendee`
   ADD PRIMARY KEY (`Attendee_ID`),
-  ADD KEY `attendee_ibfk_1` (`form_ID`),
   ADD KEY `attendee_ibfk_3` (`Prize_ID`),
   ADD KEY `attendee_ibfk_4` (`event_ID`);
 
@@ -322,7 +337,7 @@ ALTER TABLE `event`
 ALTER TABLE `prize`
   ADD PRIMARY KEY (`Prize_ID`),
   ADD KEY `prize_ibfk_1` (`event_ID`),
-  ADD KEY `prize_ibfk_2` (`subevent_ID`);
+  ADD KEY `subevent_ID` (`subevent_ID`);
 
 --
 -- Indexes for table `qr`
@@ -373,7 +388,7 @@ ALTER TABLE `attendee`
 -- AUTO_INCREMENT for table `badge`
 --
 ALTER TABLE `badge`
-  MODIFY `badge_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `badge_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `badgetype`
@@ -385,19 +400,19 @@ ALTER TABLE `badgetype`
 -- AUTO_INCREMENT for table `certificate`
 --
 ALTER TABLE `certificate`
-  MODIFY `certificate_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `certificate_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
-  MODIFY `event_ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `event_ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `prize`
 --
 ALTER TABLE `prize`
-  MODIFY `Prize_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Prize_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `rate`
@@ -409,13 +424,13 @@ ALTER TABLE `rate`
 -- AUTO_INCREMENT for table `registration_form`
 --
 ALTER TABLE `registration_form`
-  MODIFY `form_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `form_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `subevent`
 --
 ALTER TABLE `subevent`
-  MODIFY `subevent_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `subevent_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
@@ -426,8 +441,7 @@ ALTER TABLE `subevent`
 --
 ALTER TABLE `attendee`
   ADD CONSTRAINT `attendee_ibfk_1` FOREIGN KEY (`event_ID`) REFERENCES `event` (`event_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `attendee_ibfk_2` FOREIGN KEY (`form_ID`) REFERENCES `registration_form` (`form_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `attendee_ibfk_3` FOREIGN KEY (`Prize_ID`) REFERENCES `prize` (`Prize_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `attendee_ibfk_3` FOREIGN KEY (`Prize_ID`) REFERENCES `prize` (`Prize_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `badge`
@@ -451,8 +465,7 @@ ALTER TABLE `event`
 -- Constraints for table `prize`
 --
 ALTER TABLE `prize`
-  ADD CONSTRAINT `prize_ibfk_1` FOREIGN KEY (`event_ID`) REFERENCES `event` (`event_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `prize_ibfk_2` FOREIGN KEY (`subevent_ID`) REFERENCES `subevent` (`subevent_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `prize_ibfk_1` FOREIGN KEY (`event_ID`) REFERENCES `event` (`event_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `qr`
@@ -478,11 +491,6 @@ ALTER TABLE `registration_form`
 --
 ALTER TABLE `subevent`
   ADD CONSTRAINT `subevent_ibfk_1` FOREIGN KEY (`event_ID`) REFERENCES `event` (`event_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
---
--- Database: `test`
---
-CREATE DATABASE IF NOT EXISTS `test` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `test`;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
