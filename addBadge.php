@@ -1,14 +1,20 @@
 <?php
 // connect to DB
 require_once 'php/connectTosql.php';
-
-// this section for get the event name fro DB
-$query = mysqli_query($con, "SELECT * FROM event") or die(mysqli_error());
+$message="";
+$organizerID  = $_SESSION['organizerID'];
+// this section for get the event name from DB for curent organizer
+$query = mysqli_query($con, "SELECT * FROM event where organizer_ID='$organizerID ' ") or die(mysqli_error());
+//get the value of drop-down list for barcode size, font color and font size from DB
+$barcodesize = mysqli_query($con, "SELECT * FROM barcodesize ") or die(mysqli_error());
+$color = mysqli_query($con, "SELECT * FROM color ") or die(mysqli_error());
+$fontsize=mysqli_query($con, "SELECT * FROM fontsize ") or die(mysqli_error());
 
 // to get the badge type from lookup tabel
 $badgeTypeQuery = mysqli_query($con, "SELECT * FROM badgetype") or die(mysqli_error());
 
-if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
+
+if ( !empty($_FILES["fileToUpload"]["name"])) {
 
  $eventId     = $_POST['eventId'];
  $badgeTypeId = $_POST['badgeTypeId'];
@@ -17,7 +23,7 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
   ") or die(mysqli_error());
 
  if (mysqli_num_rows($checkQuery) > 0) {
-  echo " <div class='alert alert-danger alert-dismissible'>
+  $message= " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
         <strong> فشل</strong>  الحدث مرتبط ببطاقة مسبقا لايمكن اتمام العملية
         </div> ";
@@ -28,42 +34,66 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
   $size     = $_FILES['fileToUpload']['size'];
   $type     = $_FILES['fileToUpload']['type'];
   $tmp_name = $_FILES['fileToUpload']['tmp_name'];
-
-  $location = "UploadFile/badges/";
-
+  
+// add eventId & badgeTypeId to the name of file to make sure the name is unique
+  $location = "UploadFile/badges/".$eventId .$badgeTypeId.$name;
+  //$location = "UploadFile/badges/Captureclasssmall.png";
   $max_size = 100000;
   if ($size <= $max_size) {
-   if (move_uploaded_file($tmp_name, $location . $name)) {
-
+    // check the type of image 
+    if ($size=="jpg"|| $size=="JPG" ){
+      // save image in Specific position 
+   if (move_uploaded_file($tmp_name, $location)) {
     // add info of new badge to the DB
+if (isset($_POST['add']))  {
+
+      $text=$_POST["text"];
+      $x_yposition =$_POST["valueposition"];
+      $color=$_POST["color"];
+      $barSize=$_POST["barSize"];
+      $fontSize=$_POST["fontSize"];
 
     $sql = mysqli_query($con, "INSERT INTO badge (BadgeTypeId,event_ID,badgeTemplateName,badgeTemplateSize,badgeTemplateType,badgeTemplateLocation)
-   VALUES ('$badgeTypeId','$eventId','$name' ,'$size', '$type', '$location$name')") or die(mysqli_error($con));
+   VALUES ('$badgeTypeId','$eventId','$name' ,'$size', '$type', '$location')") or die(mysqli_error($con));
+// get the badge id to insert it to imageinfo table 
+    $badgeID = mysqli_query($con,"SELECT badge_ID  FROM badge where event_ID ='$eventId' AND BadgeTypeId='$badgeTypeId' ")or die(mysqli_error());
+    $row = mysqli_fetch_array($badgeID);
+    $badgeId =$row['badge_ID'];
+
+    $sqlimage = mysqli_query($con, "INSERT INTO imageinfo (image_ID ,x_yposition ,color ,barSize ,fontSize ,badge_ID)
+    VALUES ('','$x_yposition','$color','$barSize','$fontSize','$badgeId')") or die(mysqli_error($con));
     ///Check if add badge to DB has been done Successfully
-    if ($sql) {
+    if ($sql & $sqlimage) {
      header("location: /tactic/manageBadge.php");
     } else {
-     echo " <div class='alert alert-danger alert-dismissible'>
+     $message=" <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
         <strong> فشل</strong>  لم تتم عملية الاضافة بنجاح يرجى التحقق
         </div> ";
     }
-   } else {
-    echo " <div class='alert alert-danger alert-dismissible'>
+} /*else {
+    $message= " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
         <strong> فشل</strong>  يوجد خطأ في حفظ الملف
         </div> ";
 
-   }
+   }*/
+  }// end if (isset($_POST['add']))
+   
   } else {
 // for size message
-   echo " <div class='alert alert-danger alert-dismissible'>
+$message= " <div class='alert alert-danger alert-dismissible'>
            <button type='button' class='close' data-dismiss='alert'>&times;</button>
             <strong> يرجى</strong>  أكبر حجم للملف هو 10 ميغا
           </div> ";
   }
+} else 
+$message= " <div class='alert alert-danger alert-dismissible'>
+           <button type='button' class='close' data-dismiss='alert'>&times;</button>
+            <strong> يرجى</strong>  التحقق من صيغة الملف يجب ان تكون jpg
+          </div> ";
  }
-}
+}// end if ( !empty($_FILES["fileToUpload"]["name"]))
 ?>
 
 
@@ -88,7 +118,7 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/main-rtl.css">
 
-  <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="image/logo.png" type="image/x-icon" />
 
 
   <!-------------------------------------------------------------------------->
@@ -107,6 +137,8 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
         <div class="panel-body">
 
           <form action="" class="formDivAddBadge" method="post" enctype="multipart/form-data">
+
+            <?php echo $message; ?>
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
@@ -140,15 +172,79 @@ while ($row = mysqli_fetch_array($badgeTypeQuery)):
             <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <label for="eventName" class="control-label"> ارفاق قالب البطاقة<label style="color:red">*&nbsp; </label></label>
-                <input type="file" class="form-control" id="fileToUpload"  name="fileToUpload">
+                <input type="file" class="form-control" onchange="readURL(this);"  id="fileToUpload"  name="fileToUpload">
+              </div>
+            </div>
+        
+            
+            <div class="col-md-12">
+              <div class="form-group form-group-lg">
+                <label for="valueposition" class="control-label">موقع اضافة معلومات الزائر<label style="color:red">*&nbsp; </label></label>
+              <input type="" class="form-control" id="valueposition"  name="valueposition" >
               </div>
             </div>
 
+            <div class="col-md-4">
+              <div class="form-group form-group-lg">
+                <label for="color" class=" control-label"> لون الخط <label style="color:red">*&nbsp; </label> </label>
+                <select class="form-control" id="color" name="color" >
+                <option value=""> اختيار </option >
+                  <?php
+                    while ($row = mysqli_fetch_array($color)):
 
+                    echo "<option value='" . $row['	value'] . "'>" . $row['name'] . "</option>";
+                    ?>
+                    <?php endwhile;?> 
+                </select>
+              </div>
+            </div>
 
-           <a  href="/tactic/manageBadge.php"  class="bodyform btn btn-nor-danger btn-sm">رجوع</a>
-            <input type="submit" value="إضافة" name="add" class="btn btn-nor-primary btn-lg enable-overlay">
+            <div class="col-md-4">
+             <div class="form-group form-group-lg">
+                <label for="fontSize" class="control-label"> حجم الخط <label style="color:red">*&nbsp; </label> </label>
+                <select class="form-control" id="fontSize" name="fontSize" >
+                <option value=""> اختيار </option >
+                <?php
+                    while ($row = mysqli_fetch_array($fontsize)):
 
+                    echo "<option value='" . $row['	size'] . "'>" . $row['size'] . "</option>";
+                    ?>
+                    <?php endwhile;?> 
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group form-group-lg">
+                <label for="barSize" class=" control-label"> حجم الباركود <label style="color:red">*&nbsp; </label> </label>
+                <select class="form-control" id="barSize" name="barSize" >
+                <option value=""> اختيار </option >
+                <?php
+                    while ($row = mysqli_fetch_array($barcodesize)):
+
+                    echo "<option value='" . $row['	size'] . "'>" . $row['name'] . "</option>";
+                    ?>
+                    <?php endwhile;?> 
+                </select>
+              </div>
+            </div>
+
+              <div class="col-md-12">
+              <div class="form-group form-group-lg">
+                  <span  id="myImg"> </span>
+                 
+             </div>
+              </div>
+
+            <div class="col-md-12">
+              <div class="form-group form-group-lg">
+              
+                <a href="/tactic/manageBadge.php"  class="bodyform btn btn-nor-danger btn-sm">رجوع</a>
+                <input type="submit" value="إضافة" name="add" class="btn btn-nor-primary btn-lg enable-overlay">
+                <button type="button" id ="passImageIfon" name="passImageIfon" class="btn btn-nor-primary btn-lg enable-overlay" > hh تطبيق </button>
+          
+              </div>
+            </div>
 
         </div>
         </form>
@@ -169,7 +265,7 @@ while ($row = mysqli_fetch_array($badgeTypeQuery)):
   <script>
   // this part for call navBar
     $(function () {
-      $("#includedContent").load("php/TopNav.php");
+      //$("#includedContent").load("php/TopNav.php");
       $("#includedContent2").load("HTML/rightNav.html");
     });
   </script>

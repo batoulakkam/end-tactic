@@ -1,66 +1,97 @@
-
 <?php
 // conect to database
 require_once 'php/connectTosql.php';
 // to enable write arabic letter in image
 include 'phar://ArPHP.phar/Arabic.php'; 
+// the image sourse to display in html 
+// test image
+$sorce="image/download.jpg";
+// get the value of input  
 
+$x_yposition = $_GET["x_yposition"];
+$color=$_GET["color"];
+$barSize=$_GET["barSize"];
+$fontSize=$_GET["fontSize"];
+$sorce=$_GET["sorce"];
+
+$sorce="UploadFile/badges/"+$sorce;
+
+$text="test";
+
+/* 
+ //test value for check the cood
+$x_yposition="X228Y65";
+$barSize="100x100";
+$fontSize=10;
+$color="";*/
+
+/*this part to sbustring the value of X & Y  from $x_yposition
+(strpos) to get position of leaters  X & Y 
+(substr)  to cut the numaric value for   X & Y 
+*/
+$yposition=strpos($x_yposition,"Y");
+$xpostion=strpos($x_yposition,"X");
+$left=substr($x_yposition,$xpostion+1,$yposition-1);
+$top=substr($x_yposition,$yposition+1);
+$angle=0;
+
+
+$attendeeID=12345;
 // convert barcode to image
-$barcode = file_get_contents('https://chart.googleapis.com/chart?chs=75x75&cht=qr&chl=test&choe=UTF-8');
+$barcode = file_get_contents("https://chart.googleapis.com/chart?chs=$barSize&cht=qr&chl=$attendeeID&choe=UTF-8");
 // save image in pc 
-file_put_contents('image/code.png', $barcode);
+file_put_contents('UploadFile/barcood/code.png', $barcode);
 // Load And Create Image From Source this bacground image
-$image = imagecreatefromjpeg('image/bat.jpg');
+$image = imagecreatefromjpeg($sorce);
 // Load the stamp and the photo to apply the watermark to this barcode image 
-$stamp = imagecreatefrompng('image/code.png');
+$stamp = imagecreatefrompng('UploadFile/barcood/code.png');
+//the url of the result barcod.jpg
+$output="UploadFile/testBadge/"+$sorce;
 
 
-
-$output="image/test.jpg";
-$test="image/barcod.jpg";
-
-
-// Allocate A Color For The Text Enter RGB Value
-$white_color = imagecolorallocate($image, 255, 255, 255);
+// Allocate A Color For The Text Enter 
+switch($color){
+    case "white":
+    $color = imagecolorallocate($image, 255, 255, 255);
+        break;
+        case "red":
+    $color = imagecolorallocate($image, 255, 0, 0);
+        break;
+        case "black":
+    $color = imagecolorallocate($image, 0, 0, 0);
+        break;
+    default:
+    $color = imagecolorallocate($image, 0, 0, 0);
+}
 
 // Set Path to Font File
 putenv('GDFONTPATH=C:/xampp/htdocs/tactic/css/fonts');
 $fontfile ='C:/xampp/htdocs/tactic/css/fonts/arial.ttf';
-// Set Text to Be Printed On Image
-
+// Set Text to Be Printed On Image in arabic 
 $Arabic = new I18N_Arabic('Glyphs'); 
-$text = 'بسم الله الرحمن الرحيم'; 
 $text = $Arabic->utf8Glyphs($text); 
 
 
-$size=16;
-$angle=0;
-$left=12;
-$top=20;
 
 // Set the margins for the stamp and get the height/width of the stamp image
-$marge_right = 115;
-$marge_bottom = 5;
-$sx = imagesx($stamp);
-$sy = imagesy($stamp);
+$marge_right = $left;
+$marge_bottom = $top;
+$stampx = imagesx($stamp);
+$stampy = imagesy($stamp);
 
-	
+$marge_bottom=$stampy + $top -3 ;	
 // Print Text On Image
- imagettftext(  $image ,  $size ,  $angle ,  $left,  $top ,  $white_color , $fontfile,  $text );
+ imagettftext(  $image ,  $fontSize ,  $angle ,  $left,  $top ,  $color , $fontfile,  $text );
  // Copy the stamp image onto our photo using the margin offsets and the photo put two image togather
 // width to calculate positioning of the stamp. 
-imagecopy($image, $stamp, imagesx($image) - $sx - $marge_right,   imagesy($image) - $sy - $marge_bottom  , 0, 0, imagesx($stamp), imagesy($stamp));
+imagecopy($image, $stamp,  $marge_right,   imagesy($image) - $marge_bottom  , 0, 0, imagesx($stamp), imagesy($stamp));
 
 // Send Image to Browser 
-imagepng($image,$test);
+imagepng($image,$output);
+
+// to send the source of image to position.js
+//echo json_encode($output);
+
+echo '<img src="'.$output.'"  />';
 
 ?>
-
-
-
-<html>
-<html lang="ar">
-<meta charset="utf-8">
-<img src="<?php echo $test ;?>" >
-</html>
-
