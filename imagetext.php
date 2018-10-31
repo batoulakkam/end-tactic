@@ -16,10 +16,7 @@ $imageName=$_GET["sorce"];
 
 
 /*
-$name     = $_FILES[$imageName]['name'];
-$tmp_name = $_FILES[$imageName]['tmp_name'];
-$location="UploadFile/badges/".$name;
-move_uploaded_file($tmp_name, $location);
+
 */
 //$imageName="i.jpg";
 //$test=$sorce.name;
@@ -30,7 +27,6 @@ move_uploaded_file($tmp_name, $location);
 */
 // this wrong i want url of image 
 $sorce="image/".$imageName;
-$sorce=$_GET["imgFullURL"];
 
 $text="اسم الزائر";
 
