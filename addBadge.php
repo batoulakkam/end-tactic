@@ -41,7 +41,7 @@ if ( !empty($_FILES["fileToUpload"]["name"])) {
   $max_size = 100000;
   if ($size <= $max_size) {
     // check the type of image 
-    if ($size=="jpg"|| $size=="JPG" ){
+    if ($type=="jpg"|| $type=="JPG" ||$type=="jpeg"|| $type=="JPEG"){
       // save image in Specific position 
    if (move_uploaded_file($tmp_name, $location)) {
     // add info of new badge to the DB
