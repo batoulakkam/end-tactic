@@ -60,7 +60,7 @@ if (isset($_POST['add']))  {
     $row = mysqli_fetch_array($badgeID);
     $badgeId =$row['badge_ID'];
 
-    $sqlimage = mysqli_query($con, "INSERT INTO imageinfo (image_ID ,x_yposition ,color ,barSize ,fontSize ,badge_ID)
+    $sqlimage = mysqli_query($con, "INSERT INTO imageinfo (imageId ,xyposition ,color ,barSize ,fontSize ,badgeId)
     VALUES ('','$x_yposition','$color','$barSize','$fontSize','$badgeId')") or die(mysqli_error($con));
     ///Check if add badge to DB has been done Successfully
     if ($sql & $sqlimage) {
