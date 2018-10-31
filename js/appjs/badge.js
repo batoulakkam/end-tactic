@@ -63,21 +63,24 @@ $(document).ready(function() {
         var color = $("#color").val();
         var barSize = $("#barSize").val();
         var fontSize = $("#fontSize").val();
+        var eventId= $("#eventId").val();
         // get the name of image 
-        var name = document.getElementById("fileToUpload").files[0].name;
-        name="123"+name;
-        alert(color+barSize+fontSize+x_yposition+name);
+        var name = document.getElementById("fileToUpload").files[0].mozFullPath;
+       
+        var imgFullURL = document.querySelector('#myImg').src;
+        alert(name);
         $.ajax({
             type: "GET",
             dataType: 'JSON',
             url: "imagetext.php",
         data: {
-            text: text,
             x_yposition: x_yposition,
             color: color, 
             barSize: barSize,
             fontSize: fontSize , 
-            sorce:name
+            sorce:name,
+            imgFullURL:imgFullURL
+            
         },
         //success enter data  
         success: function(data) {
@@ -91,41 +94,7 @@ $(document).ready(function() {
 
     
     // red the info of upload image 
-    $(document).on('change', '#fileToUpload', function(){
-        var name = document.getElementById("fileToUpload").files[0].name;
-        var form_data = new FormData();
-        var ext = name.split('.').pop().toLowerCase();
-        if(ext != 'jpg' ) 
-        {
-         alert("Invalid Image File");
-        }
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(document.getElementById("fileToUpload").files[0]);
-        var f = document.getElementById("fileToUpload").files[0];
-        var fsize = f.size||f.fileSize;
-        if(fsize > 1000000)
-        {
-         alert("Image File Size is very big");
-        }
-        else
-        {
-         form_data.append("fileToUpload", document.getElementById('fileToUpload').files[0]);
-         $.ajax({
-             
-          url:"upload.php",
-          method:"POST",
-          data: form_data,
-       contentType: false,
-       cache: false,
-       processData: false,
-       success:function(data)
-       {
-        $('#myImg').html(data);
-       }
-      });
-     }
-    });
-
+   
     /*
     $(document).on('change', '#fileToUpload', function(){
         $.ajax({
