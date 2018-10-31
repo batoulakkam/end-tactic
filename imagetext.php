@@ -12,18 +12,36 @@ $x_yposition = $_GET["x_yposition"];
 $color=$_GET["color"];
 $barSize=$_GET["barSize"];
 $fontSize=$_GET["fontSize"];
-$sorce=$_GET["sorce"];
+$imageName=$_GET["sorce"];  
 
-$sorce="UploadFile/badges/"+$sorce;
 
-$text="test";
+/*
+$name     = $_FILES[$imageName]['name'];
+$tmp_name = $_FILES[$imageName]['tmp_name'];
+$location="UploadFile/badges/".$name;
+move_uploaded_file($tmp_name, $location);
+*/
+//$imageName="i.jpg";
+//$test=$sorce.name;
 
-/* 
+/*
+$location="UploadFile/badges/".$sorce;
+move_uploaded_file($tmp_name, $location);
+*/
+// this wrong i want url of image 
+$sorce="image/".$imageName;
+$sorce=$_GET["imgFullURL"];
+
+$text="اسم الزائر";
+
+
  //test value for check the cood
+ /*
 $x_yposition="X228Y65";
 $barSize="100x100";
 $fontSize=10;
-$color="";*/
+$color="";
+*/
 
 /*this part to sbustring the value of X & Y  from $x_yposition
 (strpos) to get position of leaters  X & Y 
@@ -46,8 +64,10 @@ $image = imagecreatefromjpeg($sorce);
 // Load the stamp and the photo to apply the watermark to this barcode image 
 $stamp = imagecreatefrompng('UploadFile/barcood/code.png');
 //the url of the result barcod.jpg
-$output="UploadFile/testBadge/"+$sorce;
+//$name="name.jpg";
+$output="UploadFile/testBadge/".$imageName;
 
+//$output="UploadFile/testBadge/test.jpg";
 
 // Allocate A Color For The Text Enter 
 switch($color){

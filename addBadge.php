@@ -34,7 +34,7 @@ if ( !empty($_FILES["fileToUpload"]["name"])) {
   $size     = $_FILES['fileToUpload']['size'];
   $type     = $_FILES['fileToUpload']['type'];
   $tmp_name = $_FILES['fileToUpload']['tmp_name'];
-  
+
 // add eventId & badgeTypeId to the name of file to make sure the name is unique
   $location = "UploadFile/badges/".$eventId .$badgeTypeId.$name;
   //$location = "UploadFile/badges/Captureclasssmall.png";
@@ -144,26 +144,27 @@ $message= " <div class='alert alert-danger alert-dismissible'>
               <div class="form-group form-group-lg">
                 <label for="eventName" class="control-label"> اسم الحدث<label style="color:red">*&nbsp; </label></label>
                 <select class="form-control" id="eventId" name="eventId" >
+                <option value=""> اختيار </option >
                   <?php
-while ($row = mysqli_fetch_array($query)):
+                    while ($row = mysqli_fetch_array($query)):
 
-echo "<option value='" . $row['event_ID'] . "'>" . $row['name_Event'] . "</option>";
- ?>
-				                  <?php endwhile;?>
+                    echo "<option value='" . $row['event_ID'] . "'>" . $row['name_Event'] . "</option>";
+                    ?>
+				            <?php endwhile;?>
 
                 </select>
               </div>
             </div>
 
- <div class="col-md-12">
+            <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <label for="badgeType" class="control-label"> نوع البطاقة</label>
                 <select class="form-control" id="badgeType" name="badgeTypeId" >
                   <?php
-while ($row = mysqli_fetch_array($badgeTypeQuery)):
- echo "<option value='" . $row['Id'] . "'>" . $row['Name'] . "</option>";
- ?>
-				                  <?php endwhile;?>
+                    while ($row = mysqli_fetch_array($badgeTypeQuery)):
+                    echo "<option value='" . $row['Id'] . "'>" . $row['Name'] . "</option>";
+                    ?>
+				            <?php endwhile;?>
 
                 </select>
               </div>
@@ -188,11 +189,11 @@ while ($row = mysqli_fetch_array($badgeTypeQuery)):
               <div class="form-group form-group-lg">
                 <label for="color" class=" control-label"> لون الخط <label style="color:red">*&nbsp; </label> </label>
                 <select class="form-control" id="color" name="color" >
-                <option value=""> اختيار </option >
+                
                   <?php
                     while ($row = mysqli_fetch_array($color)):
 
-                    echo "<option value='" . $row['	value'] . "'>" . $row['name'] . "</option>";
+                    echo "<option value='" . $row['value'] . "'>" . $row['name'] . "</option>";
                     ?>
                     <?php endwhile;?> 
                 </select>
@@ -203,11 +204,11 @@ while ($row = mysqli_fetch_array($badgeTypeQuery)):
              <div class="form-group form-group-lg">
                 <label for="fontSize" class="control-label"> حجم الخط <label style="color:red">*&nbsp; </label> </label>
                 <select class="form-control" id="fontSize" name="fontSize" >
-                <option value=""> اختيار </option >
+                
                 <?php
                     while ($row = mysqli_fetch_array($fontsize)):
 
-                    echo "<option value='" . $row['	size'] . "'>" . $row['size'] . "</option>";
+                    echo "<option value='" . $row['size'] . "'>" . $row['size'] . "</option>";
                     ?>
                     <?php endwhile;?> 
                 </select>
@@ -218,11 +219,11 @@ while ($row = mysqli_fetch_array($badgeTypeQuery)):
               <div class="form-group form-group-lg">
                 <label for="barSize" class=" control-label"> حجم الباركود <label style="color:red">*&nbsp; </label> </label>
                 <select class="form-control" id="barSize" name="barSize" >
-                <option value=""> اختيار </option >
+                
                 <?php
                     while ($row = mysqli_fetch_array($barcodesize)):
 
-                    echo "<option value='" . $row['	size'] . "'>" . $row['name'] . "</option>";
+                    echo "<option value='" . $row['size'] . "'>" . $row['name'] . "</option>";
                     ?>
                     <?php endwhile;?> 
                 </select>
@@ -231,7 +232,10 @@ while ($row = mysqli_fetch_array($badgeTypeQuery)):
 
               <div class="col-md-12">
               <div class="form-group form-group-lg">
-                  <span  id="myImg"> </span>
+                  
+                  <img id="myImg" src="image/download.jpg"/>
+                  <!--<span  id="myImg"> </span>-->
+                  
                  
              </div>
               </div>
@@ -241,7 +245,7 @@ while ($row = mysqli_fetch_array($badgeTypeQuery)):
               
                 <a href="/tactic/manageBadge.php"  class="bodyform btn btn-nor-danger btn-sm">رجوع</a>
                 <input type="submit" value="إضافة" name="add" class="btn btn-nor-primary btn-lg enable-overlay">
-                <button type="button" id ="passImageIfon" name="passImageIfon" class="btn btn-nor-primary btn-lg enable-overlay" > hh تطبيق </button>
+                <button type="button" id ="passImageIfon" name="passImageIfon" class="btn btn-nor-primary btn-lg enable-overlay" >  معاينة الصورة </button>
           
               </div>
             </div>
@@ -255,7 +259,19 @@ while ($row = mysqli_fetch_array($badgeTypeQuery)):
   </div>
   </div>
   </div>
+  <script type="text/javascript">
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
+                reader.onload = function (e) {
+                    $('#myImg').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
   <!-- end of  register inputs -->
   <script src="js/jquery.min.js"></script>
   <script src="js/jquery.validate.min.js"></script>
