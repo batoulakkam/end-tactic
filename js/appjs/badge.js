@@ -63,11 +63,10 @@ $(document).ready(function() {
         var color = $("#color").val();
         var barSize = $("#barSize").val();
         var fontSize = $("#fontSize").val();
-        var eventId= $("#eventId").val();
         // get the name of image 
-        var name = document.getElementById("fileToUpload").files[0].mozFullPath;
+        var name = document.getElementById("fileToUpload").files[0].name;
        
-        var imgFullURL = document.querySelector('#myImg').src;
+        //var imgFullURL = document.querySelector('#myImg').src;
         alert(name);
         $.ajax({
             type: "GET",
@@ -78,8 +77,8 @@ $(document).ready(function() {
             color: color, 
             barSize: barSize,
             fontSize: fontSize , 
-            sorce:name,
-            imgFullURL:imgFullURL
+            sorce:name
+            
             
         },
         //success enter data  
