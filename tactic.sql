@@ -403,7 +403,10 @@ CREATE TABLE `imageinfo` (
   `color` varchar(25) NOT NULL,
   `barSize` varchar(20) NOT NULL,
   `fontSize` int(11) NOT NULL,
-  `badgeId` int(11) NOT NULL
+  `badgeId` int(11) NOT NULL,
+  `namePosition` varchar(30) NOT NULL,
+  `careerPosition` varchar(30) NOT NULL,
+  `barcodePosition` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
