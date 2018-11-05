@@ -84,13 +84,13 @@ if (isset($_POST['add']))  {
 // for size message
 $message= " <div class='alert alert-danger alert-dismissible'>
            <button type='button' class='close' data-dismiss='alert'>&times;</button>
-            <strong> يرجى</strong>  أكبر حجم للملف هو 10 ميغا
+             تنبيه أكبر حجم للملف هو 10 ميغا
           </div> ";
   }
 } else 
 $message= " <div class='alert alert-danger alert-dismissible'>
            <button type='button' class='close' data-dismiss='alert'>&times;</button>
-            <strong> يرجى</strong>  التحقق من صيغة الملف يجب ان تكون jpg
+           يرجى التحقق من صيغة الملف يجب ان تكون من نوع (JPG)
           </div> ";
  }
 }// end if ( !empty($_FILES["fileToUpload"]["name"]))
@@ -117,6 +117,8 @@ $message= " <div class='alert alert-danger alert-dismissible'>
   <link rel="stylesheet" href="css/icon.css">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/main-rtl.css">
+  <link rel="stylesheet" href="css/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
 
   <link rel="shortcut icon" href="image/logo.png" type="image/x-icon" />
 
@@ -128,6 +130,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
 <body>
   <div id="includedContent"></div>
   <div id="includedContent2"></div>
+
   <div class="mainContent">
     <div class="container">
       <div class="panel panel-primary">
@@ -143,14 +146,14 @@ $message= " <div class='alert alert-danger alert-dismissible'>
             <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <label for="eventName" class="control-label"> اسم الحدث<label style="color:red">*&nbsp; </label></label>
-                <select class="form-control" id="eventId" name="eventId" >
-                <option value=""> اختيار </option >
+                <select class="form-control" id="eventId" name="eventId">
+                  <option value=""> اختيار </option>
                   <?php
                     while ($row = mysqli_fetch_array($query)):
 
                     echo "<option value='" . $row['event_ID'] . "'>" . $row['name_Event'] . "</option>";
                     ?>
-				            <?php endwhile;?>
+                  <?php endwhile;?>
 
                 </select>
               </div>
@@ -159,12 +162,12 @@ $message= " <div class='alert alert-danger alert-dismissible'>
             <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <label for="badgeType" class="control-label"> نوع البطاقة</label>
-                <select class="form-control" id="badgeType" name="badgeTypeId" >
+                <select class="form-control" id="badgeType" name="badgeTypeId">
                   <?php
                     while ($row = mysqli_fetch_array($badgeTypeQuery)):
                     echo "<option value='" . $row['Id'] . "'>" . $row['Name'] . "</option>";
                     ?>
-				            <?php endwhile;?>
+                  <?php endwhile;?>
 
                 </select>
               </div>
@@ -172,114 +175,138 @@ $message= " <div class='alert alert-danger alert-dismissible'>
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="eventName" class="control-label"> ارفاق قالب البطاقة<label style="color:red">*&nbsp; </label></label>
-                <input type="file" class="form-control" onchange="readURL(this);"  id="fileToUpload"  name="fileToUpload">
+                <label for="eventName" class="control-label"> ارفاق قالب البطاقة<label style="color:red">*&nbsp;
+                  </label></label>
+                <input type="file" class="form-control" onchange="readURL(this);" id="fileToUpload" name="fileToUpload">
               </div>
             </div>
-        
-            
-            <div class="col-md-12">
-              <div class="form-group form-group-lg">
-                <label for="valueposition" class="control-label">موقع اضافة معلومات الزائر<label style="color:red">*&nbsp; </label></label>
-              <input type="" class="form-control" id="valueposition"  name="valueposition" >
-              </div>
-            </div>
+
+
 
             <div class="col-md-4">
               <div class="form-group form-group-lg">
                 <label for="color" class=" control-label"> لون الخط <label style="color:red">*&nbsp; </label> </label>
-                <select class="form-control" id="color" name="color" >
-                
+                <select class="form-control" id="color" name="color">
+
                   <?php
                     while ($row = mysqli_fetch_array($color)):
 
                     echo "<option value='" . $row['value'] . "'>" . $row['name'] . "</option>";
                     ?>
-                    <?php endwhile;?> 
+                  <?php endwhile;?>
                 </select>
               </div>
             </div>
 
             <div class="col-md-4">
-             <div class="form-group form-group-lg">
+              <div class="form-group form-group-lg">
                 <label for="fontSize" class="control-label"> حجم الخط <label style="color:red">*&nbsp; </label> </label>
-                <select class="form-control" id="fontSize" name="fontSize" >
-                
-                <?php
+                <select class="form-control" id="fontSize" name="fontSize">
+
+                  <?php
                     while ($row = mysqli_fetch_array($fontsize)):
 
                     echo "<option value='" . $row['size'] . "'>" . $row['size'] . "</option>";
                     ?>
-                    <?php endwhile;?> 
+                  <?php endwhile;?>
                 </select>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group form-group-lg">
-                <label for="barSize" class=" control-label"> حجم الباركود <label style="color:red">*&nbsp; </label> </label>
-                <select class="form-control" id="barSize" name="barSize" >
-                
-                <?php
+                <label for="barSize" class=" control-label"> حجم الباركود <label style="color:red">*&nbsp; </label>
+                </label>
+                <select class="form-control" id="barSize" name="barSize">
+
+                  <?php
                     while ($row = mysqli_fetch_array($barcodesize)):
 
                     echo "<option value='" . $row['size'] . "'>" . $row['name'] . "</option>";
                     ?>
-                    <?php endwhile;?> 
+                  <?php endwhile;?>
                 </select>
               </div>
             </div>
 
-              <div class="col-md-12">
-              <div class="form-group form-group-lg">
+            <div class="image-header">
+              <h4> اسحب العناصر التالية لتحديد مكانها على الصورة </h4>
+
+              <div class="col-md-5">
+                <ul class="image-group">
+                  <li class="list-group-item image-item-list" >
+                  <label id="lblVisitorName"> اسم الزائر </label>
+                  </li>
+                  <li class="list-group-item image-item-list"  >
+                   <label id="lblCareer"> مهنة الزائر </label>
+                  </li>
+                  <li class="list-group-item image-item-list"   >
+                   <img id="dvBarcode"  src="image/bar.png" />
+                  </li>
                   
-                  <img id="myImg" src="image/download.jpg"/>
-                  <!--<span  id="myImg"> </span>-->
-                  
-                 
-             </div>
+                </ul>
               </div>
+
+
+              <div class="col-md-5">
+                <div class="form-group form-group-lg">
+
+                  <img id="myImg" height="345px" width="217px" class="form-control badgealign" src="image/badge.jpg" />
+
+                </div>
+              </div>
+
+            </div>
+
+
+
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-              
-                <a href="/tactic/manageBadge.php"  class="bodyform btn btn-nor-danger btn-sm">رجوع</a>
+                <a href="/tactic/manageBadge.php" class="bodyform btn btn-nor-danger btn-sm">رجوع</a>
                 <input type="submit" value="إضافة" name="add" class="btn btn-nor-primary btn-lg enable-overlay">
-                <button type="button" id ="passImageIfon" name="passImageIfon" class="btn btn-nor-primary btn-lg enable-overlay" >  معاينة الصورة </button>
-          
+                <button type="button" id="passImageIfon" name="passImageIfon" class="btn btn-nor-primary btn-lg enable-overlay">
+                  معاينة الصورة </button>
+
               </div>
             </div>
 
         </div>
-        </form>
-
       </div>
+
     </div>
+    </form>
+
   </div>
   </div>
   </div>
   </div>
+  </div>
+  </div>
+
   <script type="text/javascript">
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
 
-                reader.onload = function (e) {
-                    $('#myImg').attr('src', e.target.result);
-                }
-
-                reader.readAsDataURL(input.files[0]);
-            }
+        reader.onload = function (e) {
+          $('#myImg').attr('src', e.target.result);
         }
-    </script>
-  <!-- end of  register inputs -->
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  </script>
+  <!-- end of  register inputs  -->
   <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-ui.js"></script>
   <script src="js/jquery.validate.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/appjs/badge.js"></script>
   <script src="js/appjs/common.js"></script>
+
   <script>
-  // this part for call navBar
+    // this part for call navBar
     $(function () {
       //$("#includedContent").load("php/TopNav.php");
       $("#includedContent2").load("HTML/rightNav.html");
@@ -287,4 +314,5 @@ $message= " <div class='alert alert-danger alert-dismissible'>
   </script>
 
 </body>
+
 </html>
