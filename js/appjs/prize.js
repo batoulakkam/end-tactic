@@ -1,9 +1,9 @@
 $(document).ready(function() {
-
+    // $("#btnPrintWinners").hide();
     // update this name to be subEvent ,clean code
-    $("#SubEventName").prop("disabled", true);
+    $("#subEventName").prop("disabled", true);
 
-    $("#eventName").change(function() {
+    $("#eventName").click(function() {
         var eventId = $(this).val();
         $.ajax({
             type: "GET",
@@ -18,21 +18,21 @@ $(document).ready(function() {
 
                 var len = data.length;
                 // to clear old data befor statr fill new data
-                $("#SubEventName").empty();
-                $("#SubEventName").append("<option value=''>اختيار</option>");
+                $("#subEventName").empty();
+                $("#subEventName").append("<option value=''>اختيار</option>");
                 for (var i = 0; i < len; i++) {
                     var subeventId = data[i]['subeventId'];
                     var subEventName = data[i]['subEventName'];
 
-                    $("#SubEventName").append("<option value='" + subeventId + "'>" + subEventName + "</option>");
+                    $("#subEventName").append("<option value='" + subeventId + "'>" + subEventName + "</option>");
 
                 }
-                $("#SubEventName").prop("disabled", false);
+                $("#subEventName").prop("disabled", false);
             },
             error: function(xhr, ajaxOptions, thrownError) {
-                $("#SubEventName").empty();
-                $("#SubEventName").append("<option value=''>اختيار</option>");
-                $("#SubEventName").prop("disabled", true);
+                $("#subEventName").empty();
+                $("#subEventName").append("<option value=''>اختيار</option>");
+                $("#subEventName").prop("disabled", true);
             }
         });
     });
@@ -174,4 +174,14 @@ $(document).ready(function() {
         }
     });
     // end of validate Edit prize
+    $('#btnPrintWinners').click(function(e) {
+        var objBrowse = window.navigator;
+        if (objBrowse.appName == "Opera" || objBrowse.appName == "Netscape") {
+            setTimeout("window.print()", 1000);
+        } else {
+            window.print();
+        }
+    });
+
+
 });

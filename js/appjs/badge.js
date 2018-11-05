@@ -1,19 +1,15 @@
 $(document).ready(function() {
 
-    // select position on image to write on it 
-    var position;
-    $(function() {
-        $("#myImg").click(function(e) {
-    
-          var offset = $(this).offset();
-          var relativeX = Math.round((e.pageX - offset.left));
-          var relativeY = Math.abs(Math.round((e.pageY - offset.top)));
-           position= "X" +relativeX + "Y" +relativeY ;
-          $("#valueposition").val( position );
-          
-    
-        });
+    $("#lblVisitorName").draggable({
+        refreshPositions: true
     });
+    $("#lblCareer").draggable({
+        refreshPositions: true
+    });
+    $("#dvBarcode").draggable({
+        refreshPositions: true
+    });
+
 
     //delete event
     $(".adelete").click(function() {
@@ -52,64 +48,69 @@ $(document).ready(function() {
             }
         });
     });
-  //  
+    //  
 
- 
 
-// send the info of image to write it on the image 
+
+    // send the info of image to write it on the image 
     $('#passImageIfon').click(function() {
         // get value of required variable and pass it to imagetext.php
-        var x_yposition = $("#valueposition").val(); 
+        var visitorName = $("#lblVisitorName").offset();
+        // var lblVistorName =document.getElementById("lblVistorName").getBoundingClientRect();
+        var visitorCareer = $("#lblCareer").offset();
+        var barcode = $("#dvBarcode").offset();
+
+        var myImg = $("#myImg").offset();
+        // var myImg =document.getElementById("myImg").getBoundingClientRect();
+        var img = document.getElementById('myImg');
+        //or however you get a handle to the IMG
+        var width = Math.round(img.clientWidth);
+        var height = Math.round(img.clientHeight);
+
+
+        visitorName = ("X" + visitorName.left + "Y" + visitorName.top);
+        visitorCareer = ("X" + visitorCareer.left + "Y" + visitorCareer.top);
+        barcode = ("X" + barcode.left + "Y" + barcode.top);
+        myImg = ("X" + myImg.left + "Y" + myImg.top);
         var color = $("#color").val();
         var barSize = $("#barSize").val();
         var fontSize = $("#fontSize").val();
+        var txtlblvisittorName = $("#lblVisitorName").text();
+        var txtlblvisittorCareer = $("#lblCareer").text();
         // get the name of image 
-        var name = document.getElementById("fileToUpload").files[0].name;
-       
-        //var imgFullURL = document.querySelector('#myImg').src;
-        alert(name);
+        var name = $("#fileToUpload")[0].files[0] == undefined ? "badge.jpg" : $("#fileToUpload")[0].files[0].name;
+
+        //alert(visitorName + "uu" + visitorCareer + " &" + barcode + " &" + myImg);
+
         $.ajax({
             type: "GET",
             dataType: 'JSON',
             url: "imagetext.php",
-        data: {
-            x_yposition: x_yposition,
-            color: color, 
-            barSize: barSize,
-            fontSize: fontSize , 
-            sorce:name
-            
-            
-        },
-        //success enter data  
-        success: function(data) {
-                //to replace the source of image
-                $('#myImg').html(data); 
-        }
-       
-    });
-
-    });
-
-    
-    // red the info of upload image 
-   
-    /*
-    $(document).on('change', '#fileToUpload', function(){
-        $.ajax({
-            url:"upload.php",
-            method:"POST",
             data: {
-               " urlImage" : "<?php  print $location; ?>"
-               },
-            
-               
-            success:function(data)
-            {
-            $('#myImg').html(data);
+                color: color,
+                barSize: barSize,
+                fontSize: fontSize,
+                sorce: name,
+                visitorName: visitorName,
+                visitorCareer: visitorCareer,
+                visitorBarcode: barcode,
+                myImg: myImg,
+                width: width,
+                height: height,
+                lblvisittorNameVal: txtlblvisittorName,
+                lblvisittorCareerVal: txtlblvisittorCareer
+            },
+            //success enter data  
+            success: function(data) {
+                //to replace the source of image
+                $('#myImg').html(data);
             }
+
         });
-    });  */
+
+    });
+
+
 
     $(".formDivAddBadge").validate({
         // Specify validation rules
@@ -128,13 +129,13 @@ $(document).ready(function() {
             valueposition: {
                 required: true
             },
-            color:{
+            color: {
                 required: true
             },
-            fontSize:{
+            fontSize: {
                 required: true
             },
-            barSize:{
+            barSize: {
                 required: true
             },
 
@@ -158,15 +159,15 @@ $(document).ready(function() {
             valueposition: {
                 required: "حقل مطلوب"
             },
-    
+
             color: {
                 required: "حقل مطلوب"
             },
-    
+
             fontSize: {
                 required: "حقل مطلوب"
             },
-    
+
             barSize: {
                 required: "حقل مطلوب"
             },
