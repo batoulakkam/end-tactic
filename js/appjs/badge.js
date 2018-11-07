@@ -91,10 +91,10 @@ $(document).ready(function() {
            
         });
 
-        
+        /*
         $('#viewBadge').attr('src','UploadFile/49/badge/badge.jpg');     
         $('#viewAttendeeBadge').modal('show');
-        
+        */
         
     });
 
