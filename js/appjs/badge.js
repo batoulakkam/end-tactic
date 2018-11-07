@@ -52,36 +52,23 @@ $(document).ready(function() {
 
 
 
-    // send the info of image to write it on the image 
+    // send the info of image to write it on the image for testing
     $('#passImageIfon').click(function() {
         // get value of required variable and pass it to imagetext.php
-        var visitorName = $("#lblVisitorName").offset();
-        // var lblVistorName =document.getElementById("lblVistorName").getBoundingClientRect();
-        var visitorCareer = $("#lblCareer").offset();
-        var barcode = $("#dvBarcode").offset();
-
-        var myImg = $("#myImg").offset();
-        // var myImg =document.getElementById("myImg").getBoundingClientRect();
-        var img = document.getElementById('myImg');
-        //or however you get a handle to the IMG
-        var width = Math.round(img.clientWidth);
-        var height = Math.round(img.clientHeight);
-
-
-        visitorName = ("X" + visitorName.left + "Y" + visitorName.top);
-        visitorCareer = ("X" + visitorCareer.left + "Y" + visitorCareer.top);
-        barcode = ("X" + barcode.left + "Y" + barcode.top);
-        myImg = ("X" + myImg.left + "Y" + myImg.top);
+        var eventId=$("#eventId").val();
         var color = $("#color").val();
         var barSize = $("#barSize").val();
         var fontSize = $("#fontSize").val();
-        var txtlblvisittorName = $("#lblVisitorName").text();
-        var txtlblvisittorCareer = $("#lblCareer").text();
+        var visitorName = $("#lblVisitorName").offset();
+        var visitorCareer = $("#lblCareer").offset();
+        var barcode = $("#dvBarcode").offset();
+        var myImg = $("#myImg").offset();
+        visitorName = ("X" + ((visitorName.left)-(myImg.left))  + "Y" + ((visitorName.top)-(myImg.top)));
+        visitorCareer = ("X" + ((visitorCareer.left)-(myImg.left) ) + "Y" + ((visitorCareer.top)-(myImg.top)));
+        barcode = ("X" + ((barcode.left)-(myImg.left))  + "Y" + ((barcode.top)-(myImg.top)));
         // get the name of image 
         var name = $("#fileToUpload")[0].files[0] == undefined ? "badge.jpg" : $("#fileToUpload")[0].files[0].name;
-
-        //alert(visitorName + "uu" + visitorCareer + " &" + barcode + " &" + myImg);
-
+        var attendeeID=0;
         $.ajax({
             type: "GET",
             dataType: 'JSON',
@@ -94,23 +81,48 @@ $(document).ready(function() {
                 visitorName: visitorName,
                 visitorCareer: visitorCareer,
                 visitorBarcode: barcode,
-                myImg: myImg,
-                width: width,
-                height: height,
-                lblvisittorNameVal: txtlblvisittorName,
-                lblvisittorCareerVal: txtlblvisittorCareer
+                eventId:eventId,
+                attendeeID:attendeeID
             },
-            //success enter data  
             success: function(data) {
                 //to replace the source of image
-                $('#myImg').html(data);
-            }
-
+                alert("data");
+            },
+           
         });
 
+        
+        $('#viewBadge').attr('src','UploadFile/49/badge/badge.jpg');     
+        $('#viewAttendeeBadge').modal('show');
+        
+        
     });
 
+    $('#add').click(function() {
+        // get value of required variable and pass it to imagetext.php
+        var visitorName = $("#lblVisitorName").offset();
+        var visitorCareer = $("#lblCareer").offset();
+        var barcode = $("#dvBarcode").offset();
+        var myImg = $("#myImg").offset();
+        visitorName = ("X" + ((visitorName.left)-(myImg.left))  + "Y" + ((visitorName.top)-(myImg.top)));
+        visitorCareer = ("X" + ((visitorCareer.left)-(myImg.left) ) + "Y" + ((visitorCareer.top)-(myImg.top)));
+        barcode = ("X" + ((barcode.left)-(myImg.left))  + "Y" + ((barcode.top)-(myImg.top)));  
+        document.getElementById('name').value =visitorName;
+        document.getElementById('career').value =visitorCareer;
+        document.getElementById('barcode').value =barcode;
+    });
+// to show pop message include updated badge
+   
 
+    $('#btnPrintBadge').click(function(e) {
+        var objBrowse = window.navigator;
+        if (objBrowse.appName == "Opera" || objBrowse.appName == "Netscape") {
+            setTimeout("window.print()", 1000);
+        } else {
+            window.print();
+        }
+    });
+    
 
     $(".formDivAddBadge").validate({
         // Specify validation rules
