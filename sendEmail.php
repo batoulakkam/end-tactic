@@ -4,22 +4,33 @@ require_once('php/connectTosql.php');
 require("PHPMailer/src/PHPMailer.php");
 require("PHPMailer/src/SMTP.php");
 require("PHPMailer/src/Exception.php");
+
 $attendeeID    = '';
 $email_Att[]   = "";
 $masg          = "";
 $mail          = new PHPMailer\PHPMailer\PHPMailer();
 $mail          = new PHPMailer\PHPMailer\PHPMailer();
 $mail->CharSet = "utf-8";
+$mail->SMTPKeepAlive = true; 
+ $mail->SMTPOptions = array(
+        'ssl' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        )
+    );
 $mail->IsSMTP(); // enable SMTP
-$mail->SMTPDebug  = 0; // debugging: 1 = errors and messages, 2 = messages only
+//$mail->SMTPDebug  = SMTP::debugDumpParams;
+$mail->SMTPDebug  = 0;// debugging: 1 = errors and messages, 2 = messages only
+
 $mail->SMTPAuth   = true; // authentication enabled
 $mail->SMTPSecure = 'tls'; // secure transfer enabled REQUIRED for Gmail
 $mail->Host       = "smtp.gmail.com";
 $mail->Port       = 587; // or 587
 $mail->IsHTML(true);
-$mail->Username = 'tactic.gp@gmail.com';
-$mail->Password = '1234567890Qw';
-$mail->setfrom('tactic.gp@gmail.com', 'tactic');
+$mail->Username = 'tacticevent131@gmail.com';
+$mail->Password = 'marwa123456789';
+$mail->setfrom('tacticevent131@gmail.com', 'tactic');
 //////////////////////////////////////////////////////////////
 if (isset($_GET['event_ID'])) {
     $event_ID = $_GET['event_ID'];
@@ -28,20 +39,19 @@ if (isset($_GET['event_ID'])) {
     $eventName = $rows['name_Event'];
     $eventDate = $rows['sartDate_Event'];
     if (isset($_GET['all']))
-        $sql = mysqli_query($con, "SELECT * FROM attendee WHERE event_ID = '$event_ID' ") or die(mysqli_error($con));
+        $sql = mysqli_query($con, "SELECT * FROM attendee WHERE eventId = '$event_ID' ") or die(mysqli_error($con));
     elseif (isset($_GET['VIP']))
-        $sql = mysqli_query($con, "SELECT * FROM attendee WHERE event_ID = '$event_ID'AND VIP_code !=0") or die(mysqli_error($con));
+        $sql = mysqli_query($con, "SELECT * FROM attendee WHERE eventId = '$event_ID'AND VIPcode !=0") or die(mysqli_error($con));
     elseif (isset($_GET['normal'])) {
-        $sql = mysqli_query($con, "SELECT * FROM attendee WHERE event_ID = '$event_ID' AND VIP_code = 0 ") or die(mysqli_error($con));
+        $sql = mysqli_query($con, "SELECT * FROM attendee WHERE eventId = '$event_ID' AND VIPcode = 0 ") or die(mysqli_error($con));
     } //isset($_GET['normal'])
 } //isset($_GET['event_ID'])
 if ($sql) {
     $x = 0;
     while ($row = mysqli_fetch_array($sql)) {
-        $email_Att[$x] = $row['email_Att'];
-        $mail->AddAddress($row['email_Att']);
-        $name[$x] = $row['name_Att'];
-        echo $name[$x];
+        $email_Att[$x] = $row['email'];
+        $mail->AddAddress($row['email']);
+        $name[$x] = $row['name'];
         $mensaje = file_get_contents('emailTemplate.html');
         $mensaje = str_replace("{{USERNAME}}", $name[$x], $mensaje);
         $mensaje = str_replace("{{eventName}}", $eventName, $mensaje);
@@ -55,7 +65,8 @@ if ($sql) {
             $mail->Subject = $subject;
             $mensaje       = str_replace("{{subject}}", $body, $mensaje);
             $mensaje       = str_replace("{{eventLogo}}", $logo, $mensaje);
-            $mail->Body    = $mensaje;
+           // $mensaje       = str_0replace("{{eventLogo}}", $logo, $mensaje);
+            $mail->Body    = $mensaje ;
             if (!$mail->send()) {
                 $masg = " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
@@ -72,6 +83,8 @@ if ($sql) {
       <title>ارسال بريد الكتروني </title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
+	   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
       <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' type='text/css' />
       <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' type='text/css' />
       <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
@@ -81,11 +94,15 @@ if ($sql) {
       <link rel="stylesheet" href="css/bootstrap.min.css">
       <link rel="stylesheet" href="css/main-rtl.css">
       <link rel="shortcut icon" href="image/tacticLogo.png" type="image/x-icon" />
+
+<link type="text/css" rel="stylesheet" href="jQuery-TE/jquery-te-1.3.2.css" charset="utf-8" />
+	   
+	
    </head>
-   <body>
+   <body >
       <div id="includedContent"></div>
-      <div id="includedContent2"></div>
-      <div class="mainContent">
+  <div id="includedContent2"></div>
+.     <div class="mainContent">
          <div class="container">
             <div class="panel panel-primary">
                <div class="panel-heading">
@@ -112,17 +129,18 @@ if ($sql) {
                            <input type="text" class="form-control" id="email" name="subject"  >
                         </div>
                      </div>
-                     <div class="col-md-12">
+                     <!--<div class="col-md-12">
                         <div class="form-group form-group-lg">
                            <label class="control-label"> اختار شعار الفعالية :</label> <br><br>
                            <label  class="btn-primary btn" for="files"  style="width:100; float:right;" > ارفع الملف</label>
                            <input type="file" name= "logo"  id="files"  style="visibility:hidden;" >&nbsp; <span  id="fileC" for= "files"> لم اختيار الملف</span>
                         </div>
-                     </div>
+                     </div>-->
                      <div class="col-md-12">
                         <div class="form-group form-group-lg">
+							<div id="froala-editor1">
                            <label  class="control-label">نص الرسالة  :</label>  
-                           <textarea  name="message"  class="form-control" rows="10"  ></textarea>
+							<textarea  name="message"  class="form-control"  id="message"> </textarea></div>
                         </div>
                      </div>
                      <a  href=""  class="bodyform btn btn-nor-danger btn-sm">عودة</a>
@@ -131,10 +149,14 @@ if ($sql) {
                </div>
             </div>
          </div>
-         <script src="js/jquery.min.js"></script>
+            
+	   
+	   <script src="js/jquery.min.js"></script>
          <script src="js/bootstrap.min.js"></script>
          <script src="js/appjs/event.js"></script>
          <script src="js/appjs/common.js"></script>
+	   <script type="text/javascript" src="jQuery-TE/jquery-te-1.3.2.min.js" charset="utf-8"></script>
+	
          <script>
             $(function () {
                 $("#includedContent").load("php/TopNav.php");
@@ -149,7 +171,9 @@ if ($sql) {
             $("#fileC").empty();
             $("#fileC").append(filename = this.files[0].name);
             });
-         </script>
+	$('#message').jqte();
+</script>
+     
       </div>
    </body>
 </html>

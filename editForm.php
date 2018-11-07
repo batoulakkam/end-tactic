@@ -23,15 +23,14 @@ if(isset($_GET['token'])){
 	 $EditID= $_SESSION['EditeventID'];
 	$requierdField =0;
 	$selectedField = 0;
-	$length =0;
 // Name
 
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الاسم',1,1,$length,'$EditID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,event_ID) VALUES  ('','الاسم',1,1,'$EditID')")or die(mysqli_error($con));
 
 
 // email
 
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الايميل',1,1,$length,'$EditID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,event_ID) VALUES ('','الايميل',1,1,'$EditID')")or die(mysqli_error($con));
 
 // phone
 	if(isset($_POST['choicedPhone'])){
@@ -39,7 +38,7 @@ if(isset($_GET['token'])){
 	if( isset($_POST['requierdPhone']) )
 	$requierdField = $_POST['requierdPhone'];
 	$length = $_POST['LengthPhone'];
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الهاتف','$selectedField','$requierdField',$length,'$EditID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,event_ID) VALUES ('','الهاتف','$selectedField','$requierdField','$EditID')")or die(mysqli_error($con));
 }
 	 
 // age
@@ -48,7 +47,7 @@ if(isset($_GET['token'])){
 	$selectedField = $_POST['choicedAge'];
 	if( isset($_POST['requierdAge']) )
 	$requierdField = $_POST['requierdAge'];
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','العمر','$selectedField','$requierdField',$length,'$EditID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,event_ID) VALUES ('','العمر','$selectedField','$requierdField','$EditID')")or die(mysqli_error($con));
 }
 	 
 // gender
@@ -57,7 +56,7 @@ if(isset($_GET['token'])){
 	$selectedField = $_POST['choicedGender'];
 	if( isset($_POST['requierdGender']) )
 	$requierdField = $_POST['requierdGender'];
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الجنس','$selectedField','$requierdField',$length,'$EditID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,event_ID) VALUES ('','الجنس','$selectedField','$requierdField','$EditID')")or die(mysqli_error($con));
 }	
 // edu
 		 
@@ -65,7 +64,7 @@ if(isset($_GET['token'])){
 	$selectedField = $_POST['choicedEdu'];
 	if( isset($_POST['requierdEdu']) )
 	$requierdField = $_POST['requierdEdu'];
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','التعليم','$selectedField','$requierdField',$length,'$EditID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,event_ID) VALUES ('','التعليم','$selectedField','$requierdField','$EditID')")or die(mysqli_error($con));
 }
 	
 // job
@@ -75,7 +74,7 @@ if(isset($_GET['token'])){
 	if( isset($_POST['requierdJob']) )
 	$requierdField = $_POST['requierdJob'];
 	$length = $_POST['lengthJob'];
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','المهنة','$selectedField','$requierdField',$length,'$EditID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,event_ID) VALUES ('','المهنة','$selectedField','$requierdField','$EditID')")or die(mysqli_error($con));
 }	 
 	 
 // Nationality
@@ -85,7 +84,7 @@ if(isset($_GET['token'])){
 	if( isset($_POST['requierdNationality']) )
 	$requierdField = $_POST['requierdNationality'];
 	//$length = $_POST['lengthNationality'];
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الجنسية','$selectedField','$requierdField',$length,'$EditID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,event_ID) VALUES ('','الجنسية','$selectedField','$requierdField','$EditID')")or die(mysqli_error($con));
 }	
 	
 // ID
@@ -95,7 +94,7 @@ if(isset($_GET['token'])){
 	if( isset($_POST['requierdID']) )
 	$requierdField = $_POST['requierdID'];
 	$length = $_POST['lengthID'];
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الهوية','$selectedField','$requierdField',$length,'$EditID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,event_ID) VALUES ('','الهوية','$selectedField','$requierdField','$EditID')")or die(mysqli_error($con));
 }
 	 
 // ID
@@ -111,13 +110,13 @@ if(isset($_GET['token'])){
       $VIP= str_shuffle($VIP);
       $VIP= substr($VIP,0,4);
 	
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,length,event_ID) VALUES ('','الاشخاص المهمة','$selectedField','$requierdField',$length,'$EditID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,event_ID) VALUES ('','الاشخاص المهمة','$selectedField','$requierdField','$EditID')")or die(mysqli_error($con));
 }
 		if(isset($_POST['optional'])){
 	$nameField =$_POST['optional'];
 	$length = $_POST['lengthID'];
 	if( $nameField !='')
-	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,optional,length,event_ID) VALUES ('','$nameField','$selectedField','$requierdField',1,$length,'$EditID')")or die(mysqli_error($con));
+	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,optional,event_ID) VALUES ('','$nameField','$selectedField','$requierdField',1,'$EditID')")or die(mysqli_error($con));
 }
  $token = 'abcdefghijkqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890';
       $token= str_shuffle($token);

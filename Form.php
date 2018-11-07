@@ -9,6 +9,10 @@ if (isset($_GET['token'])) {
     $index      = 0;
     $eventID    = "";
     $masg       = "";
+	$genderQuery = mysqli_query($con, "SELECT * FROM gender ");
+	$nationalityQuery = mysqli_query($con, "SELECT * FROM nationality ");
+	$educationalLevelQuery = mysqli_query($con, "SELECT * FROM educationallevel");
+	
     while ($row = mysqli_fetch_array($query)) {
         $eventID          = $row['event_ID'];
         $field[$index]    = $row['name_of_field'];
@@ -30,14 +34,14 @@ $age         = "";
 $gender      = "";
 $ID          = "";
 $job         = "";
+$natiAttendee= ""; 
 $edu         = "";
 $VIP         = "";
-$nationality = "";
 $optional    = "";
 if (isset($_POST['register'])) {
     $name  = $_POST['nameAttendee'];
     $email = $_POST['emailAttendee'];
-    $sql = mysqli_query($con, "SELECT Attendee_ID FROM attendee WHERE email_Att ='$email' ") or die(mysqli_error($con));
+    $sql = mysqli_query($con, "SELECT id FROM attendee WHERE email ='$email' ") or die(mysqli_error($con));
     if (mysqli_num_rows($sql) > 0) {
         $masg = " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
@@ -73,9 +77,10 @@ if (isset($_POST['register'])) {
         } //$VIP != $rows['VIPCode'] && $VIP != ''
         else {
             if ($VIP == $rows['VIPCode'] || $VIP == "") {
-                $sql = mysqli_query($con, "INSERT INTO attendee (Attendee_ID,email_Att, name_Att,phone_Att, DOB_Att ,gender_Att,eductional_Level,career_Att,nationality_Att,national_ID_Att,VIP_code,optional,form,    event_ID) VALUES ('','$email','$name','$phone','$age','$gender','$edu','$job','$natiAttendee','$ID','$VIP','$optional','$token','$eventID' )") or die(mysqli_error($con));
+				$sql = mysqli_query($con, "INSERT INTO attendee (Id,email, name,phone, DOB ,genderId,educationalLevelId,jobTitle,nationalityId,nationalId,VIPCode,optional,form,   eventId) VALUES ('','$email','$name','$phone','$age','$gender','$edu','$job','$natiAttendee','$ID','$VIP','$optional','$token','$eventID' )") or die(mysqli_error($con));
+				
                 if ($sql) {
-                    $query3 = mysqli_query($con, "SELECT MAX(Attendee_ID) FROM attendee") or die(mysqli_error($con));
+                    $query3 = mysqli_query($con, "SELECT MAX(Id) FROM attendee") or die(mysqli_error($con));
                     $rowID      = mysqli_fetch_array($query3);
                     $attendeeID = $rowID['0'];
                     header("location:confirmRegisterEvent.php?attendeeID=$attendeeID");
@@ -150,13 +155,19 @@ if (isset($_POST['register'])) {
 						echo '<div class="col-md-12">
 												<div class="form-group form-group-lg ">
 												<label class="control-label form-check" >الجنس :</label>'. ($requierd[$x] == 1? '<label style="color:red">*&nbsp; </label>':'') .'
-												<select '. ($requierd[$x] == 1? 'id="gender_At"':'').' name="gender_Att" class="form-control" >
-													<option value="1" >ذكر </option>
-													<option value="0">انثى</option>
+												<select '. ($requierd[$x] == 1? 'id="gender_At"':'').' name="gender_Att" class="form-control" >';
+													 
+echo '<option  value="-1" ' . ($genderId === -1 ? ' selected="selected"' : '') . '>الرجاء الاختيار</option>';
 
-													</select>
+while ($row = mysqli_fetch_array($genderQuery)){
+ echo '<option  value="' . $row['Id'] . '" ' . ($genderId == $row['Id'] ? ' selected="selected"' : '') . '>' . $row['Name'] . '</option>';}
+ 
+                                   
+
+												echo'	</select>
 														</div>
 														</div>';
+						
 					} //$field[$x] == 'الجنس' && $requierd[$x] == 1
 
 					if ($field[$x] == 'التعليم' ) {
@@ -164,14 +175,14 @@ if (isset($_POST['register'])) {
 							<div class="col-md-12">
 								<div class="form-group form-group-lg">
 									<label class="control-label"> مستوى التعليم</label>'. ($requierd[$x] == 1? '<label style="color:red">*&nbsp; </label>':'') .'
-										<select '. ($requierd[$x] == 1? 'id="eduAttende"':'').' name="eduAttendee" class="form-control" >
-										<option value= "غير متعلم" >غير متعلم</option>
-										<option value="ثانوي" >ثانوي</option>
-										<option value="بكالوريوس" >بكالوريوس</option>
-										<option value="ماستر" >ماستر</option>
-										<option value="دكتواه" >دكتواه</option>
+										<select '. ($requierd[$x] == 1? 'id="eduAttende"':'').' name="eduAttendee" class="form-control" >';
+						echo '<option  value="-1" ' . ($educationalLevelId === -1 ? ' selected="selected"' : '') . '>الرجاء الاختيار</option>';
 
-										</select>
+while ($row = mysqli_fetch_array($educationalLevelQuery)){
+ echo '<option  value="' . $row['Id'] . '" ' . ($educationalLevelId == $row['Id'] ? ' selected="selected"' : '') . '>' . $row['Name'] . '</option>';}
+										
+
+										echo '</select>
 									</div>
 									</div>';
 					} //$field[$x] == 'التعليم' && $requierd[$x] == 1
@@ -191,10 +202,13 @@ if (isset($_POST['register'])) {
 						echo '<div class="col-md-12">
 							<div class="form-group form-group-lg">  
 							<label class="control-label">الجنسية</label>'. ($requierd[$x] == 1? '<label style="color:red">*&nbsp; </label>':'') .'
-						   <select '. ($requierd[$x] == 1? ' id="natiAttende"':'').' name="natiAttendee" class="form-control">
-									<option value="AW">آروبا</option>
+						   <select '. ($requierd[$x] == 1? ' id="natiAttende"':'').' name="natiAttendee" class="form-control">';
+						echo	'<option  value="-1" ' . ($nationalityId === -1 ? ' selected="selected"' : '') . '>الرجاء الاختيار</option>';
+
+while ($row = mysqli_fetch_array($nationalityQuery)){
+ echo '<option  value="' . $row['Id'] . '" ' . ($nationalityId == $row['Id'] ? ' selected="selected"' : '') . '>' . $row['Name'] . '</option>';}
 									
-							 </select>
+							echo '</select>
 							 </div>
 							</div>';
 					} //$field[$x] == 'الجنسية'
