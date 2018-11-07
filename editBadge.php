@@ -3,6 +3,8 @@
 require_once 'php/connectTosql.php';
 $message="";
 $organizerID  = $_SESSION['organizerID'];
+$badgeIdForEdit=$_GET['badgeid'];
+
 // this section for get the event name from DB for curent organizer
 $query = mysqli_query($con, "SELECT * FROM event where organizer_ID='$organizerID ' ") or die(mysqli_error());
 //get the value of drop-down list for barcode size, font color and font size from DB
@@ -13,14 +15,24 @@ $fontsize=mysqli_query($con, "SELECT * FROM fontsize ") or die(mysqli_error());
 // to get the badge type from lookup tabel
 $badgeTypeQuery = mysqli_query($con, "SELECT * FROM badgetype") or die(mysqli_error());
 
+$badgeIfo = mysqli_query($con, "SELECT * FROM  badge b  INNER JOIN imageinfo img ON img.badgeId = b.badge_ID
+    where b.badge_ID='$badgeIdForEdit ' ")
+    or die(mysqli_error());
+
+    $row = mysqli_fetch_array($badgeIfo);
+    $eventIdEd= $row[2];
+    $BadgeTypeEd= $row[1];
+    $colorEd=$row[8];
+    $barSizeEd=$row[9];
+    $fontSizeEd=$row[10];
+    $imageEd=$row[6];
+    $imageinfoId=$row[7];
 
 if ( !empty($_FILES["fileToUpload"]["name"])) {
   
  $eventId     = $_POST['eventId'];
  $badgeTypeId = $_POST['badgeTypeId'];
- $checkQuery  = mysqli_query($con, "SELECT * FROM badge WHERE event_ID='$eventId' and
- BadgeTypeId='$badgeTypeId'
-  ") or die(mysqli_error());
+ $checkQuery  = mysqli_query($con, "SELECT * FROM badge WHERE event_ID='$eventId' and BadgeTypeId='$badgeTypeId'") or die(mysqli_error());
 
  if (mysqli_num_rows($checkQuery) > 0) {
   $message= " <div class='alert alert-danger alert-dismissible'>
@@ -53,22 +65,18 @@ if (isset($_POST['add']))  {
   $barSize=$_POST["barSize"];
   $fontSize=$_POST["fontSize"];
 
-    $sql = mysqli_query($con, "INSERT INTO badge (BadgeTypeId,event_ID,badgeTemplateName,badgeTemplateSize,badgeTemplateType,badgeTemplateLocation)
-   VALUES ('$badgeTypeId','$eventId','$name' ,'$size', '$type', '$location')") or die(mysqli_error($con));
-// get the badge id to insert it to imageinfo table 
-    $badgeID = mysqli_query($con,"SELECT badge_ID  FROM badge where event_ID ='$eventId' AND BadgeTypeId='$badgeTypeId' ")or die(mysqli_error());
-    $row = mysqli_fetch_array($badgeID);
-    $badgeId =$row['badge_ID'];
+    $sql = mysqli_query($con, "UPDATE badge set BadgeTypeId='$badgeTypeId',event_ID='$eventId',badgeTemplateName='$name',badgeTemplateSize='$size',badgeTemplateType='$type',badgeTemplateLocation='$location'
+   where badge_ID='$badgeIdForEdit' ") or die(mysqli_error($con));
 
-    $sqlimage = mysqli_query($con, "INSERT INTO imageinfo (imageId  ,color ,barSize ,fontSize ,badgeId,namePosition,careerPosition,barcodePosition)
-    VALUES ('','$color','$barSize','$fontSize','$badgeId','$visitorName ','$visitorCareer','$visitorBarcode')") or die(mysqli_error($con));
+    $sqlimage = mysqli_query($con, "UPDATE  imageinfo set color='$color',barSize='$barSize' ,fontSize='$fontSize' ,badgeId='$badgeIdForEdit',namePosition='$visitorName',
+    careerPosition='$visitorCareer',barcodePosition='$visitorBarcode' where imageId='$imageinfoId'") or die(mysqli_error($con));
     ///Check if add badge to DB has been done Successfully
-    if ($sql & $sqlimage) {
+    if ($sql && $sqlimage) {
      header("location: /tactic/manageBadge.php");
     } else {
      $message=" <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
-        <strong> فشل</strong>  لم تتم عملية الاضافة بنجاح يرجى التحقق
+        <strong> فشل</strong>  لم تتم عملية التعديل بنجاح يرجى التحقق
         </div> ";
     }
 } /*else {
@@ -96,12 +104,11 @@ $message= " <div class='alert alert-danger alert-dismissible'>
 }// end if ( !empty($_FILES["fileToUpload"]["name"]))
 ?>
 
-
 <!DOCTYPE html>
 <html lang="ar">
 
 <head>
-  <title>إضافة بطاقة </title>
+  <title>تعديل بطاقة </title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -135,7 +142,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
     <div class="container printhide">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h4 class="panelTitle"> إضافة بطاقة </h4>
+          <h4 class="panelTitle"> تعديل بطاقة </h4>
         </div>
         <div class="panel-body">
           <form action="" class="formDivAddBadge" method="post" enctype="multipart/form-data">
@@ -147,8 +154,11 @@ $message= " <div class='alert alert-danger alert-dismissible'>
                   
                   <?php
                     while ($row = mysqli_fetch_array($query)):
-
-                    echo "<option value='" . $row['event_ID'] . "'>" . $row['name_Event'] . "</option>";
+                        if($row['event_ID']==$eventIdEd){
+                            echo "<option selected='selected' value='" . $row['event_ID'] . "'>" . $row['name_Event'] . "</option>"; 
+                        }else{
+                            echo "<option value='" . $row['event_ID'] . "'>" . $row['name_Event'] . "</option>";
+                        }
                     ?>
                   <?php endwhile;?>
 
@@ -162,7 +172,12 @@ $message= " <div class='alert alert-danger alert-dismissible'>
                 <select class="form-control" id="badgeType" name="badgeTypeId">
                   <?php
                     while ($row = mysqli_fetch_array($badgeTypeQuery)):
-                    echo "<option value='" . $row['Id'] . "'>" . $row['Name'] . "</option>";
+                        if ($row['Id']==$BadgeTypeEd){
+                            echo "<option selected='selected' value='" . $row['Id'] . "'>" . $row['Name'] . "</option>";   
+                        }else{
+                            echo "<option value='" . $row['Id'] . "'>" . $row['Name'] . "</option>";
+                        }
+                    
                     ?>
                   <?php endwhile;?>
 
@@ -181,8 +196,6 @@ $message= " <div class='alert alert-danger alert-dismissible'>
               </div>
             </div>
 
-           
-
             <div class="col-md-4">
               <div class="form-group form-group-lg">
                 <label for="color" class=" control-label"> لون الخط <label style="color:red">*&nbsp; </label> </label>
@@ -190,8 +203,12 @@ $message= " <div class='alert alert-danger alert-dismissible'>
 
                   <?php
                     while ($row = mysqli_fetch_array($color)):
-
-                    echo "<option value='" . $row['value'] . "'>" . $row['name'] . "</option>";
+                        if ($row['value']==$colorEd){
+                            echo "<option selected='selected' value='" . $row['value'] . "'>" . $row['name'] . "</option>"; 
+                        }else{
+                            echo "<option value='" . $row['value'] . "'>" . $row['name'] . "</option>";
+                        }
+                    
                     ?>
                   <?php endwhile;?>
                 </select>
@@ -205,8 +222,12 @@ $message= " <div class='alert alert-danger alert-dismissible'>
 
                   <?php
                     while ($row = mysqli_fetch_array($fontsize)):
-
-                    echo "<option value='" . $row['size'] . "'>" . $row['size'] . "</option>";
+                    if ($row['size']== $fontSizeEd){
+                        echo "<option selected='selected' value='" . $row['size'] . "'>" . $row['size'] . "</option>";
+                    }else{
+                        echo "<option value='" . $row['size'] . "'>" . $row['size'] . "</option>";
+                    }
+                    
                     ?>
                   <?php endwhile;?>
                 </select>
@@ -221,8 +242,12 @@ $message= " <div class='alert alert-danger alert-dismissible'>
 
                   <?php
                     while ($row = mysqli_fetch_array($barcodesize)):
-
-                    echo "<option value='" . $row['size'] . "'>" . $row['name'] . "</option>";
+                        if ($row['size']==$barSizeEd){
+                            echo "<option selected='selected' value='" . $row['size'] . "'>" . $row['name'] . "</option>";
+                        }else{
+                            echo "<option value='" . $row['size'] . "'>" . $row['name'] . "</option>";
+                        }
+                   
                     ?>
                   <?php endwhile;?>
                 </select>
@@ -253,7 +278,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
               <div class="col-md-5">
                 <div class="form-group form-group-lg">
 
-                  <img id="myImg" height="345px" width="217px" class="form-control badgealign" src="image/badge.jpg" />
+                  <img id="myImg" height="345px" width="217px" class="form-control badgealign" src=<?php echo $imageEd;?> />
 
                 </div>
               </div>
@@ -263,7 +288,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
             <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <a href="/tactic/manageBadge.php" class="bodyform btn btn-nor-danger btn-sm">رجوع</a>
-                <input type="submit" value="إضافة" name="add" id="add" class="btn btn-nor-primary btn-lg enable-overlay">
+                <input type="submit" value="تعديل" name="add" id="add" class="btn btn-nor-primary btn-lg enable-overlay">
                 <button type="button" id="passImageIfon" name="passImageIfon" class="btn btn-nor-primary btn-lg enable-overlay">
                   معاينة الصورة </button>
 
@@ -339,7 +364,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
   <script>
     // this part for call navBar
     $(function () {
-      $("#includedContent").load("php/TopNav.php");
+      //$("#includedContent").load("php/TopNav.php");
       $("#includedContent2").load("HTML/rightNav.html");
     });
   </script>
