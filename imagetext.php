@@ -60,23 +60,22 @@ else{
   
   
   while ($row = mysqli_fetch_array($attende)):
-  $attendeeID=$row['attendee.id'];
-  $visitorNameVal=$row['attendee.name'];
-  $visitorCareerVal=$row['attendee.jobTitle'];
-  $visitorName    = $row["imageinfo.namePosition"];//position 
-  $myImg          = $_GET["myImg"];
-  $visitorCareer  = $row["imageinfo.careerPosition"];
-  $visitorBarcode = $row["imageinfo.barcodePosition"];
-  $color          = $row["imageinfo.color"];
-  $barSize        = $row["imageinfo.barSize"];
-  $fontSize       = $row["imageinfo.fontSize"];
-  $eventId= $row["badge.event_ID"];
+    //i dont thenk you need att id there it يكفي يلي فوق
+    //the number is strannge becouce it use * in the quere 
+  $attendeeID     =$row[0];
+  $visitorNameVal =$row[2];
+  $visitorCareerVal=$row[7];
+  $visitorName    = $row[28];//position 
+  $visitorCareer  = $row[29];//position 
+  $visitorBarcode = $row[30];//position 
+  $color          = $row[24];
+  $barSize        = $row[25];
+  $fontSize       = $row[26];
+  $eventId        = $row[18];//badge.eventId
   $imageName      = $attendeeID;
-  $sorce =$row["badgeTemplateLocation"];
+  $sorce          =$row[22];//badgeTemplateLocation
   endwhile; 
 }
-
-
 
 // convert barcode to image
 $barcode = file_get_contents("https://chart.googleapis.com/chart?chs=$barSize&cht=qr&chl=$attendeeID&choe=UTF-8");
