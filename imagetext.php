@@ -36,7 +36,7 @@ $fontfile = 'C:/xampp/htdocs/tactic/css/fonts/arial.ttf';
 $Arabic = new I18N_Arabic('Glyphs');
 
 $angle          = 0;
-$attendeeID =$_GET["attendeeId"];
+$attendeeID =$_GET["attendeeID"];
 
 if ($attendeeID==0){
 $visitorName    = $_GET["visitorName"];//position 
@@ -62,7 +62,6 @@ else{
   while ($row = mysqli_fetch_array($attende)):
     //i dont thenk you need att id there it يكفي يلي فوق
     //the number is strannge becouce it use * in the quere 
-  $attendeeID     =$row[0];
   $visitorNameVal =$row[2];
   $visitorCareerVal=$row[7];
   $visitorName    = $row[28];//position 
@@ -72,7 +71,7 @@ else{
   $barSize        = $row[25];
   $fontSize       = $row[26];
   $eventId        = $row[18];//badge.eventId
-  $imageName      = $attendeeID;
+  $imageName      = $attendeeID.".jpg";
   $sorce          =$row[22];//badgeTemplateLocation
   endwhile; 
 }
