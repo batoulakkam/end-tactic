@@ -85,15 +85,16 @@ $(document).ready(function() {
                 attendeeID:attendeeID
             },
             success: function(data) {
-                //to replace the source of image
-                alert("data");
+                //var url=data;
+               // $('#viewBadge').attr('src','UploadFile/49/badge/badge.jpg');
+                $('#viewBadge').attr('src',data);
+                 $('#viewAttendeeBadge').modal('show');
             },
            
         });
 
         /*
-        $('#viewBadge').attr('src','UploadFile/49/badge/badge.jpg');     
-        $('#viewAttendeeBadge').modal('show');
+        
         */
         
     });
