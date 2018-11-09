@@ -83,7 +83,9 @@ if (isset($_POST['register'])) {
                     $query3 = mysqli_query($con, "SELECT MAX(Id) FROM attendee") or die(mysqli_error($con));
                     $rowID      = mysqli_fetch_array($query3);
                     $attendeeID = $rowID['0'];
-                    header("location:confirmRegisterEvent.php?attendeeID=$attendeeID");
+                    
+                    header("location:imagetext.php?attendeeID=$attendeeID");
+                   // header("location:confirmRegisterEvent.php?attendeeID=$attendeeID");
                 } //$sql
             } //$VIP == $rows['VIPCode'] || $VIP == ""
         }

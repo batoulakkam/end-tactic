@@ -4,9 +4,9 @@ $eventName = "";
 $location  = "";
 $startDate = "";
 $endDate   = "";
-if (isset($_GET['attendeeID'])) {
-    $attendeeID = $_GET['attendeeID'];
-    $query      = mysqli_query($con, "SELECT event_ID , form FROM attendee WHERE Attendee_ID = '$attendeeID'");
+if (isset($_GET['attendeeId'])) {
+    $attendeeID = $_GET['attendeeId'];
+    $query      = mysqli_query($con, "SELECT eventId , form FROM attendee WHERE Id= '$attendeeID'");
     $row        = mysqli_fetch_array($query);
     $eventID    = $row[0];
     $token      = $row[1];
@@ -18,6 +18,8 @@ if (isset($_GET['attendeeID'])) {
         $endDate   = $row[4];
     } //$row = mysqli_fetch_array($query2)
 } //isset($_GET['attendeeID'])
+$locationBadge = "UploadFile/".$eventID."/badge/".$attendeeID.".jpg";
+echo $locationBadge;
 ?>
 <!DOCTYPE html>
 <html lang="ar">
@@ -52,9 +54,10 @@ if (isset($_GET['attendeeID'])) {
 </pre>
                      <pre>
 <h5>الباركود الخاص بك :</h5>
-<a  ><img id="badgePrint" src='https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=<?php echo $attendeeID;?>&choe=UTF-8' /></a>
+
+<a  ><img id="badgePrint" src="<?php echo $locationBadge;?>" /></a>
 </pre>
-                     <a href="#" class="btn btn-nor-primary btn-lg enable-overlay" id="print" onclick="printJS('https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=<?php echo $attendeeID;?>&choe=UTF-8', 'image')">
+                     <a href="#" class="btn btn-nor-primary btn-lg enable-overlay" id="print" onclick="printJS(<img src='image\logo.png' )">
                      <span class="glyphicon glyphicon-print"></span> طباعة 
                      </a>				
                   </div>
