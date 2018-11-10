@@ -79,7 +79,7 @@ else{
 // convert barcode to image
 $barcode = file_get_contents("https://chart.googleapis.com/chart?chs=$barSize&cht=qr&chl=$attendeeID&choe=UTF-8");
 // save image in pc
-file_put_contents('UploadFile/'.$eventId .'/barcode/'.$attendeeID.'.png', $barcode);
+file_put_contents('UploadFile/barcood/code.png', $barcode);
 // Load And Create Image From Source this bacground image
 $image = imagecreatefromjpeg($sorce);
 // Load the stamp and the photo to apply the watermark to this barcode image
@@ -134,5 +134,7 @@ imagecopy($image, $stamp, $marge_right, $marge_bottom, 0, 0, $stampx, $stampy);
 
 // Send Image to Browser
 imagepng($image, $output);
+if($attendeeID !=0){
+header("location:confirmRegisterEvent.php?attendeeId=$attendeeID");}
 echo json_encode($output);
 ?>

@@ -1,15 +1,23 @@
 <?php
 require_once('php/connectTosql.php');
+require("PHPMailer/src/PHPMailer.php");
+require("PHPMailer/src/SMTP.php");
+require("PHPMailer/src/Exception.php");
 $eventName = "";
 $location  = "";
 $startDate = "";
 $endDate   = "";
+$attendeeName ="";
+$email_Att ="";
+$masg ="";	
 if (isset($_GET['attendeeId'])) {
     $attendeeID = $_GET['attendeeId'];
-    $query      = mysqli_query($con, "SELECT eventId , form FROM attendee WHERE Id= '$attendeeID'");
+    $query      = mysqli_query($con, "SELECT * FROM attendee WHERE Id= '$attendeeID'");
     $row        = mysqli_fetch_array($query);
-    $eventID    = $row[0];
-    $token      = $row[1];
+    $eventID    = $row['eventId'];
+    $token      = $row['form'];
+    $attendeeName      = $row['name'];
+    $email_Att      = $row['email'];
     $query2     = mysqli_query($con, "SELECT * FROM event WHERE event_ID = '$eventID'");
     while ($row = mysqli_fetch_array($query2)) {
         $eventName = $row[1];
@@ -17,9 +25,61 @@ if (isset($_GET['attendeeId'])) {
         $startDate = $row[3];
         $endDate   = $row[4];
     } //$row = mysqli_fetch_array($query2)
-} //isset($_GET['attendeeID'])
+
 $locationBadge = "UploadFile/".$eventID."/badge/".$attendeeID.".jpg";
-echo $locationBadge;
+$subject =   " شكرا لتسجيلك في " .$eventName;
+$body='<h3> البطاقة التعريفية الخاصة بك </h3>  <br> <img id="badgePrint" src="'. $locationBadge.'" />';
+$mail          = new PHPMailer\PHPMailer\PHPMailer();
+$mail->CharSet =  "utf-8";
+$mail->IsSMTP(); // enable SMTP
+$mail->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
+$mail->SMTPAuth = true; // authentication enabled
+$mail->SMTPSecure = 'tls'; // secure transfer enabled REQUIRED for Gmail
+$mail->Host = "smtp.gmail.com";
+$mail->Port = 587; // or 587
+$mail->IsHTML(true);
+$mail->Username = 'tactic.gp@gmail.com';   
+$mail->Password = '1234567890Qw';   
+$mail->setfrom('tactic.gp@gmail.com','tactic');
+$mail->Subject  = $subject;
+	$mensaje = file_get_contents('emailTemplate.html');
+	$mensaje =  str_replace("{{USERNAME}}",$attendeeName,$mensaje);
+	$mensaje =  str_replace("{{eventName}}",$eventName,$mensaje);	 
+	$mensaje =  str_replace("{{eventDate}}",$startDate,$mensaje);	 
+	$mensaje =  str_replace("{{subject}}",$body,$mensaje);	 
+
+$headers = 'From: tactic.gp@gmail.com' . "\r\n" .
+    'errors-to: tactic.gp@gmail.com' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
+	
+/////////////////////////////////////////////////////////////////
+$mail->Body = $mensaje;
+$mail->AddAddress($email_Att);
+$mail->SMTPOptions = array(
+    'ssl' => array(
+        'verify_peer' => false,
+        'verify_peer_name' => false,
+        'allow_self_signed' => true
+    )
+);
+
+		if(!$mail->send()) 
+		{
+		
+			$masg =" <div class='alert alert-danger alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+         <strong> حدث خطأ </strong>  غير متوقع ! فضلا حاول مرة اخرى.
+       </div> ";
+		
+		}
+		   else {
+		 
+		$masg =" <div class='alert alert-success alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+         <strong> تم </strong>  الارسال بنجاح
+       </div> ";
+				}
+} //isset($_GET['attendeeID'])
 ?>
 <!DOCTYPE html>
 <html lang="ar">
@@ -73,3 +133,7 @@ echo $locationBadge;
       <script src="js/print.min.js"></script>
    </body>
 </html>
+<?php
+
+?>
+ 
