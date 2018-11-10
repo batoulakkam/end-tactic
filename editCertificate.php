@@ -2,23 +2,20 @@
 require_once 'php/connectTosql.php';
 $organizerid = $_SESSION['organizerID'];
 
-// to update badge record after user update the form : type post
 if (isset($_POST['update'])) {
-
- $badgeId     = $_GET['badgeId'];
- $eventId     = $_POST['eventID'];
- $badgeTypeId = $_POST['badgeTypeId'];
- $fileDeatils = '';
-
-//to prevent user add more than item from same badge type with event
- $checkQuery = mysqli_query($con, "SELECT * FROM badge WHERE event_ID='$eventId' and
- BadgeTypeId='$badgeTypeId' and badge_ID!='$badgeId'") or die(mysqli_error());
+ $certificateId = $_GET['certificateId'];
+ $eventId       = $_POST['eventId'];
+ $fileDeatils   = '';
+// check that the event relate just to one certificate
+ $checkQuery = mysqli_query($con, "SELECT * FROM certificate 
+ WHERE event_ID='$eventId' and certificate_ID!='$certificateId'") or die(mysqli_error());
 
  if (mysqli_num_rows($checkQuery) > 0) {
-  echo "<div class='alert alert-danger alert-dismissible'>
+  echo " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
-        <strong> فشل</strong>  الحدث مرتبط ببطاقة مسبقا لا يمكن اتمام العملية
+        <strong> فشل</strong>  الحدث مرتبط بشهادة مسبقا لايمكن اتمام العملية
         </div> ";
+
  } else {
   // in case user upload new file we need to process it or i don't want to check anything about file
   // when error=UPLOAD_ERR_OK this mean file upload without any error
@@ -29,17 +26,16 @@ if (isset($_POST['update'])) {
    $type     = $_FILES['fileToUpload']['type'];
    $tmp_name = $_FILES['fileToUpload']['tmp_name'];
 
-   $location = "UploadFile/badges/";
+   $location = "UploadFile/certificate/";
 
    $max_size = 100000;
    if ($size <= $max_size) {
     if (move_uploaded_file($tmp_name, $location . $name)) {
 
-     $fileDeatils = " ,badgeTemplateName='$name',
-                            badgeTemplateSize='$size',
-                            badgeTemplateType='$type',
-                            badgeTemplateLocation='$location$name' ";
-
+     $fileDeatils = " ,templateName='$name',
+                            templateSize='$size',
+                            templateType='$type',
+                            templateLocation='$location$name' ";
     } else {
      // file saved in files directory
      echo " <div class='alert alert-danger alert-dismissible'>
@@ -57,49 +53,46 @@ if (isset($_POST['update'])) {
    }
   } // end if file exist
 
-  $sql = " UPDATE badge SET  BadgeTypeId='$badgeTypeId',
+  $sql = " UPDATE certificate SET
                             event_ID='$eventId'
                              $fileDeatils
-                            WHERE badge_ID ='$badgeId' ";
+                            WHERE certificate_ID ='$certificateId' ";
 
   $sql = mysqli_query($con, $sql) or die(mysqli_error($con));
   if ($sql) {
-   header("location: /tactic/manageBadge.php");
+   header("location: /tactic/manageCertificate.php");
    exit;
   } else {
    echo " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
-         <strong> فشل</strong>  لم تتم عملية الاضافة بنجاح يرجى التحقق
+         <strong> فشل</strong>  لم تتم عملية التعديل بنجاح يرجى التحقق
        </div> ";
   }
  }
 }
 
 // for get the recoed of badge when page load // get type
-if (isset($_GET['badgeId'])) {
+if (isset($_GET['certificateId'])) {
 
- $badgeId = $_GET['badgeId'];
+ $certificateId = $_GET['certificateId'];
  // to fill drop down list of events
  $eventQuery = mysqli_query($con, "SELECT * FROM event where organizer_ID=  '$organizerid'") or die(mysqli_error($con));
-// to fill drop down list of badge type
- $badgeTypeQuery = mysqli_query($con, "SELECT * FROM BadgeType ") or die(mysqli_error($con));
-// to get the record of badge that already added from add page
- $badgeQuery = mysqli_query($con, "SELECT * FROM badge where badge_ID=$badgeId") or die(mysqli_error($con));
 
- $row = mysqli_fetch_row($badgeQuery);
+ // to get the record of certificate that already added from add page
+ $certificateQuery = mysqli_query($con, "SELECT * FROM certificate where certificate_ID=$certificateId") or die(mysqli_error($con));
 
- $badgeTypeId           = $row[1];
- $eventId               = $row[2];
- $badgeTemplateLocation = $row[6];
+ $row = mysqli_fetch_row($certificateQuery);
+
+ $eventId          = $row[1];
+ $templateLocation = $row[5];
 
 }
-
 ?>
 <!DOCTYPE html>
 <html>
 
 <head>
-  <title>تعديل بطاقة تعريفية </title>
+  <title>تعديل شهادة </title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -129,39 +122,22 @@ if (isset($_GET['badgeId'])) {
     <div class="container">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h4 class="panelTitle" >تعديل بطاقة تعريفية </h4>
+          <h4 class="panelTitle" >تعديل شهادة </h4>
         </div>
         <div class="panel-body">
 
-          <form action="" class="formDivEditBadge" method="post" enctype="multipart/form-data">
- <div class="col-md-12">
+          <form action="" class="formDivEditCertificate" method="post"enctype="multipart/form-data">
+<div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="eventID" class="control-label"> اسم الحدث<label style="color:red">*&nbsp; </label></label>
-                <select class="form-control" id="eventID" name="eventID" >
-                  <?php
-echo '<option  value=" ">اختيار</option>';
+                <label for="eventId" class="control-label"> اسم الحدث<label style="color:red">*&nbsp; </label></label>
+                <select class="form-control" id="eventId" name="eventId"  >
+                <?php echo '<option  value=" ">الرجاء الاختيار</option>';
 
 while ($row = mysqli_fetch_array($eventQuery)):
  echo '<option  value="' . $row['event_ID'] . '" ' . ($eventId == $row['event_ID'] ? ' selected="selected"' : '') . '>' . $row['name_Event'] . '</option>';
  ?>
 
-									                  <?php endwhile;?>
-
-                </select>
-              </div>
-            </div>
-
- <div class="col-md-12">
-              <div class="form-group form-group-lg">
-                <label for="badgeType" class="control-label"> نوع البطاقة</label>
-                <select class="form-control" id="badgeType" name="badgeTypeId" >
-                  <?php
-echo '<option  value=" ">الرجاء الاختيار</option>';
-
-while ($row = mysqli_fetch_array($badgeTypeQuery)):
- echo '<option  value="' . $row['Id'] . '" ' . ($badgeTypeId == $row['Id'] ? ' selected="selected"' : '') . '>' . $row['Name'] . '</option>';
- ?>
-									                  <?php endwhile;?>
+	                                                      <?php endwhile;?>
 
                 </select>
               </div>
@@ -170,32 +146,33 @@ while ($row = mysqli_fetch_array($badgeTypeQuery)):
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="fileToUpload" class="control-label"> ارفاق قالب البطاقة<label style="color:red">*&nbsp; </label></label>
-                <input type="file" class="form-control" id="fileToUpload"  name="fileToUpload"  >
+                <label for="fileToUpload" class="control-label"> ارفاق قالب الشهادة<label style="color:red">*&nbsp; </label></label>
+                <input type="file" class="form-control" id="fileToUpload"  name="fileToUpload" >
                <?php echo "
                <div class='download-file-container'><p class='UploaderNotes'>في حال لم تقم بإرفاق ملف سيتم المحافظة على الملف القديم</p><p><a title='تحميل الملف'
-                href='download.php?file=" . $badgeTemplateLocation . "' data-id=" . $badgeId . ">تحميل الملف</a></p></div>"
+                href='download.php?file=" . $templateLocation . "' data-id=" . $certificateId . ">تحميل الملف</a></p></div>"
 ?>
               </div>
             </div>
 
 
 
-            <a  href="/tactic/manageBadge.php"  class="bodyform btn btn-nor-danger btn-sm">عودة</a>
+            <a  href="/tactic/manageCertificate.php"  class="bodyform btn btn-nor-danger btn-sm">عودة</a>
              <input type="submit" value="تعديل" name = "update" class="btn btn-nor-primary btn-lg enable-overlay">
 
-
+            </div>
           </form>
-</div>
         </div>
       </div>
     </div>
-
+  </div>
+  </div>
+  </div>
 
   <script src="js/jquery.min.js"></script>
   <script src="js/jquery.validate.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/appjs/badge.js"></script>
+  <script src="js/appjs/certificate.js"></script>
   <script src="js/appjs/common.js"></script>
 
   <script>

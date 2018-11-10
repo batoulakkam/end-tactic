@@ -4,18 +4,17 @@ require_once 'php/connectTosql.php';
 if (isset($_SESSION['organizerID'])) {
   $orgID     = $_SESSION['organizerID'];
   $query     = mysqli_query($con, "SELECT * FROM event WHERE organizer_ID = '$orgID'") or die(mysqli_error($con));
-  $eventID   = "";
+  $eventId   = "";
   $prizeName = "";
-  $subName   = 0;
   if (isset($_POST['add'])) {
-    $eventID    = $_POST['eventId']; // clear code this not acceptable
+    $eventId    = $_POST['eventId']; // clear code this not acceptable
     $prizeName  = $_POST['prizeName'];
     $numOfPrize = $_POST['prizeNum'];
-    $subeventId    = $_POST['SubEventName']==''? null:$_POST['SubEventName'];
-//if($eventID != 0)
+    $subeventId    = $_POST['subEventId']==''? null:$_POST['subEventId'];
+//if($eventId != 0)
 
     $sql = mysqli_query($con, "INSERT INTO prize(Prize_ID,namePrize,numOfPrize,event_ID,subevent_ID)
-     VALUES ('','$prizeName','$numOfPrize','$eventID','$subName')") or die(mysqli_error($con));
+     VALUES ('','$prizeName','$numOfPrize','$eventId','$subeventId')") or die(mysqli_error($con));
 
     if ($sql) {
       header("location:managePrize.php");
@@ -79,7 +78,7 @@ if (isset($_SESSION['organizerID'])) {
            <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <label for="eventName" class="control-label"> اسم الحدث</label>
-                <select class="form-control" id="eventName" name="eventId" onChange="change_event()">
+                <select class="form-control" id="eventName" name="eventId" >
                 <option value=""> اختيار </option >
                   <?php
 while ($row = mysqli_fetch_array($query)):
@@ -93,8 +92,8 @@ while ($row = mysqli_fetch_array($query)):
 
              <div class="col-md-12">
               <div class="form-group form-group-lg">
-                 <label for="SubEventName" class="control-label"> اسم الحدث الفرعي</label>
-                <select class="form-control" id="SubEventName" name="SubEventName" >
+                 <label for="subEventName" class="control-label"> اسم الحدث الفرعي</label>
+                <select class="form-control" id="subEventName" name="subEventId" >
                  <option value=""> اختيار </option >
                 </select>
               </div>
@@ -102,7 +101,7 @@ while ($row = mysqli_fetch_array($query)):
 
             <div class="col-md-12">
                 <div class="form-group form-group-lg">
-                <label for="eventName" class="control-label"> اسم الجائزة</label>
+                <label for="prizeName" class="control-label"> اسم الجائزة</label>
                 <input type="text" class="form-control" id="prizeName"  name="prizeName"
                   >
               </div>

@@ -1,9 +1,11 @@
 <?php
 // connect to DB
 require_once 'php/connectTosql.php';
+$organizerid = $_SESSION['organizerID'];
 
 // this section for get the event name fro DB
-$query = mysqli_query($con, "SELECT * FROM event") or die(mysqli_error());
+$query = mysqli_query($con, "SELECT * FROM event where organizer_ID=  '$organizerid'") or die(mysqli_error());
+
 if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
 
  $eventId = $_POST['eventId'];
@@ -30,7 +32,9 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
 
     // add info of new badge to the DB
 
-    $sql = mysqli_query($con, "INSERT INTO certificate (event_ID,templateName,templateSize,templateType, templateLocation)
+    $sql = mysqli_query($con, "INSERT INTO certificate 
+    (event_ID,templateName,
+    templateSize,templateType, templateLocation)
    VALUES ('$eventId','$name' ,'$size', '$type', '$location$name')") or die(mysqli_error($con));
     ///Check if add badge to DB has been done Successfully
     if ($sql) {
@@ -103,7 +107,7 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="eventName" class="control-label"> اسم الحدث<label style="color:red">*&nbsp; </label></label>
+                <label for="eventId" class="control-label"> اسم الحدث<label style="color:red">*&nbsp; </label></label>
                 <select class="form-control" id="eventId" name="eventId" >
                   <?php
 while ($row = mysqli_fetch_array($query)):
@@ -118,7 +122,7 @@ while ($row = mysqli_fetch_array($query)):
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="eventName" class="control-label"> ارفاق قالب الشهادة<label style="color:red">*&nbsp; </label></label>
+                <label for="fileToUpload" class="control-label"> ارفاق قالب الشهادة<label style="color:red">*&nbsp; </label></label>
                 <input type="file" class="form-control" id="fileToUpload"  name="fileToUpload" >
               </div>
             </div>

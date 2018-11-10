@@ -1,24 +1,24 @@
 <?php
 require_once 'php/connectTosql.php';
- if (isset($_POST['update'])) {
-  $eventId          = $_GET['eventid'];
-  $eventName        = $_POST['eventName'];
-  $EventDescription = $_POST['description'];
-  $sdate            = $_POST['sdaytime'] . ' 00:00:00.000';
-  $datestart        = date('Y-m-d', strtotime($sdate));
-  $edate            = $_POST['edaytime'] . ' 00:00:00.000';
-  $dateend          = date('Y-m-d', strtotime($edate));
-  $location         = $_POST['location'];
-  $organizationName = $_POST['organizer'];
-  $maxAttendee      = $_POST['maxAttendee'];
-  if ($datestart > $dateend) {
-   echo " <div class='alert alert-danger alert-dismissible'>
+if (isset($_POST['update'])) {
+ $eventId          = $_GET['eventid'];
+ $eventName        = $_POST['eventName'];
+ $EventDescription = $_POST['description'];
+ $sdate            = $_POST['sdaytime'] . ' 00:00:00.000';
+ $datestart        = date('Y-m-d', strtotime($sdate));
+ $edate            = $_POST['edaytime'] . ' 00:00:00.000';
+ $dateend          = date('Y-m-d', strtotime($edate));
+ $location         = $_POST['location'];
+ $organizationName = $_POST['organizer'];
+ $maxAttendee      = $_POST['maxAttendee'];
+ if ($datestart > $dateend) {
+  echo " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
          <strong> فشل  </strong>  يرجى التحقق من تاريخ بداية ونهاية الحدث
        </div> ";
-  } else {
+ } else {
 
-   $sql = " update event set
+  $sql = " update event set
    name_Event='$eventName',
    descrption_Event='$EventDescription',
    sartDate_Event='$datestart',
@@ -27,17 +27,17 @@ require_once 'php/connectTosql.php';
    organization_name_Event='$organizationName',
    maxNumOfAttendee='$maxAttendee'
    where event_ID ='$eventId' ";
-   $sql = mysqli_query($con, $sql) or die(mysqli_error($con));
-   if ($sql) {
-    header("location: /tactic/manageEvent.php");
-    exit;
-   } else {
-    echo " <div class='alert alert-danger alert-dismissible'>
+  $sql = mysqli_query($con, $sql) or die(mysqli_error($con));
+  if ($sql) {
+   header("location: /tactic/manageEvent.php");
+   exit;
+  } else {
+   echo " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
          <strong> فشل</strong>  لم تتم عملية الاضافة بنجاح يرجى التحقق
        </div> ";
-   }
-  }}
+  }
+ }}
 $query = null;
 if (isset($_GET['eventid']) && $_GET['eventid'] != '') {
  $eventId = $_GET['eventid'];
@@ -184,8 +184,9 @@ if ($query) {
   </div>
 
   <script src="js/jquery.min.js"></script>
+  <script src="js/jquery.validate.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/appjs/validationOfPages.js"></script>
+  <script src="js/appjs/event.js"></script>
   <script src="js/appjs/common.js"></script>
 
   <script>
