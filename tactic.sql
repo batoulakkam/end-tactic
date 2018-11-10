@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 27, 2018 at 10:34 PM
+-- Generation Time: Nov 10, 2018 at 02:36 PM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 7.2.9
 
@@ -47,7 +47,9 @@ INSERT INTO `account` (`organizer_ID`, `emailOrg`, `passwordOrg`, `isEmailconfir
 (10, 'marwa.salahi.790@gmail.com', '$2y$10$CMagsO/jV5nceOence4xYOP/cyTGvgZ4z8eSe4faCPwgk7Z0w7BXW', 1, '', 'مروة', 'ذكر', '1995-09-29'),
 (11, 'hejaziula@gmail.com', '$2y$10$vAMIPbXl3hroz6vDBlV77e40uSIjPU8wZlZg9jx82Y52G4a.zqbFu', 1, 'VQAN0JGRiU', 'ola', 'انثى', '1990-06-12'),
 (12, '435204442@student.ksu.edu.sa', '$2y$10$aoMKZMv1G7gxujODepcxl.JQl5lDIzmwESM6hG8AU9bM9n8BqqAAW', 1, 'umEdM!AKfk', 'علا', '', '1997-03-06'),
-(13, 'safooo1324@gmail.com', '$2y$10$0G7kQ/RwH6WDSP7aY12RA.bnQ8mkE901W/i0bEUIAzVbyhzAqN1Yi', 0, 'nhBAl>MqpD', 'صفاء', 'ذكر', '1999-03-05');
+(13, 'safooo1324@gmail.com', '$2y$10$0G7kQ/RwH6WDSP7aY12RA.bnQ8mkE901W/i0bEUIAzVbyhzAqN1Yi', 0, 'nhBAl>MqpD', 'صفاء', 'ذكر', '1999-03-05'),
+(14, 'batolakam@hotmail.com', '$2y$10$Y7FyrNNbP9SkCj4uXXWNjeKyBcMYI1AeMolsod5TXy5nlV0Cntcfe', 1, '', 'batoul', '', '2018-10-10'),
+(15, 'batolakam@gmail.com', '$2y$10$ilkIDEqa5tJIo29P0XEmgeEddASHQPakVTrapUWqN1heUSl1rFIYO', 0, '%1ZeC82H#I', 'akkam', 'ذكر', '1985-01-02');
 
 -- --------------------------------------------------------
 
@@ -70,9 +72,126 @@ CREATE TABLE `attendee` (
   `optional` varchar(100) CHARACTER SET utf8 NOT NULL,
   `form` varchar(30) NOT NULL,
   `eventId` int(11) NOT NULL,
-  `checkInEventAttende` varchar(8) DEFAULT NULL,
+  `checkInEventAttende` tinyint(1) DEFAULT '0',
   `prizeId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `attendee`
+--
+
+INSERT INTO `attendee` (`Id`, `email`, `name`, `phone`, `DOB`, `genderId`, `educationalLevelId`, `jobTitle`, `nationalityId`, `nationalId`, `VIPCode`, `optional`, `form`, `eventId`, `checkInEventAttende`, `prizeId`) VALUES
+(2, 'hejaziula@gmail.com', '2ola Adeeb Hejazi Albash', 530843573, '0000-00-00', 2, 6, 'مخرب', 105, 123456789, NULL, '', '', 49, 0, 1),
+(3, '435204442@student.ksu.edu.sa', '3ola Adeeb Hejazi Albash', 53084573, '2018-10-03', 2, 5, 'مهندسة', 102, 123456789, NULL, '', '', 49, 0, 0),
+(4, '435204441@student.ksu.edu.sa', '4ola Adeeb Hejazi Albash', 53084573, '1968-10-08', 2, 5, 'دكتور أعصاب', 102, 123456789, NULL, '', '', 49, 0, 0),
+(5, '435204443@student.ksu.edu.sa', '5ola Adeeb Hejazi Albash', 53084573, '2000-10-04', 2, 5, 'مساعد', 102, 123456789, NULL, '', '', 49, 0, 0),
+(6, '435204444@student.ksu.edu.sa', '6ola Adeeb Hejazi Albash', 53084573, '2000-10-05', 2, 5, 'مساعد', 102, 123456789, NULL, '', '', 49, 0, 0),
+(7, '435204445@student.ksu.edu.sa', '7ola Adeeb Hejazi Albash', 53084573, '2000-10-06', 2, 5, 'مساعد', 102, 123456789, NULL, '', '', 49, 0, 0),
+(8, '435204421@student.ksu.edu.sa', '8ola Adeeb Hejazi Albash', 53084573, '2000-10-07', 2, 5, 'دكتور', 102, 123456789, NULL, '', '', 49, 0, 0),
+(9, '435204422@student.ksu.edu.sa', '9ola Adeeb Hejazi Albash', 53084573, '2001-10-08', 2, 5, 'دكتور', 102, 123456789, NULL, '', '', 49, 0, 0),
+(10, '435204423@student.ksu.edu.sa', '10ola Adeeb Hejazi Albash', 53084573, '1995-10-08', 2, 5, 'دكتور', 110, 123456789, NULL, '', '', 49, 0, 0),
+(11, '435204424@student.ksu.edu.sa', '11ola Adeeb Hejazi Albash', 53084573, '1996-10-08', 2, 5, 'دكتور', 110, 123456789, NULL, '', '', 49, 0, 0),
+(12, '435204425@student.ksu.edu.sa', '12ola Adeeb Hejazi Albash', 53084573, '1995-10-08', 2, 5, 'دكتور', 110, 123456789, NULL, '', '', 49, 0, 0),
+(13, '435204426@student.ksu.edu.sa', '13ola Adeeb Hejazi Albash', 53084573, '1999-10-08', 2, 5, 'دكتور', 110, 123456789, NULL, '', '', 49, 1, 0),
+(14, '435204427@student.ksu.edu.sa', '14ola Adeeb Hejazi Albash', 53084573, '1998-10-08', 2, 5, 'دكتور', 110, 123456789, NULL, '', '', 49, 1, 0),
+(15, '435204428@student.ksu.edu.sa', '15ola Adeeb Hejazi Albash', 53084573, '1994-10-08', 2, 5, 'دكتور', 101, 123456789, NULL, '', '', 49, 1, 0),
+(16, '435204429@student.ksu.edu.sa', '16ola Adeeb Hejazi Albash', 53084573, '1992-10-08', 2, 5, 'أستاذ جامعي', 101, 123456789, NULL, '', '', 49, 1, 0),
+(17, '435204441@student.ksu.edu.sa', '17ola Adeeb Hejazi Albash', 53084573, '1990-10-08', 2, 5, 'أستاذ جامعي', 101, 123456789, NULL, '', '', 49, 1, 0),
+(18, '435204451@student.ksu.edu.sa', '18ola Adeeb Hejazi Albash', 53084573, '1990-10-08', 2, 5, 'أستاذ جامعي', 101, 123456789, NULL, '', '', 49, 1, 0),
+(19, '435204452@student.ksu.edu.sa', '19ola Adeeb Hejazi Albash', 53084573, '1992-10-08', 2, 5, 'أستاذ جامعي', 101, 123456789, NULL, '', '', 49, 1, 0),
+(20, '435204446@student.ksu.edu.sa', '20ola Adeeb Hejazi Albash', 53084573, '1992-10-08', 2, 5, 'مهندس معمار', 101, 123456789, NULL, '', '', 53, 1, 0),
+(21, '435204442@student.ksu.edu.sa', '21ola Adeeb Hejazi Albash', 53084573, '1987-10-08', 2, 5, 'مهندس معمار', 101, 123456789, NULL, '', '', 53, 1, 0),
+(22, '435204447@student.ksu.edu.sa', '22ola Adeeb Hejazi Albash', 53084573, '1987-10-08', 2, 5, 'مهندس معمار', 101, 123456789, NULL, '', '', 53, 1, 0),
+(23, '435204448@student.ksu.edu.sa', '23ola Adeeb Hejazi Albash', 53084573, '1987-10-08', 2, 5, 'مهندس معمار', 101, 123456789, NULL, '', '', 53, 1, 0),
+(24, '435204449@student.ksu.edu.sa', '24ola Adeeb Hejazi Albash', 53084573, '1987-10-08', 2, 5, 'مهندس معمار', 101, 123456789, NULL, '', '', 53, 1, 0),
+(25, '435204412@student.ksu.edu.sa', '25ola Adeeb Hejazi Albash', 53084573, '1985-10-08', 2, 5, 'مهندس ديكور', 116, 123456789, NULL, '', '', 53, 1, 0),
+(26, '435204413@student.ksu.edu.sa', '26ola Adeeb Hejazi Albash', 53084573, '1985-10-08', 2, 5, 'مهندس ديكور', 116, 123456789, NULL, '', '', 53, 1, 0),
+(27, '435204414@student.ksu.edu.sa', '27ola Adeeb Hejazi Albash', 53084573, '1985-10-08', 2, 5, 'مهندس ديكور', 116, 123456789, NULL, '', '', 53, 1, 0),
+(28, '435204415@student.ksu.edu.sa', '28ola Adeeb Hejazi Albash', 53084573, '1985-10-08', 2, 5, 'مهندس ديكور', 116, 123456789, NULL, '', '', 53, 1, 0),
+(29, '435204416@student.ksu.edu.sa', '29ola Adeeb Hejazi Albash', 53084573, '1985-10-08', 2, 5, 'مهندس ديكور', 116, 123456789, NULL, '', '', 53, 1, 0),
+(30, '435204417@student.ksu.edu.sa', '30ola Adeeb Hejazi Albash', 53084573, '1985-10-08', 2, 5, 'مهندس ديكور', 117, 123456789, NULL, '', '', 53, 1, 0),
+(31, '435204418@student.ksu.edu.sa', '31ola Adeeb Hejazi Albash', 53084573, '1983-10-08', 2, 5, 'مهندسة', 117, 123456789, NULL, '', '', 53, 1, 0),
+(32, '435204419@student.ksu.edu.sa', '32ola Adeeb Hejazi Albash', 53084573, '1983-10-08', 2, 5, 'مهندسة', 117, 123456789, NULL, '', '', 53, 1, 0),
+(33, '435204461@student.ksu.edu.sa', '33ola Adeeb Hejazi Albash', 53084573, '1983-10-08', 1, 5, 'مهندسة', 102, 123456789, NULL, '', '', 53, 1, 0),
+(34, '435204462@student.ksu.edu.sa', '34ola Adeeb Hejazi Albash', 53084573, '1983-10-08', 1, 5, 'مهندسة', 118, 123456789, NULL, '', '', 53, 1, 0),
+(35, '435204463@student.ksu.edu.sa', '35ola Adeeb Hejazi Albash', 53084573, '1984-10-08', 1, 5, 'مهندسة', 118, 123456789, NULL, '', '', 53, 1, 0),
+(36, '435204464@student.ksu.edu.sa', '36ola Adeeb Hejazi Albash', 53084573, '1984-10-08', 1, 5, 'مهندس ميداني', 118, 123456789, NULL, '', '', 53, 1, 0),
+(37, '435204465@student.ksu.edu.sa', '37ola Adeeb Hejazi Albash', 53084573, '1984-10-08', 1, 5, 'مهندس ميداني', 118, 123456789, NULL, '', '', 53, 1, 0),
+(38, '435204467@student.ksu.edu.sa', '38ola Adeeb Hejazi Albash', 53084573, '1984-10-08', 1, 5, 'مهندس ميداني', 118, 123456789, NULL, '', '', 53, 1, 0),
+(39, '435204466@student.ksu.edu.sa', '39ola Adeeb Hejazi Albash', 53084573, '1987-10-08', 1, 5, 'مهندس ميداني', 119, 123456789, NULL, '', '', 53, 1, 0),
+(40, '435204468@student.ksu.edu.sa', '40ola Adeeb Hejazi Albash', 53084573, '1987-10-08', 1, 5, 'مهندس ميداني', 119, 123456789, NULL, '', '', 53, 1, 0),
+(41, '435204469@student.ksu.edu.sa', '41ola Adeeb Hejazi Albash', 53084573, '1987-10-08', 1, 5, 'مهندس ميداني', 119, 123456789, NULL, '', '', 53, 1, 0),
+(42, '435204471@student.ksu.edu.sa', '42ola Adeeb Hejazi Albash', 53084573, '1987-10-08', 1, 5, 'طبيب جراحة', 119, 123456789, NULL, '', '', 53, 1, 0),
+(43, '435204472@student.ksu.edu.sa', '43ola Adeeb Hejazi Albash', 53084573, '1989-10-08', 1, 5, 'طبيب جراحة', 119, 123456789, NULL, '', '', 53, 1, 0),
+(44, '435204473@student.ksu.edu.sa', '44ola Adeeb Hejazi Albash', 53084573, '1989-10-08', 1, 5, 'طبيب جراحة', 101, 123456789, NULL, '', '', 53, 1, 0),
+(45, '435204474@student.ksu.edu.sa', '45ola Adeeb Hejazi Albash', 53084573, '1989-10-08', 1, 5, 'طبيب جراحة', 101, 123456789, NULL, '', '', 53, 1, 0),
+(46, '435204475@student.ksu.edu.sa', '46ola Adeeb Hejazi Albash', 53084573, '1989-10-08', 1, 5, 'دكتور عينية', 101, 123456789, NULL, '', '', 53, 1, 0),
+(47, '435204476@student.ksu.edu.sa', '47ola Adeeb Hejazi Albash', 53084573, '1989-10-08', 1, 5, 'دكتور عينية', 101, 123456789, NULL, '', '', 53, 1, 0),
+(48, '435204477@student.ksu.edu.sa', '48ola Adeeb Hejazi Albash', 53084573, '1989-10-08', 1, 5, 'دكتور عينية', 101, 123456789, NULL, '', '', 53, 1, 0),
+(49, '435204478@student.ksu.edu.sa', '49ola Adeeb Hejazi Albash', 53084573, '1989-10-08', 1, 5, 'دكتور عينية', 101, 123456789, NULL, '', '', 53, 1, 0),
+(50, '435204479@student.ksu.edu.sa', '50ola Adeeb Hejazi Albash', 53084573, '1991-10-08', 1, 5, 'دكتور عينية', 101, 123456789, NULL, '', '', 53, 1, 0),
+(51, '435204480@student.ksu.edu.sa', '51ola Adeeb Hejazi Albash', 53084573, '1991-10-08', 1, 5, 'دكتور أذنية', 101, 123456789, NULL, '', '', 53, 1, 0),
+(52, '435204481@student.ksu.edu.sa', '52ola Adeeb Hejazi Albash', 53084573, '1991-10-08', 1, 5, 'دكتور أذنية', 101, 123456789, NULL, '', '', 53, 1, 0),
+(53, '435204482@student.ksu.edu.sa', '53ola Adeeb Hejazi Albash', 53084573, '1991-10-08', 1, 5, 'دكتور أذنية', 101, 123456789, NULL, '', '', 53, 1, 0),
+(54, '435204483@student.ksu.edu.sa', '54ola Adeeb Hejazi Albash', 53084573, '1975-10-08', 1, 5, 'دكتور أذنية', 121, 123456789, NULL, '', '', 53, 1, 0),
+(55, '435204484@student.ksu.edu.sa', '55ola Adeeb Hejazi Albash', 53084573, '1975-10-08', 1, 5, 'دكتور أذنية', 121, 123456789, NULL, '', '', 53, 1, 0),
+(56, '435204485@student.ksu.edu.sa', '56ola Adeeb Hejazi Albash', 53084573, '1975-10-08', 1, 5, 'دكتور باطنية', 121, 123456789, NULL, '', '', 53, 1, 0),
+(57, '435204486@student.ksu.edu.sa', '57ola Adeeb Hejazi Albash', 53084573, '1975-10-08', 1, 5, 'دكتور باطنية', 121, 123456789, NULL, '', '', 53, 1, 0),
+(58, '435204487@student.ksu.edu.sa', '58ola Adeeb Hejazi Albash', 53084573, '1970-10-08', 1, 5, 'دكتور باطنية', 121, 123456789, NULL, '', '', 53, 1, 0),
+(59, '435204488@student.ksu.edu.sa', '59ola Adeeb Hejazi Albash', 53084573, '1970-10-08', 1, 5, 'دكتور باطنية', 122, 123456789, NULL, '', '', 53, 1, 0),
+(60, '435204489@student.ksu.edu.sa', '60ola Adeeb Hejazi Albash', 53084573, '1969-10-08', 1, 5, 'دكتور أعصاب', 122, 123456789, NULL, '', '', 53, 1, 0),
+(61, '435204491@student.ksu.edu.sa', '61ola Adeeb Hejazi Albash', 53084573, '1969-10-08', 1, 5, 'دكتور أعصاب', 122, 123456789, NULL, '', '', 53, 1, 0),
+(62, '435204011@student.ksu.edu.sa', '62ola Adeeb Hejazi Albash', 53084573, '1990-10-08', 2, 1, 'أستاذ جامعي', 101, 123456789, NULL, '', '', 53, 1, 0),
+(63, '435204012@student.ksu.edu.sa', '63ola Adeeb Hejazi Albash', 53084573, '1990-10-08', 2, 1, 'أستاذ جامعي', 101, 123456789, NULL, '', '', 53, 1, 0),
+(64, '435204013@student.ksu.edu.sa', '64ola Adeeb Hejazi Albash', 53084573, '1992-10-08', 2, 1, 'أستاذ جامعي', 101, 123456789, NULL, '', '', 53, 1, 0),
+(65, '435204014@student.ksu.edu.sa', '65ola Adeeb Hejazi Albash', 53084573, '1992-10-08', 2, 1, 'مهندس معمار', 101, 123456789, NULL, '', '', 53, 1, 0),
+(66, '435204015@student.ksu.edu.sa', '66ola Adeeb Hejazi Albash', 53084573, '1987-10-08', 2, 1, 'مهندس معمار', 101, 123456789, NULL, '', '', 53, 1, 0),
+(67, '435204016@student.ksu.edu.sa', '67ola Adeeb Hejazi Albash', 53084573, '1987-10-08', 2, 1, 'مهندس معمار', 101, 123456789, NULL, '', '', 53, 1, 0),
+(68, '435204017@student.ksu.edu.sa', '68ola Adeeb Hejazi Albash', 53084573, '1987-10-08', 2, 1, 'مهندس معمار', 101, 123456789, NULL, '', '', 53, 1, 0),
+(69, '435204018@student.ksu.edu.sa', '69ola Adeeb Hejazi Albash', 53084573, '1987-10-08', 2, 1, 'مهندس معمار', 101, 123456789, NULL, '', '', 53, 1, 0),
+(70, '435204019@student.ksu.edu.sa', '70ola Adeeb Hejazi Albash', 53084573, '1985-10-08', 2, 1, 'مهندس ديكور', 116, 123456789, NULL, '', '', 53, 1, 0),
+(71, '435204110@student.ksu.edu.sa', '71ola Adeeb Hejazi Albash', 53084573, '1985-10-08', 2, 1, 'مهندس ديكور', 116, 123456789, NULL, '', '', 53, 1, 0),
+(72, '435204111@student.ksu.edu.sa', '72ola Adeeb Hejazi Albash', 53084573, '1985-10-08', 2, 1, 'مهندس ديكور', 116, 123456789, NULL, '', '', 53, 1, 0),
+(73, '435204112@student.ksu.edu.sa', '73ola Adeeb Hejazi Albash', 53084573, '1985-10-08', 2, 1, 'مهندس ديكور', 116, 123456789, NULL, '', '', 53, 1, 0),
+(74, '435204113@student.ksu.edu.sa', '74ola Adeeb Hejazi Albash', 53084573, '1985-10-08', 2, 2, 'مهندس ديكور', 116, 123456789, NULL, '', '', 53, 1, 0),
+(75, '435204114@student.ksu.edu.sa', '75ola Adeeb Hejazi Albash', 53084573, '1985-10-08', 2, 2, 'مهندس ديكور', 117, 123456789, NULL, '', '', 53, 1, 0),
+(76, '435204115@student.ksu.edu.sa', '76ola Adeeb Hejazi Albash', 53084573, '1983-10-08', 2, 2, 'مهندسة', 117, 123456789, NULL, '', '', 53, 1, 0),
+(77, '435204116@student.ksu.edu.sa', '77ola Adeeb Hejazi Albash', 53084573, '1983-10-08', 2, 2, 'مهندسة', 117, 123456789, NULL, '', '', 53, 1, 0),
+(78, '435204117@student.ksu.edu.sa', '78ola Adeeb Hejazi Albash', 53084573, '1983-10-08', 1, 2, 'مهندسة', 102, 123456789, NULL, '', '', 53, 1, 0),
+(79, '435204118@student.ksu.edu.sa', '79ola Adeeb Hejazi Albash', 53084573, '1983-10-08', 1, 2, 'مهندسة', 118, 123456789, NULL, '', '', 53, 1, 0),
+(80, '435204119@student.ksu.edu.sa', '80ola Adeeb Hejazi Albash', 53084573, '1984-10-08', 1, 2, 'مهندسة', 118, 123456789, NULL, '', '', 53, 1, 0),
+(81, '435204210@student.ksu.edu.sa', '81ola Adeeb Hejazi Albash', 53084573, '1984-10-08', 1, 2, 'مهندس ميداني', 118, 123456789, NULL, '', '', 53, 1, 0),
+(82, '435204211@student.ksu.edu.sa', '82ola Adeeb Hejazi Albash', 53084573, '1984-10-08', 1, 2, 'مهندس ميداني', 118, 123456789, NULL, '', '', 53, 1, 0),
+(83, '435204212@student.ksu.edu.sa', '83ola Adeeb Hejazi Albash', 53084573, '1984-10-08', 1, 2, 'مهندس ميداني', 118, 123456789, NULL, '', '', 53, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `attendeewinners`
+--
+
+CREATE TABLE `attendeewinners` (
+  `Id` int(11) NOT NULL,
+  `attendeeId` int(11) NOT NULL,
+  `prizeId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `attendeewinners`
+--
+
+INSERT INTO `attendeewinners` (`Id`, `attendeeId`, `prizeId`) VALUES
+(100, 29, 49),
+(101, 30, 49),
+(102, 41, 49),
+(103, 42, 49),
+(104, 55, 49),
+(105, 60, 49),
+(116, 28, 51),
+(117, 35, 51),
+(118, 52, 51),
+(119, 55, 51),
+(120, 81, 51);
 
 -- --------------------------------------------------------
 
@@ -95,10 +214,8 @@ CREATE TABLE `badge` (
 --
 
 INSERT INTO `badge` (`badge_ID`, `BadgeTypeId`, `event_ID`, `badgeTemplateName`, `badgeTemplateSize`, `badgeTemplateType`, `badgeTemplateLocation`) VALUES
-(5, NULL, 55, 'test', 0, '', ''),
 (8, 2, 50, 'ClassDiagramV2.PNG', 48534, 'image/png', 'UploadFile/badges/ClassDiagramV2.PNG'),
-(9, 2, 53, 'badges_try.PNG', 71904, 'image/png', 'UploadFile/badges/badges_try.PNG'),
-(10, 1, 53, 'badges_badges_ClassDiagramV2 (1) (1).PNG', 48534, 'image/png', 'UploadFile/badges/badges_badges_ClassDiagramV2 (1) (1).PNG');
+(9, 2, 53, 'badges_try.PNG', 71904, 'image/png', 'UploadFile/badges/badges_try.PNG');
 
 -- --------------------------------------------------------
 
@@ -122,6 +239,29 @@ INSERT INTO `badgetype` (`Id`, `Name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `barcodesize`
+--
+
+CREATE TABLE `barcodesize` (
+  `ID` int(11) NOT NULL,
+  `size` varchar(30) NOT NULL,
+  `name` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `barcodesize`
+--
+
+INSERT INTO `barcodesize` (`ID`, `size`, `name`) VALUES
+(1, '50x50', 'صغير جدا'),
+(2, '100x100', 'صغير'),
+(3, '150x150', 'وسط'),
+(4, '200x200', 'كبير'),
+(5, '300x300', 'كبير جدا');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `certificate`
 --
 
@@ -139,38 +279,46 @@ CREATE TABLE `certificate` (
 --
 
 INSERT INTO `certificate` (`certificate_ID`, `event_ID`, `templateName`, `templateSize`, `templateType`, `templateLocation`) VALUES
-(4, 50, 'ClassDiagramV2.PNG', 48534, 'image/png', 'UploadFile/certificate/ClassDiagramV2.PNG'),
 (6, 49, 'ClassDiagramV3.PNG', 52666, 'image/png', 'UploadFile/certificate/ClassDiagramV3.PNG'),
 (7, 53, 'badges_badges_ClassDiagramV2 (1) (1).PNG', 48534, 'image/png', 'UploadFile/certificate/badges_badges_ClassDiagramV2 (1) (1).PNG');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `checkinsub`
+-- Table structure for table `color`
 --
 
-CREATE TABLE `checkinsub` (
-  `Attendee_ID` int(11) NOT NULL,
-  `subevent_ID` int(11) NOT NULL,
-  `event_ID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `color` (
+  `ID` int(11) NOT NULL,
+  `value` varchar(30) NOT NULL,
+  `name` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `color`
+--
+
+INSERT INTO `color` (`ID`, `value`, `name`) VALUES
+(1, 'black', 'اسود'),
+(2, 'white', 'ابيض'),
+(3, 'red', 'احمر');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `eductionallevel`
+-- Table structure for table `educationallevel`
 --
 
-CREATE TABLE `eductionallevel` (
+CREATE TABLE `educationallevel` (
   `Id` int(11) NOT NULL,
   `Name` varchar(100) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `eductionallevel`
+-- Dumping data for table `educationallevel`
 --
 
-INSERT INTO `eductionallevel` (`Id`, `Name`) VALUES
+INSERT INTO `educationallevel` (`Id`, `Name`) VALUES
 (1, 'ابتدائي'),
 (2, 'متوسط'),
 (5, 'ثانوي'),
@@ -204,12 +352,38 @@ CREATE TABLE `event` (
 --
 
 INSERT INTO `event` (`event_ID`, `name_Event`, `descrption_Event`, `sartDate_Event`, `endDate_Event`, `location_Event`, `organization_name_Event`, `eventLink`, `maxNumOfAttendee`, `organizer_ID`, `VIPCode`) VALUES
-(49, 'test manage', 'test manage', '2018-10-11', '2018-10-18', 'test manage', 'test manage', 'http://localhost/tactic2-master/Form.php?token=&rfnjJaKgu', 100, 11, 0),
-(50, 'badge', 'bad', '2018-10-03', '2018-10-17', 'bad', 'bad', '', 100, 11, 0),
+(49, 'test manage', 'test manage', '2018-10-11', '2018-10-18', 'test manage', 'test manage', 'http://localhost/tactic2-master/Form.php?token=&rfnjJaKgu', 100, 12, 0),
+(50, 'badge', 'bad', '2018-10-03', '2018-10-17', 'bad', 'bad', '', 100, 12, 0),
 (53, 'ola', 'desc', '2018-10-13', '2018-10-20', 'حجازي', 'اسم الشركة المنظمة', '', 100, 12, 0),
-(55, 'marwa', 'marwa', '2018-10-03', '2018-10-09', 'مروة', '', '', 0, 10, 0),
-(57, 'ahmed', 'ahmed', '2018-10-12', '2018-10-26', 'ahmed', 'ahmed', '', 100, 11, 0),
-(58, 'ahm', 'de', '2018-10-27', '2018-10-29', 'lo', 'test', '', 100, 12, 0);
+(55, 'marwa', 'marwa', '2018-10-03', '2018-10-09', 'مروة', '', '', 0, 12, 0),
+(57, 'ahmed', 'ahmed', '2018-10-12', '2018-10-26', 'ahmed', 'ahmed', '', 100, 12, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fontsize`
+--
+
+CREATE TABLE `fontsize` (
+  `ID` int(11) NOT NULL,
+  `size` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `fontsize`
+--
+
+INSERT INTO `fontsize` (`ID`, `size`) VALUES
+(1, 10),
+(2, 12),
+(3, 14),
+(4, 16),
+(5, 18),
+(6, 20),
+(7, 22),
+(8, 24),
+(9, 26),
+(10, 28);
 
 -- --------------------------------------------------------
 
@@ -229,6 +403,29 @@ CREATE TABLE `gender` (
 INSERT INTO `gender` (`Id`, `Name`) VALUES
 (1, 'ذكر'),
 (2, 'أنثى');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `imageinfo`
+--
+
+CREATE TABLE `imageinfo` (
+  `imageId` int(11) NOT NULL,
+  `xyposition` varchar(20) NOT NULL,
+  `color` varchar(25) NOT NULL,
+  `barSize` varchar(20) NOT NULL,
+  `fontSize` int(11) NOT NULL,
+  `badgeId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `imageinfo`
+--
+
+INSERT INTO `imageinfo` (`imageId`, `xyposition`, `color`, `barSize`, `fontSize`, `badgeId`) VALUES
+(9, 'X228Y65', 'black', '100x100', 10, 15),
+(10, 'X228Y65', 'black', '100x100', 10, 16);
 
 -- --------------------------------------------------------
 
@@ -511,7 +708,8 @@ CREATE TABLE `prize` (
 INSERT INTO `prize` (`Prize_ID`, `namePrize`, `numOfPrize`, `event_ID`, `subevent_ID`) VALUES
 (49, 'test1000', 6, 53, 0),
 (50, 'test2', 6, 53, 0),
-(51, 'test8', 5, 53, 11);
+(51, 'test8', 5, 53, 11),
+(52, 'prize6', 7, 49, 0);
 
 -- --------------------------------------------------------
 
@@ -586,6 +784,58 @@ CREATE TABLE `subevent` (
 INSERT INTO `subevent` (`subevent_ID`, `event_ID`, `nameSubEvent`, `description_subevent`) VALUES
 (11, 53, 'olaSub', 'des');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subeventattendee`
+--
+
+CREATE TABLE `subeventattendee` (
+  `Id` int(11) NOT NULL,
+  `attendeeId` int(11) DEFAULT NULL,
+  `subEventId` int(11) NOT NULL,
+  `checkInSubeventAttende` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `subeventattendee`
+--
+
+INSERT INTO `subeventattendee` (`Id`, `attendeeId`, `subEventId`, `checkInSubeventAttende`) VALUES
+(1, 64, 11, 1),
+(2, 62, 11, 1),
+(3, 63, 11, 1),
+(4, 64, 11, 0),
+(5, 20, 11, 1),
+(6, 21, 11, 1),
+(7, 22, 11, 1),
+(8, 23, 11, 1),
+(9, 24, 11, 1),
+(10, 25, 11, 1),
+(11, 26, 11, 1),
+(12, 27, 11, 1),
+(13, 28, 11, 1),
+(14, 29, 11, 1),
+(20, 31, 11, 1),
+(21, 32, 11, 1),
+(22, 33, 11, 1),
+(23, 34, 11, 1),
+(24, 35, 11, 1),
+(25, 36, 11, 1),
+(26, 37, 11, 1),
+(27, 38, 11, 1),
+(28, 39, 11, 1),
+(29, 40, 11, 1),
+(30, 41, 11, 1),
+(31, 42, 11, 1),
+(32, 43, 11, 1),
+(33, 44, 11, 1),
+(34, 45, 11, 1),
+(35, 46, 11, 1),
+(36, 47, 11, 1),
+(37, 48, 11, 1),
+(38, 49, 11, 1);
+
 --
 -- Indexes for dumped tables
 --
@@ -608,6 +858,14 @@ ALTER TABLE `attendee`
   ADD KEY `fk_educationalLevelId` (`educationalLevelId`);
 
 --
+-- Indexes for table `attendeewinners`
+--
+ALTER TABLE `attendeewinners`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `fk_attendee` (`attendeeId`),
+  ADD KEY `fk_prize` (`prizeId`);
+
+--
 -- Indexes for table `badge`
 --
 ALTER TABLE `badge`
@@ -621,6 +879,12 @@ ALTER TABLE `badgetype`
   ADD PRIMARY KEY (`Id`);
 
 --
+-- Indexes for table `barcodesize`
+--
+ALTER TABLE `barcodesize`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Indexes for table `certificate`
 --
 ALTER TABLE `certificate`
@@ -628,15 +892,15 @@ ALTER TABLE `certificate`
   ADD KEY `certificate_ibfk_1` (`event_ID`);
 
 --
--- Indexes for table `checkinsub`
+-- Indexes for table `color`
 --
-ALTER TABLE `checkinsub`
-  ADD PRIMARY KEY (`Attendee_ID`,`subevent_ID`,`event_ID`);
+ALTER TABLE `color`
+  ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `eductionallevel`
+-- Indexes for table `educationallevel`
 --
-ALTER TABLE `eductionallevel`
+ALTER TABLE `educationallevel`
   ADD PRIMARY KEY (`Id`);
 
 --
@@ -647,10 +911,23 @@ ALTER TABLE `event`
   ADD KEY `organizer_ID` (`organizer_ID`);
 
 --
+-- Indexes for table `fontsize`
+--
+ALTER TABLE `fontsize`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Indexes for table `gender`
 --
 ALTER TABLE `gender`
   ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `imageinfo`
+--
+ALTER TABLE `imageinfo`
+  ADD PRIMARY KEY (`imageId`),
+  ADD KEY `badge_ID` (`badgeId`);
 
 --
 -- Indexes for table `nationality`
@@ -696,6 +973,14 @@ ALTER TABLE `subevent`
   ADD KEY `event_ID` (`event_ID`);
 
 --
+-- Indexes for table `subeventattendee`
+--
+ALTER TABLE `subeventattendee`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `fk_attendeeSub` (`attendeeId`),
+  ADD KEY `fk_subevent` (`subEventId`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -703,13 +988,19 @@ ALTER TABLE `subevent`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `organizer_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `organizer_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `attendee`
 --
 ALTER TABLE `attendee`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+
+--
+-- AUTO_INCREMENT for table `attendeewinners`
+--
+ALTER TABLE `attendeewinners`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `badge`
@@ -724,15 +1015,27 @@ ALTER TABLE `badgetype`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `barcodesize`
+--
+ALTER TABLE `barcodesize`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `certificate`
 --
 ALTER TABLE `certificate`
   MODIFY `certificate_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `eductionallevel`
+-- AUTO_INCREMENT for table `color`
 --
-ALTER TABLE `eductionallevel`
+ALTER TABLE `color`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `educationallevel`
+--
+ALTER TABLE `educationallevel`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
@@ -742,10 +1045,22 @@ ALTER TABLE `event`
   MODIFY `event_ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
+-- AUTO_INCREMENT for table `fontsize`
+--
+ALTER TABLE `fontsize`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT for table `gender`
 --
 ALTER TABLE `gender`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `imageinfo`
+--
+ALTER TABLE `imageinfo`
+  MODIFY `imageId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `nationality`
@@ -757,7 +1072,7 @@ ALTER TABLE `nationality`
 -- AUTO_INCREMENT for table `prize`
 --
 ALTER TABLE `prize`
-  MODIFY `Prize_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `Prize_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `rate`
@@ -769,13 +1084,19 @@ ALTER TABLE `rate`
 -- AUTO_INCREMENT for table `registration_form`
 --
 ALTER TABLE `registration_form`
-  MODIFY `form_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `form_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `subevent`
 --
 ALTER TABLE `subevent`
   MODIFY `subevent_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `subeventattendee`
+--
+ALTER TABLE `subeventattendee`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- Constraints for dumped tables
@@ -786,9 +1107,16 @@ ALTER TABLE `subevent`
 --
 ALTER TABLE `attendee`
   ADD CONSTRAINT `attendee_ibfk_1` FOREIGN KEY (`eventId`) REFERENCES `event` (`event_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_educationalLevelId` FOREIGN KEY (`educationalLevelId`) REFERENCES `eductionallevel` (`Id`),
+  ADD CONSTRAINT `fk_educationalLevelId` FOREIGN KEY (`educationalLevelId`) REFERENCES `educationallevel` (`Id`),
   ADD CONSTRAINT `fk_genderId` FOREIGN KEY (`genderId`) REFERENCES `gender` (`Id`),
   ADD CONSTRAINT `fk_nationalityId` FOREIGN KEY (`nationalityId`) REFERENCES `nationality` (`Id`);
+
+--
+-- Constraints for table `attendeewinners`
+--
+ALTER TABLE `attendeewinners`
+  ADD CONSTRAINT `fk_attendee` FOREIGN KEY (`attendeeId`) REFERENCES `attendee` (`Id`),
+  ADD CONSTRAINT `fk_prize` FOREIGN KEY (`prizeId`) REFERENCES `prize` (`Prize_ID`);
 
 --
 -- Constraints for table `badge`
@@ -838,6 +1166,13 @@ ALTER TABLE `registration_form`
 --
 ALTER TABLE `subevent`
   ADD CONSTRAINT `subevent_ibfk_1` FOREIGN KEY (`event_ID`) REFERENCES `event` (`event_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `subeventattendee`
+--
+ALTER TABLE `subeventattendee`
+  ADD CONSTRAINT `fk_attendeeSub` FOREIGN KEY (`attendeeId`) REFERENCES `attendee` (`Id`),
+  ADD CONSTRAINT `fk_subevent` FOREIGN KEY (`subEventId`) REFERENCES `subevent` (`subevent_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
