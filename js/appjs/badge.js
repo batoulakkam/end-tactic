@@ -66,6 +66,7 @@ $(document).ready(function() {
         // get the name of image 
         var name = $("#fileToUpload")[0].files[0] == undefined ? "badge.jpg" : $("#fileToUpload")[0].files[0].name;
         var attendeeID=0;
+       var date=new Date().getTime();
         $.ajax({
             type: "GET",
             dataType: 'JSON',
@@ -79,7 +80,8 @@ $(document).ready(function() {
                 visitorCareer: visitorCareer,
                 visitorBarcode: barcode,
                 eventId:eventId,
-                attendeeID:attendeeID
+                attendeeID:attendeeID,
+                date:date
                 
             },
             success: function(data) {
@@ -88,13 +90,7 @@ $(document).ready(function() {
             },
            
         });
-
-        /*
-         $('#viewBadge').attr('src','UploadFile/49/badge/badge.jpg');
-        */
-        
     });
-
 
     $('#add').click(function() {
         // get value of required variable and pass it to imagetext.php
