@@ -49,7 +49,9 @@ $imageName      = $_GET["sorce"];
 $eventId        =$_GET["eventId"];
 $visitorNameVal =$_SESSION['OrgName'];
 $visitorCareerVal="منظم فعاليات";
+$date=$_GET['date'];
 $sorce = "image/" . $imageName;
+$imageName = $date.$imageName;
 }
 else{
   $attende = mysqli_query($con, "SELECT *
