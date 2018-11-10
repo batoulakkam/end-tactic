@@ -65,16 +65,16 @@ if (isset($_GET['prizeId'])) {
 
                         <div class="col-md-12">
                             <div class="form-group form-group-lg">
-                                <label for="txtOrganizer" class="control-label">اسم الحدث الفرعي</label>
-                                <label class="form-control" id="txtOrganizer" name="$subEventName">
+                                <label for="subEventName" class="control-label">اسم الحدث الفرعي</label>
+                                <label class="form-control" id="subEventName" name="$subEventName">
                                     <?php echo $nameSubEvent; ?></label>
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group form-group-lg">
-                                <label for="txtMaxAttendee" class="control-label"> اسم الجائزة </label>
-                                <label class="form-control" id="txtEventName" name="prizeName">
+                                <label for="prizeName" class="control-label"> اسم الجائزة </label>
+                                <label class="form-control" id="prizeName" name="prizeName">
                                     <?php echo $namePrize ?></label>
 
                             </div>
@@ -82,15 +82,15 @@ if (isset($_GET['prizeId'])) {
 
                         <div class="col-md-12">
                             <div class="form-group form-group-lg">
-                                <label for="txtLocation" class="control-label">عدد الجوائز</label>
-                                <label class="form-control" id="txtLocation" name="prizeNum">
+                                <label for="prizeNum" class="control-label">عدد الجوائز</label>
+                                <label class="form-control" id="prizeNum" name="prizeNum">
                                     <?php echo $numOfPrize ?></label>
 
                             </div>
                         </div>
 
 
-                        <a href="/tactic/manageEvent.php" class="bodyform btn btn-nor-danger btn-sm">عودة</a>
+                        <a href="/tactic/managePrize.php" class="bodyform btn btn-nor-danger btn-sm">عودة</a>
 
                 </form>
 

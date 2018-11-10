@@ -70,12 +70,6 @@
                                             </span>
                                             <h3>إدارة نموذج التسجيل</h3>
                                         </a>
-										<a href="manageOnsite.php" class="col-xs-6 col-s-4 col-md-3 text-center dashboard_item enable-overlay">
-                                            <span class="dashboard_item_img">
-                                                <img src="image/onsite.png" alt="إدارة" title="إدارة">
-                                            </span>
-                                            <h3>إدارة التسجيل الفوري</h3>
-                                        </a>
 
                                         <a href="manageEmail.php" class="col-xs-6 col-s-4 col-md-3 text-center dashboard_item enable-overlay">
                                             <span class="dashboard_item_img">
@@ -84,7 +78,7 @@
                                             <h3>إدارة البريد الالكتروني </h3>
                                         </a>
 
-                                        <a href="manageStatistics.php" class="col-xs-6 col-s-4 col-md-3 text-center dashboard_item enable-overlay">
+                                        <a href="statistics.php" class="col-xs-6 col-s-4 col-md-3 text-center dashboard_item enable-overlay">
                                             <span class="dashboard_item_img">
                                                 <img src="image/statistics.png" alt="إدارة الإحصائيات" title="إدارة الإحصائيات">
                                             </span>

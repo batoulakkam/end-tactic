@@ -1,52 +1,48 @@
 <?php
 //conect to database
 require_once 'php/connectTosql.php';
-$message="";
-//if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
-    $organizerid=$_SESSION['organizerID'];
-///delete badge
+$message     = "";
+$organizerid = $_SESSION['organizerID'];
+$sql = "SELECT ev.name_Event,pr.prize_ID ,pr.namePrize ,pr.subevent_ID,COUNT(attwin.Id) as winnerCount
+    FROM event ev INNER JOIN prize pr ON ev.event_ID = pr.event_ID 
+    left join attendeewinners attwin on pr.prize_ID=attwin.prizeid
+    ";
+///search 
+if (isset($_GET['searchValue']) && $_GET['searchValue'] != '') {
+ $searchValue = $_GET['searchValue'];
+
+ $mainQuery = mysqli_query($con, $sql . " where  name_Event like '%$searchValue%' or namePrize like '%$searchValue%' GROUP by(pr.prize_ID) "
+ ) or die(mysqli_error($con));
+
+} else {
+ $mainQuery = mysqli_query($con, $sql . "GROUP by(pr.prize_ID)") or die(mysqli_error($con));
+}
+
+///delete prize
 if (isset($_GET['isDeleteAction']) && $_GET['isDeleteAction'] != '') {
-if (isset($_GET['prizeId']) && $_GET['prizeId'] != '') {
- //retreive the hidden id in modal
- $prizeID = $_GET['prizeId'];
- $sql     = "delete from  prize  WHERE  Prize_ID = '$prizeID'";
- $query   = mysqli_query($con, $sql) or die(mysqli_error($con));
- //succsess to retreive id
- if ($query) {
-  $retVal = true;
-  echo json_encode($retVal);//convert value to client side jQ
-  exit;
+ if (isset($_GET['prizeId']) && $_GET['prizeId'] != '') {
+  //retreive the hidden id in modal
+  $prizeID = $_GET['prizeId'];
+  $sql     = "delete from  prize  WHERE  Prize_ID = '$prizeID'";
+  $query   = mysqli_query($con, $sql) or die(mysqli_error($con));
+  //succsess to retreive id
+  if ($query) {
+   $retVal = true;
+   echo json_encode($retVal); //convert value to client side jQ
+   exit;
+  } else {
+   $retVal = false;
+   echo json_encode($retVal);
+   exit;
+  }
  } else {
-  $retVal = false;
-  echo json_encode($retVal);
-  exit;
- }
- } else  {
-   echo " <div class='alert alert-danger alert-dismissible'>
+  echo " <div class='alert alert-danger alert-dismissible'>
            <button type='button' class='close' data-dismiss='alert'>&times;</button>
             عملية حذف خاطئة الرجاء اختيار البطاقة المراد حذفها
           </div> ";
  }
 }
-if (isset($_GET['searshValue']) && $_GET['searshValue'] != '') {
-    $sershValue = $_GET['searshValue'];
-    $sql =  "SELECT ev.name_Event,pr.prize_ID ,pr.namePrize ,pr.subevent_ID
-    FROM event ev INNER JOIN prize pr ON ev.event_ID = pr.event_ID
-    where ev.organizer_ID = '$organizerid'and name_Event like '%$sershValue%' or namePrize like '%$sershValue%' " ;
-    $query = mysqli_query($con, $sql) or die(mysqli_error($con));
-}else
-{
-$sql =  "SELECT ev.name_Event,pr.prize_ID ,pr.namePrize ,pr.subevent_ID
-FROM event ev INNER JOIN prize pr ON ev.event_ID = pr.event_ID
-where ev.organizer_ID = '$organizerid'" ;
-$query = mysqli_query($con, $sql) or die(mysqli_error($con));
-    }
-/*}else {
-    $message= " <div class='alert alert-danger alert-dismissible'>
-           <button type='button' class='close' data-dismiss='alert'>&times;</button>
-            <strong> يرجى</strong>   تثبيت الايميل لكي تتمكن من أضافة حدث
-          </div> ";
-   }*/
+
 
 ?>
 <html>
@@ -82,12 +78,12 @@ $query = mysqli_query($con, $sql) or die(mysqli_error($con));
                 </div>
                 <div class="panel-body">
 
-                    <form action="managePrize.php" class="mangePrizeFrm" method="Get">
+                    <form action="managePrize.php" class="managePrizeFrm" method="Get">
 
                         <div class="col-md-12">
                             <div class="form-group form-group-lg">
-                                <label for="eventName" class="control-label">البحث عن جائزة : </label>
-                                <input type="text" class="form-control" id="txtSearshValue" name="searshValue" placeholder="بحث باسم الحدث او اسم الجائزة  ...">
+                                <label for="searchValue" class="control-label">البحث عن جائزة : </label>
+                                <input type="text" class="form-control" id="txtSearchValue" name="searchValue" placeholder="بحث باسم الحدث او اسم الجائزة  ...">
                             </div>
                         </div>
 
@@ -115,24 +111,26 @@ $query = mysqli_query($con, $sql) or die(mysqli_error($con));
 
 
 <?php
-while ($row = mysqli_fetch_array($query)):
-$subeventid=$row['subevent_ID'];
+while ($row = mysqli_fetch_array($mainQuery)):
+ $subeventid = $row['subevent_ID'];
  echo "<tr>";
- echo "<td><a  href='prizeDetails.php?prizeId=" . $row['prize_ID'] . "'>" . $row['namePrize'] . "</a></td>";
+ echo "<td><a  title='مشاهدة التفاصيل' href='prizeDetails.php?prizeId=" . $row['prize_ID'] . "'>" . $row['namePrize'] . "</a></td>";
  echo "<td>" . $row['name_Event'] . "</td>";
  $querysub = mysqli_query($con, "SELECT nameSubEvent ,subevent_ID from subevent where subevent_ID= '$subeventid'") or die(mysqli_error($con));
- $rows =mysqli_fetch_array($querysub) ;
+ $rows     = mysqli_fetch_array($querysub);
 
-    if($rows[0] !=""){
-     echo "<td>" . $rows[0] . "</td>";
-    }
-     else  echo "<td> لا يوجد </td>";
+ if ($rows[0] != "") {
+  echo "<td>" . $rows[0] . "</td>";
+ } else {
+  echo "<td> لا يوجد </td>";
+ }
 
- echo "<td> <a id='aEditsubEvent' href='editPrize.php?prizeId=" . $row['prize_ID'] . "'><span class='fa fa-edit' style='font-size:24px;'></span></a>
-		        <a href='#' id='aDeletPrize' class='adelete' data-id=" . $row['prize_ID'] . "><span  class=' fa fa-trash' style='font-size:24px;color:red;  '></span> </a></td>
-		      </tr>";
-      ?>
-         <?php endwhile;?>
+ echo "<td> <a id='aEditsubEvent' title='تعديل' href='editPrize.php?prizeId=" . $row['prize_ID'] . "'><span class='fa fa-edit' style='font-size:24px;'></span></a>
+                    <a href='#' title='حذف' id='aDeletPrize' class='adelete' data-id=" . $row['prize_ID'] . "><span  class=' fa fa-trash' style='font-size:24px;color:red;  '></span> </a>
+                    <a title=" .($row['winnerCount']==0? 'إختيار الفائزين' : 'تم الإختيار' ) . " id='aChooseWinner' class='aChooseWinner' href='prizeWinner.php?prizeId=" . $row['prize_ID'] . "&subEventId=". $subeventid . "'><span  class='fa fa-trophy' style='font-size:24px;color:#FFD700;'></span> </a></td>
+			      </tr>";
+ ?>
+	         <?php endwhile;?>
 
 
 
@@ -164,6 +162,7 @@ $subeventid=$row['subevent_ID'];
 
 
         <script src="js/jquery.min.js"></script>
+        <script src="js/jquery.validate.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/appjs/prize.js"></script>
         <script src="js/appjs/common.js"></script>

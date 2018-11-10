@@ -131,8 +131,8 @@ else {
               
                       <ul class="topnav">
 					<a class="navbar-brand titleNav" href="#" style ="color:cornflowerblue;float:right;">تكتيك</a>
-                    <li><a  href="register.php" >الإشتراك</a></li>
-                    <li><a class="active" href="LogIn.php">تسجيل الدخول</a></li>
+                    <li><a class="active" href="register.php" >الإشتراك</a></li>
+                    <li><a href="LogIn.php">تسجيل الدخول</a></li>
                     <li><a href="#contact">تواصل معنا</a></li>
                     <li><a href="#about">حولنا</a></li>  </ul>
      </div>
