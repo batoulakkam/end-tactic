@@ -48,10 +48,7 @@ $(document).ready(function() {
             }
         });
     });
-    //  
-
-
-
+ 
     // send the info of image to write it on the image for testing
     $('#passImageIfon').click(function() {
         // get value of required variable and pass it to imagetext.php
@@ -83,10 +80,9 @@ $(document).ready(function() {
                 visitorBarcode: barcode,
                 eventId:eventId,
                 attendeeID:attendeeID
+                
             },
             success: function(data) {
-                //var url=data;
-               // $('#viewBadge').attr('src','UploadFile/49/badge/badge.jpg');
                 $('#viewBadge').attr('src',data);
                  $('#viewAttendeeBadge').modal('show');
             },
@@ -94,10 +90,11 @@ $(document).ready(function() {
         });
 
         /*
-        
+         $('#viewBadge').attr('src','UploadFile/49/badge/badge.jpg');
         */
         
     });
+
 
     $('#add').click(function() {
         // get value of required variable and pass it to imagetext.php
@@ -108,9 +105,11 @@ $(document).ready(function() {
         visitorName = ("X" + ((visitorName.left)-(myImg.left))  + "Y" + ((visitorName.top)-(myImg.top)));
         visitorCareer = ("X" + ((visitorCareer.left)-(myImg.left) ) + "Y" + ((visitorCareer.top)-(myImg.top)));
         barcode = ("X" + ((barcode.left)-(myImg.left))  + "Y" + ((barcode.top)-(myImg.top)));  
+        myImg=("X" + (myImg.left)  + "Y" +(myImg.top));
         document.getElementById('name').value =visitorName;
         document.getElementById('career').value =visitorCareer;
         document.getElementById('barcode').value =barcode;
+        document.getElementById('imgPosition').value =myImg;
     });
 // to show pop message include updated badge
    
@@ -196,17 +195,11 @@ $(document).ready(function() {
                 maxlength: 30
             },
 
-            fileToUpload: {
-                required: true,
-
-            },
             badgeType: {
                 required: true,
 
 
             },
-
-
         },
 
         messages: {
@@ -215,14 +208,9 @@ $(document).ready(function() {
                 maxlength: "لايمكنك إدخال نص يزيد عن 30 محرف"
             },
 
-            fileToUpload: {
-                required: "حقل مطلوب",
-            },
-
             badgeType: {
                 required: "حقل مطلوب",
             },
-
         }
     });
     // end of validate Edit badge
