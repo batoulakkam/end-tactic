@@ -110,7 +110,7 @@ $leftName = calculateX($visitorName) ;
 $topName  = calculateY($visitorName) ;
 
 // Print Text On Image
-imagettftext($image, $fontSize, $angle, $leftName+strlen("اسم الزائر") , $topName, $color, $fontfile, setText($Arabic, $visitorNameVal));
+imagettftext($image, $fontSize, $angle, $leftName, $topName, $color, $fontfile, setText($Arabic, $visitorNameVal));
 
 //attende Career
 

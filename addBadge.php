@@ -15,7 +15,6 @@ $badgeTypeQuery = mysqli_query($con, "SELECT * FROM badgetype") or die(mysqli_er
 
 
 if ( !empty($_FILES["fileToUpload"]["name"])) {
-  
  $eventId     = $_POST['eventId'];
  $badgeTypeId = $_POST['badgeTypeId'];
  $checkQuery  = mysqli_query($con, "SELECT * FROM badge WHERE event_ID='$eventId' and
@@ -49,6 +48,8 @@ if (isset($_POST['add']))  {
   $visitorName    = $_POST["name"];//position 
   $visitorCareer  = $_POST["career"];//position
   $visitorBarcode = $_POST["barcode"];//position
+  $imgPosition=  $_POST["imgPosition"];//position
+  
   $color=$_POST["color"];
   $barSize=$_POST["barSize"];
   $fontSize=$_POST["fontSize"];
@@ -60,8 +61,8 @@ if (isset($_POST['add']))  {
     $row = mysqli_fetch_array($badgeID);
     $badgeId =$row['badge_ID'];
 
-    $sqlimage = mysqli_query($con, "INSERT INTO imageinfo (imageId  ,color ,barSize ,fontSize ,badgeId,namePosition,careerPosition,barcodePosition)
-    VALUES ('','$color','$barSize','$fontSize','$badgeId','$visitorName ','$visitorCareer','$visitorBarcode')") or die(mysqli_error($con));
+    $sqlimage = mysqli_query($con, "INSERT INTO imageinfo (imageId  ,color ,barSize ,fontSize ,badgeId,namePosition,careerPosition,barcodePosition,imgPosition)
+    VALUES ('','$color','$barSize','$fontSize','$badgeId','$visitorName ','$visitorCareer','$visitorBarcode', '$imgPosition')") or die(mysqli_error($con));
     ///Check if add badge to DB has been done Successfully
     if ($sql & $sqlimage) {
      header("location: /tactic/manageBadge.php");
@@ -174,7 +175,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
               <div class="form-group form-group-lg">
                 <label for="eventName" class="control-label"> ارفاق قالب البطاقة<label style="color:red">*&nbsp;
                   </label></label>
-                <input type="file" class="form-control" onchange="readURL(this);" id="fileToUpload" name="fileToUpload">
+                <input type="file" class="form-control" onchange="readURL(this);" id="fileToUpload" name="fileToUpload" >
                 <!--<br> <label  class="btn-primary btn" for="files"  style="width:100; float:right;" > ارفع الملف</label>
                  <input type="file" onchange="readURL(this);" id="fileToUpload" name="fileToUpload"  style="visibility:hidden;" >&nbsp; <span  id="fileC" for= "files"> لم اختيار الملف</span>
                 -->
@@ -231,6 +232,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
 <input type="hidden" id ="name" name="name" valu="">
 <input type="hidden" id ="career" name="career" valu="">
 <input type="hidden" id ="barcode" name="barcode" valu="">
+<input type="hidden" id ="imgPosition" name="imgPosition" valu="">
             <div class="image-header">
               <h4> اسحب العناصر التالية لتحديد مكانها على الصورة </h4>
 
@@ -282,7 +284,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
   </div>
   </div>
   </div>
-  <div class="printhide">
+  
    <div class="modal fade" id="viewAttendeeBadge" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
      <div class="modal-content">
@@ -290,7 +292,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title"> معاينة البطاقة التعريفية</h4>
       </div>
-  </div>
+
       <div class="modal-body">
       <img sur="" id="viewBadge" height="345px" width="217px"/>
       </div>
@@ -339,7 +341,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
   <script>
     // this part for call navBar
     $(function () {
-      $("#includedContent").load("php/TopNav.php");
+      //$("#includedContent").load("php/TopNav.php");
       $("#includedContent2").load("HTML/rightNav.html");
     });
   </script>
