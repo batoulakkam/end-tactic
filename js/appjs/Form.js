@@ -41,10 +41,21 @@ $(document).ready(function() {
 	
 $("#formDiv").validate();
 
-$("#nameAttende").rules("add", { required: true, maxnlength:30, messages: { required: "حقل مطلوب يرجى إدخال الاسم", maxnlength: "لا يمكن تجاوز الطول المسموح"}});
-$("#emailAttende").rules("add", { required: true, maxnlength:60, messages: { required: "حقل مطلوب يرجى البريد الالكتروني", maxnlength: "لا يمكن تجاوز الطول المسموح"}});
-$("#phoneAttende").rules("add", { required: true, maxnlength:10, messages: { required: "حقل مطلوب يرجى الهاتف", maxnlength: "لا يمكن تجاوز الطول المسموح"}});	
-$("#ageAttende").rules("add", { required: true, messages: { required: "حقل مطلوب يرجى الجنس"}});
+$("#nameAttende").rules("add", {
+    required: true,
+    maxnlength:30,
+    messages: {
+        required: "حقل مطلوب يرجى إدخال الاسم", maxnlength: "لا يمكن تجاوز الطول المسموح"}
+});
+    
+$("#emailAttende").rules("add", {
+    required: true, maxnlength:60,email:true, 
+    messages: {
+        required: "حقل مطلوب يرجى البريد الالكتروني", maxnlength: "لا يمكن تجاوز الطول المسموح",email:"يرجى التحقق من نمط البريد "}
+});
+$("#phoneAttende").rules("add", { required: true,minlength: 10,
+phoneno:true,messages: { required: "حقل مطلوب يرجى الهاتف", minlength: "تحقق من الهاتف "                      }});	
+$("#ageAttende").rules("add", { required: true, messages: { required: "حقل مطلوب يرجى العمر"}});
 $("#eduAttende").rules("add", { required: true, maxnlength:10, messages: { required: "حقل مطلوب يرجى مستوى التعليم"}});
 $("#jobAttende").rules("add", { required: true, maxnlength:30, messages: { required: "حقل مطلوب يرجى إدخال المهنة", maxnlength: "لا يمكن تجاوز الطول المسموح"}});
 $("#natiAttende").rules("add", { required: true, messages: { required: "حقل مطلوب يرجى إختيار الجنسية"}});
