@@ -397,7 +397,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
   </div>
   </div>
   </div>
-  <div class="printhide">
+  
    <div class="modal fade" id="viewAttendeeBadge" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
      <div class="modal-content">
@@ -405,7 +405,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title"> معاينة البطاقة التعريفية</h4>
       </div>
-  </div>
+  
       <div class="modal-body">
       <img sur="" id="viewBadge" height="345px" width="217px"/>
       </div>
