@@ -66,7 +66,6 @@ $(document).ready(function() {
         // get the name of image 
         var name = $("#fileToUpload")[0].files[0] == undefined ? "badge.jpg" : $("#fileToUpload")[0].files[0].name;
         var attendeeID=0;
-       var date=new Date().getTime();
         $.ajax({
             type: "GET",
             dataType: 'JSON',
@@ -80,11 +79,11 @@ $(document).ready(function() {
                 visitorCareer: visitorCareer,
                 visitorBarcode: barcode,
                 eventId:eventId,
-                attendeeID:attendeeID,
-                date:date
+                attendeeID:attendeeID
                 
             },
             success: function(data) {
+                data=data+"?"+new Date().getTime();
                 $('#viewBadge').attr('src',data);
                  $('#viewAttendeeBadge').modal('show');
             },
