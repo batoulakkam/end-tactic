@@ -14,9 +14,41 @@ $fontsize=mysqli_query($con, "SELECT * FROM fontsize ") or die(mysqli_error());
 $badgeTypeQuery = mysqli_query($con, "SELECT * FROM badgetype") or die(mysqli_error());
 
 
-if ( !empty($_FILES["fileToUpload"]["name"])) {
+if (isset($_POST['add'])) {
+
   $eventId     = $_POST['eventId'];
   $badgeTypeId = $_POST['badgeTypeId'];
+ $chechUpload=1;
+
+  // add eventId & badgeTypeId to the name of file to make sure the name is unique
+ 
+  if ( !empty($_FILES["fileToUpload"]["name"])) {
+
+    $name     = $_FILES['fileToUpload']['name'];
+    $size     = $_FILES['fileToUpload']['size'];
+    $type     = $_FILES['fileToUpload']['type'];
+    $tmp_name = $_FILES['fileToUpload']['tmp_name'];
+  $badgeName=substr($type,6);
+  $location = "UploadFile/".$eventId."/".$badgeTypeId.$eventId.".".$badgeName;
+    // save image in Specific position 
+    if (move_uploaded_file($tmp_name, $location)) {
+      true;
+    }else{ $message= " <div class='alert alert-danger alert-dismissible'>
+    <button type='button' class='close' data-dismiss='alert'>&times;</button>
+    <strong> فشل</strong>  يوجد خطأ في حفظ الملف
+    </div> ";
+    $chechUpload=0;
+  }
+  }else {
+    $name     = "badge.jpg";
+    $size     = 23878;
+    $type     = "image/jpeg";
+  $badgeName=substr($type,6);
+  $location ="image/badge.jpg";
+  }
+  
+
+  
   $checkQuery  = mysqli_query($con, "SELECT * FROM badge WHERE event_ID='$eventId' and
   BadgeTypeId='$badgeTypeId'
    ") or die(mysqli_error());
@@ -26,22 +58,15 @@ if ( !empty($_FILES["fileToUpload"]["name"])) {
          <strong> فشل</strong>  الحدث مرتبط ببطاقة مسبقا لايمكن اتمام العملية
          </div> ";
   } else {
-   $name     = $_FILES['fileToUpload']['name'];
-   $size     = $_FILES['fileToUpload']['size'];
-   $type     = $_FILES['fileToUpload']['type'];
-   $tmp_name = $_FILES['fileToUpload']['tmp_name'];
- $badgeName=substr($type,6);
- // add eventId & badgeTypeId to the name of file to make sure the name is unique
-   $location = "UploadFile/".$eventId."/".$badgeTypeId.$eventId.".".$badgeName;
-   //$location = "UploadFile/badges/Captureclasssmall.png";
+  
    $max_size = 100000;
    if ($size <= $max_size) {
      // check the type of image 
      if ($type=="image/jpg"|| $type=="image/JPG" ||$type=="image/jpeg"|| $type=="image/JPEG"){
-       // save image in Specific position 
-    if (move_uploaded_file($tmp_name, $location)) {
+       
      // add info of new badge to the DB
- if (isset($_POST['add']))  {
+     if($chechUpload!=0){
+  
    $visitorName    = $_POST["name"];//position 
    $visitorCareer  = $_POST["career"];//position
    $visitorBarcode = $_POST["barcode"];//position
@@ -67,12 +92,6 @@ if ( !empty($_FILES["fileToUpload"]["name"])) {
          <strong> فشل</strong>  لم تتم عملية الاضافة بنجاح يرجى التحقق
          </div> ";
      }
- } //end if (isset($_POST['add']))
-}else {
-     $message= " <div class='alert alert-danger alert-dismissible'>
-         <button type='button' class='close' data-dismiss='alert'>&times;</button>
-         <strong> فشل</strong>  يوجد خطأ في حفظ الملف
-         </div> ";
     }
    } else {
  // for size message
@@ -88,7 +107,7 @@ if ( !empty($_FILES["fileToUpload"]["name"])) {
              </div> ";
   }
  }
-}// end if ( !empty($_FILES["fileToUpload"]["name"]))
+}//end if (isset($_POST['add']))
  ?>
  
 
@@ -144,8 +163,7 @@ if ( !empty($_FILES["fileToUpload"]["name"])) {
                     while ($row = mysqli_fetch_array($query)):
 
                     echo "<option value='" . $row['event_ID'] . "'>" . $row['name_Event'] . "</option>";
-                    ?>
-                  <?php endwhile;?>
+                    endwhile;?>
 
                 </select>
               </div>
@@ -158,8 +176,7 @@ if ( !empty($_FILES["fileToUpload"]["name"])) {
                   <?php
                     while ($row = mysqli_fetch_array($badgeTypeQuery)):
                     echo "<option value='" . $row['Id'] . "'>" . $row['Name'] . "</option>";
-                    ?>
-                  <?php endwhile;?>
+                    endwhile;?>
 
                 </select>
               </div>
@@ -187,8 +204,7 @@ if ( !empty($_FILES["fileToUpload"]["name"])) {
                     while ($row = mysqli_fetch_array($color)):
 
                     echo "<option value='" . $row['value'] . "'>" . $row['name'] . "</option>";
-                    ?>
-                  <?php endwhile;?>
+                    endwhile;?>
                 </select>
               </div>
             </div>
@@ -202,8 +218,7 @@ if ( !empty($_FILES["fileToUpload"]["name"])) {
                     while ($row = mysqli_fetch_array($fontsize)):
 
                     echo "<option value='" . $row['size'] . "'>" . $row['size'] . "</option>";
-                    ?>
-                  <?php endwhile;?>
+                    endwhile;?>
                 </select>
               </div>
             </div>
@@ -218,8 +233,7 @@ if ( !empty($_FILES["fileToUpload"]["name"])) {
                     while ($row = mysqli_fetch_array($barcodesize)):
 
                     echo "<option value='" . $row['size'] . "'>" . $row['name'] . "</option>";
-                    ?>
-                  <?php endwhile;?>
+                     endwhile;?>
                 </select>
               </div>
             </div>
@@ -259,7 +273,7 @@ if ( !empty($_FILES["fileToUpload"]["name"])) {
             <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <a href="/tactic/manageBadge.php" class="bodyform btn btn-nor-danger btn-sm">رجوع</a>
-                <input type="submit" value="إضافة" name="add" id="add" class="btn btn-nor-primary btn-lg enable-overlay">
+                <input type="submit" value="حفظ" name="add" id="add" class="btn btn-nor-primary btn-lg enable-overlay">
                 <button type="button" id="passImageIfon" name="passImageIfon" class="btn btn-nor-primary btn-lg enable-overlay">
                   معاينة الصورة </button>
 
@@ -335,7 +349,7 @@ if ( !empty($_FILES["fileToUpload"]["name"])) {
   <script>
     // this part for call navBar
     $(function () {
-      $("#includedContent").load("php/TopNav.php");
+     // $("#includedContent").load("php/TopNav.php");
       $("#includedContent2").load("HTML/rightNav.html");
     });
   </script>

@@ -52,7 +52,7 @@ $badgeIfo = mysqli_query($con, "SELECT * FROM  badge b  INNER JOIN imageinfo img
     $type     = $row[5];
     $location = $row[6];
   $badgeName=substr($type,6);
-  $chechUpload=0;
+  $chechUpload=1;
   if (isset($_POST['add']))  {
     $eventId     = $_POST['eventId'];
     $badgeTypeId = $_POST['badgeTypeId'];
@@ -83,14 +83,16 @@ if ( !empty($_FILES["fileToUpload"]["name"])) {
 $badgeName=substr($type,6);
 // add eventId & badgeTypeId to the name of file to make sure the name is unique
   $location = "UploadFile/".$eventId."/".$badgeTypeId.$eventId.".".$badgeName;
-  $chechUpload=1;
+  
   // save image in Specific position 
   if (move_uploaded_file($tmp_name, $location)) {
     true;
-  }else $message= " <div class='alert alert-danger alert-dismissible'>
+  }else {$message= " <div class='alert alert-danger alert-dismissible'>
   <button type='button' class='close' data-dismiss='alert'>&times;</button>
   <strong> فشل</strong>  يوجد خطأ في حفظ الملف
   </div> ";
+  $chechUpload=0;
+}
 }
 
   if ($chechUpload=1||$chechUpload=0){
@@ -99,7 +101,7 @@ $badgeName=substr($type,6);
     // check the type of image 
     if ($type=="image/jpg"|| $type=="image/JPG" ||$type=="image/jpeg"|| $type=="image/JPEG"){
       
-  
+      if($chechUpload!=0){
     // add info of new badge to the DB
 
   $visitorName    = $_POST["name"];//position 
@@ -124,7 +126,7 @@ barcodePosition='$visitorBarcode',imgPosition='$imgPosition' where imageId='$ima
         <strong> فشل</strong>  لم تتم عملية التعديل بنجاح يرجى التحقق
         </div> ";
     }
-
+  }
   } else {
 // for size message
 $message= " <div class='alert alert-danger alert-dismissible'>
@@ -378,7 +380,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
             <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <a href="/tactic/manageBadge.php" class="bodyform btn btn-nor-danger btn-sm">رجوع</a>
-                <input type="submit" value="تعديل" name="add" id="add" class="btn btn-nor-primary btn-lg enable-overlay">
+                <input type="submit" value="حفظ التغيرات" name="add" id="add" class="btn btn-nor-primary btn-lg enable-overlay">
                 <button type="button" id="passImageIfon" name="passImageIfon" class="btn btn-nor-primary btn-lg enable-overlay">
                   معاينة الصورة </button>
 
