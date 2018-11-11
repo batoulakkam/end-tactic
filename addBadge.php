@@ -301,12 +301,12 @@ if (isset($_POST['add'])) {
         <h4 class="modal-title"> معاينة البطاقة التعريفية</h4>
       </div>
 
-      <div class="modal-body">
+      <div class="modal-body"id ="printmy">
       <img sur="#" id="viewBadge" height="345px" width="217px"/>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">إغلاق</button>
-        <button type="button" id="btnPrintBadge" class="btn btn-primary"> طباعة</button>
+        <button type="button" id="btnPrintBadge" class="btn btn-primary" > طباعة</button>
       </div>
     </div>
   </div>

@@ -408,7 +408,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
         <h4 class="modal-title"> معاينة البطاقة التعريفية</h4>
       </div>
   
-      <div class="modal-body">
+      <div class="modal-body" id ="printmy">
       <img sur="" id="viewBadge" height="345px" width="217px"/>
       </div>
       <div class="modal-footer">
