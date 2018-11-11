@@ -349,7 +349,7 @@ if (isset($_POST['add'])) {
   <script>
     // this part for call navBar
     $(function () {
-     // $("#includedContent").load("php/TopNav.php");
+      $("#includedContent").load("php/TopNav.php");
       $("#includedContent2").load("HTML/rightNav.html");
     });
   </script>
