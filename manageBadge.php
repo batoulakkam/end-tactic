@@ -147,9 +147,9 @@ $sql = "SELECT ev.name_Event,ba.badge_ID,ba.badgeTemplateLocation,bt.Name as Bad
             echo "<tr>";
             echo "<td>" . $row['name_Event'] . "</td>";
             echo "<td>" . $row['BadgeTypeName'] . "</td>";
-            echo "<td> <a id='aEditbadge' href='editBadge.php?badgeid=" . $row['badge_ID'] . "'><span class='fa fa-edit' style='font-size:24px;'></span></a>
-                        <a href='#' id='aDeletBadge' class='adelete' data-id=" . $row['badge_ID'] . "><span  class=' fa fa-trash' style='font-size:24px;color:red;  '></span> </a>
-						<a href='download.php?file=" . $row['badgeTemplateLocation'] . "'   data-id=" . $row['badge_ID'] . "><span  class=' glyphicon glyphicon-download-alt ' style='font-size:20px;  '></span> </a></td>
+            echo "<td> <a id='aEditbadge' title='تعديل'' href='editBadge.php?badgeid=" . $row['badge_ID'] . "'><span class='fa fa-edit' style='font-size:24px;'></span></a>
+                        <a href='#' id='aDeletBadge' title='حذف' class='adelete' data-id=" . $row['badge_ID'] . "><span  class=' fa fa-trash' style='font-size:24px;color:red;  '></span> </a>
+						<a title='تنزيل' href='download.php?file=" . $row['badgeTemplateLocation'] . "'   data-id=" . $row['badge_ID'] . "><span  class=' glyphicon glyphicon-download-alt ' style='font-size:20px;  '></span> </a></td>
 										</tr>";
     ?>
 			                <?php endwhile;?>
