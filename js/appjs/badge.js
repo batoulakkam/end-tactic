@@ -127,9 +127,6 @@ $(document).ready(function() {
                 maxlength: 30
             },
 
-            fileToUpload: {
-                required: true,
-            },
             badgeType: {
                 required: true,
             },
@@ -153,10 +150,6 @@ $(document).ready(function() {
             eventName: {
                 required: "حقل مطلوب",
                 maxlength: "لايمكنك إدخال نص يزيد عن 30 محرف"
-            },
-
-            fileToUpload: {
-                required: "حقل مطلوب",
             },
 
             badgeType: {
