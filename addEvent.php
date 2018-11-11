@@ -20,6 +20,13 @@ $maxAttendee      = $_POST['maxAttendee'];
    $IDT = $_SESSION['organizerID'];
    $sql = mysqli_query($con, "INSERT INTO event ( event_ID, name_Event, descrption_Event ,sartDate_Event,endDate_Event,location_Event,organization_name_Event,maxNumOfAttendee,organizer_ID) VALUES ('','$eventName','$EventDescription','$datestart','$dateend','$location','$organizationName','$maxAttendee','$IDT')") or die(mysqli_error($con));
    if ($sql) {
+    $eventId = mysqli_insert_id($con);
+    // create folder
+    mkdir("UploadFile/".$eventId);
+    mkdir("UploadFile/".$eventId."/badge");
+    mkdir("UploadFile/".$eventId."/certificate");
+    mkdir("UploadFile/".$eventId."/barcode");
+    //move to manage page 
     header("location: /tactic/manageEvent.php");
    exit;
    } else {
@@ -29,6 +36,7 @@ $maxAttendee      = $_POST['maxAttendee'];
        </div> ";
    }
   }}
+  
 } else {
  echo " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
