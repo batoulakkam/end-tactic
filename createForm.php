@@ -137,7 +137,7 @@ if (isset($_POST['create'])) {
     <link rel="stylesheet" href="css/icon.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/main-rtl.css">
-    <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="image/logo.png" type="image/x-icon" />
     <!-------------------------------------------------------------------------->
 </head>
 
@@ -309,17 +309,17 @@ if (isset($_POST['create'])) {
                                 </tr>
                                 <tr>
                                     <td colspan="4" class="success">
-                                        <a onclick="toggleMenu2()">
+                                        <a  onclick="toggleMenu2()" >
                                             <span class="fa fa-plus-circle " style="color:green ">  أضاقة حقل  </span>
                                         </a>
-                                    </td>
+                                    </td> 
                                 </tr>
-                                <tr id="box" style=" visibility: hidden">
-                                    <td>
+                                <tr id="box" style="display:none" >
+                                    <td >
                                         <label class="control-label"> اسم الحقل </label>
                                         <input type="text" name="optional" class="form-control">
                                     </td>
-                                    <td>
+                                    <td >
                                         <label class="control-label"> اختيار </label>
                                         <input type="checkbox" name="choicedoptional" value="1" class="form-control" checked>
                                     </td>
@@ -348,6 +348,7 @@ if (isset($_POST['create'])) {
             $("#includedContent").load("php/TopNav.php");
             $("#includedContent2").load("HTML/rightNav.html");
         });
+        
     </script>
 </body>
 

@@ -2,6 +2,9 @@
 require_once('php/connectTosql.php');
  $EditeventID='';
 if(isset($_GET['token'])){
+    $selected[] ="";
+    $requierd[] ="";
+    $length =0;
    $tokenEdit = $_GET['token'];
 	// كويري لجييب الايدي تبع لايفنت اللي ئلهم نفس التوكن
    $query = mysqli_query($con,"SELECT name_of_field , event_ID  FROM registration_form WHERE token = '$tokenEdit'");
@@ -13,13 +16,20 @@ if(isset($_GET['token'])){
 	$row2 =mysqli_fetch_array($query2);
 	$EditeventName = $row2['name_Event'];
 	// حذفت كلشي قديم مختارو للفورم مشان اعمل جديد 
-	$sql =  mysqli_query($con,"DELETE  FROM registration_form WHERE event_ID = '$EditeventID'");
-	
+	$sql =  mysqli_query($con,"select *  FROM registration_form WHERE event_ID = '$EditeventID'");
+    $x =0;
+	while($row =mysqli_fetch_array($sql)){
+    $selected[$x] = $row['name_of_field'];
+    $x++;
+          
+    }
+    $length    = count($selected);
 
 // 
 
 
   if (isset($_POST['create'])){
+      $sql =  mysqli_query($con,"Delete FROM registration_form WHERE event_ID = '$EditeventID'");
 	 $EditID= $_SESSION['EditeventID'];
 	$requierdField =0;
 	$selectedField = 0;
@@ -162,7 +172,8 @@ $_SESSION['EditeventID']= $EditeventID;
 </head>
 
 <body>
-
+  <div id="includedContent"></div>
+  <div id="includedContent2"></div>
   <div class="mainContent">
 
     <div class="container">
@@ -191,16 +202,14 @@ $_SESSION['EditeventID']= $EditeventID;
 		 <th class="text-align" >اسم الحقل </th>
 		<th class="text-align" >اختيار </th>
 		 <th class="text-align">الحقل اجباري </th>
-		<th class="text-align">طول الحقل </th>
-        
-		
+	
     </thead>
     <tbody class="text-align">
       <tr>
 		 <td>الاسم </td>
 		 <td><div><input type="checkbox" name ="requiredName" value="1" class="form-control" disabled checked > </div></td>
 		 <td><div><input type="checkbox" name="choicedName" value="1" class="form-control"  disabled checked></div></td>
-        <td><input type="number" name="lengthName" value="20" class="form-control"></td>
+       
         
         
         
@@ -210,78 +219,74 @@ $_SESSION['EditeventID']= $EditeventID;
 		 <td>البريد الالكتروني  </td>
 		  <td><div><input type="checkbox" name="choicedEmail" value="1" class="form-control" disabled checked ></div></td>
 		  <td><div><input type="checkbox" name="requierdEmail" value="1" class="form-control" disabled checked > </div></td>
-        <td><input type="number" name="lengthEmail" value="30" class="form-control"></td>
     
       </tr>
       <tr>
+          
 		 <td>رقم الهاتف</td>
         
-   		<td><div><input type="checkbox" name="choicedPhone" value="1" class="form-control"></div></td>
+   		<td><div><input type="checkbox" name="choicedPhone" value="1" class="form-control" <?php  for ($x = 0; $x < $length; $x++)  if($selected[$x]== 'الهاتف' ) echo "checked"; ?> ></div></td>
         <td><div><input type="checkbox" name ="requierdPhone" value="1" class="form-control"> </div></td>
-		<td><input type="number" name="LengthPhone" value="10" class="form-control"></td>
-       
+		
       </tr>
       <tr>
 		 <td>العمر </td>
         
-        <td><div><input type="checkbox" name="choicedAge" value="1" class="form-control"></div></td>
+        <td><div><input type="checkbox" name="choicedAge" value="1" class="form-control" <?php  for ($x = 0; $x < $length; $x++)  if($selected[$x]== 'العمر' ) echo "checked"; ?>></div></td>
         <td><div><input type="checkbox" name ="requierdAge" value="1" class="form-control"> </div></td>
-        <td></td>
+    
       </tr>
       <tr>
 		<td>الجنس </td>
         
-        <td><div><input type="checkbox" name="choicedGender" value="1" class="form-control"></div></td>
+        <td><div><input type="checkbox" name="choicedGender" value="1" class="form-control" <?php  for ($x = 0; $x < $length; $x++)  if($selected[$x]== 'الجنس' ) echo "checked"; ?>></div></td>
         <td><div><input type="checkbox" name ="requierdGender" value="1" class="form-control"> </div></td>
-        <td></td>
+    
       </tr>
 		<tr>
 		<td>مستوى التعليم</td>
-        <td><div><input type="checkbox" name="choicedEdu" value="1" class="form-control"></div></td>
+        <td><div><input type="checkbox" name="choicedEdu" value="1" class="form-control"  <?php  for ($x = 0; $x < $length; $x++)  if($selected[$x]== 'التعليم' ) echo "checked"; ?>></div></td>
         <td><div><input type="checkbox" name ="requierdEdu" value="1"class="form-control"> </div></td>
-        <td></td>
+
       </tr>
 
       <tr>
 		 <td>المهنة </td>
-      	<td><div><input type="checkbox" name="choicedJob" value="1" class="form-control"></div></td>
+      	<td><div><input type="checkbox" name="choicedJob" value="1" class="form-control" <?php  for ($x = 0; $x < $length; $x++)  if($selected[$x]== 'المهنة' ) echo "checked"; ?>></div></td>
         <td><div><input type="checkbox" name ="requierdJob" value="1" class="form-control"> </div></td>
-		<td><input type="number" name="lengthJob" value="30" class="form-control"></td>
         
       </tr>
       <tr>
 		 <td>الجنسية </td>
-        <td><div><input type="checkbox" name="choicedNationality" value="1" class="form-control"></div></td>
+        <td><div><input type="checkbox" name="choicedNationality" value="1" class="form-control" <?php  for ($x = 0; $x < $length; $x++)  if($selected[$x]== 'الجنسية' ) echo "checked"; ?>></div></td>
         <td><div><input type="checkbox" name ="requierdNationality" value="1" class="form-control"> </div></td>
-        <td></td>
+
       </tr>
       <tr>
         <td>رقم الهوية</td>
-        <td><div><input type="checkbox" name="choicedID" value="1" class="form-control"></div></td>
+        <td><div><input type="checkbox" name="choicedID" value="1" class="form-control" <?php  for ($x = 0; $x < $length; $x++)  if($selected[$x]== 'الهوية' ) echo "checked"; ?>></div></td>
         <td><div><input type="checkbox" name ="requierdID" value="1" class="form-control"> </div></td>
-       <td><input type="number" name="lengthID" value="20" class="form-control"></td>
       </tr>
       <tr>
         <td>كود للاشخاص المهمين  </td>
-        <td><div><input type="checkbox" name="choicedVIP" value="1" class="form-control"></div></td>
+        <td><div><input type="checkbox" name="choicedVIP" value="1" class="form-control" <?php  for ($x = 0; $x < $length; $x++)  if($selected[$x]== 'الاشخاص المهمة' ) echo "checked"; ?>></div></td>
         <td><div><input type="checkbox" name ="requierdVIP" value="1" class="form-control"> </div></td>
-		<td><input type="number" name="lengthVIP" value="4" class="form-control"></td>
       </tr>
 	   <tr>
         <td colspan="4" class="success" ><a  onclick="toggleMenu2()"><span class="fa fa-plus-circle " style="color:green " >  أضاقة حقل  </span></a></td>
       </tr>
-		<tr  id="box" style=" visibility: hidden">
+		<tr  id="box" style="display:none">
        <td  ><label  class="control-label"> اسم الحقل </label><input type="text" name="optional"  class="form-control"></td>
        <td ><label class="control-label"> اختيار </label><input type="checkbox" name="choicedoptional" value="1" class="form-control" ></td>
         <td ><label  class="control-label"> الحقل اجباري</label><input type="checkbox" name ="requierdoptional" value="1" class="form-control"  ></td>
-		<td ><label  class="control-label"> طول الحقل </label><input type="number" name="lengthVIP" value="30" class="form-control"   ></td>
+		
        
       </tr>
     </tbody>
  		  
   
 			</table>
-			
+			 <a href="manageForm.php" class="bodyform btn btn-nor-danger btn-sm">عودة</a>
   <input type="submit" value="تعديل" name="create" class="btn btn-nor-primary btn-lg enable-overlay">
    
 		
@@ -291,7 +296,7 @@ $_SESSION['EditeventID']= $EditeventID;
     </div>
   </div>
 </div>
-</div>
+
  <script src="js/jquery.min.js"></script>
 <script src="js/javaScriptfile.js"></script>
   <script src="js/jquery.validate.min.js"></script>

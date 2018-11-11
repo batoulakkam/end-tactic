@@ -114,9 +114,12 @@ if (isset($_POST['register'])) {
       <div class="panel panel-primary">
       <div class="panel-heading">
          <h4 class="panelTitle"> التسجيل في <?php echo $eventName; ?> </h4>
-      </div>
+      <div class="panel-heading">
+          <p><?php echo $eventDis; ?></p></div></div>
+        
+      
       <div class="panel-body">
-      <h4><?php echo $eventDis; ?></h4>
+      
       <form action=""  id="formDiv" method="post">
       <?php  if ($masg !="") echo $masg."<br>"; ?>
       <div class="col-md-12">

@@ -2,6 +2,7 @@
 //connect to database
 require_once 'php/connectTosql.php';
 ///delete event
+$flag ="true"; // to check the ruselt of search 
 if (isset($_GET['eventId']) && $_GET['eventId'] != '') {
 //retreive the hidden id in modal
  $eventId = $_GET['eventId'];
@@ -28,7 +29,8 @@ if (isset($_GET['eventId']) && $_GET['eventId'] != '') {
 if (isset($_GET['eventName']) && $_GET['eventName'] != '') {
  $eventName = $_GET['eventName'];
  $query     = mysqli_query($con, "SELECT * FROM event  WHERE  name_Event like '%$eventName%' ") or die(mysqli_error($con));
-} else {
+if (mysqli_num_rows($query) == 0)
+$flag = false;} else {
  if (isset($_SESSION['organizerID'])) {
   $orgID = $_SESSION['organizerID'];
   $query = mysqli_query($con, "SELECT * FROM event WHERE organizer_ID = '$orgID' AND eventLink != '' ") or die(mysqli_error($con));
@@ -74,21 +76,25 @@ if (isset($_GET['eventName']) && $_GET['eventName'] != '') {
         </div>
         <div class="panel-body">
 
-          <form action="manageEvent.php" class="manageEventFrm" method="Get">
+          <form action="manageForm.php" class="manageEventFrm" method="Get">
 
-            <div class="col-md-12">
-              <div class="form-group form-group ">
+             <div class="col-md-12">
+              <div class="form-group form-group-lg">
                 <label for="eventName" class="control-label"> اسم الحدث</label>
-				 <div class="form-inline">
-                <input type="text" class=" form-control" id="txtEventName" name="eventName" required style="width: 450px">
+				
+                <input type="text" class="form-control" id="txtEventName" name="eventName" placeholder="بحث باسم الحدث  ..." >
 
-					 <input type="submit"  class=" btn btn-nor-primary  "  name="update" value = "بحث" style="width:145px">
-			</div>
+		
+                  
+                 </div>
 
               </div>
-			 <a class="btn btn-nor-primary btn-sm" href="createForm.php" style="width:145px"> إضافة نموذج </a>
+              <div class="col-md-12">
+              <div class="form-group form-group-lg">
+            <input type="submit" value="بحث" name="update" class="btn btn-nor-primary btn-sm">
+			 <a class="btn btn-nor-primary btn-sm" href="createForm.php"> إضافة نموذج </a>
             </div>
-
+              </div>
 
           </form>
         </div>
@@ -103,8 +109,8 @@ if (isset($_GET['eventName']) && $_GET['eventName'] != '') {
       </tr>
 
       <?php
-
-while ($row = mysqli_fetch_array($query)):
+  if($flag =="true"){
+while ($row = mysqli_fetch_array($query)){
 
  echo "<tr>";
  echo "<td><a  href='eventDetails.php?eventid=" . $row['event_ID'] . "'>" . $row['name_Event'] . "</a></td>";
@@ -114,10 +120,22 @@ while ($row = mysqli_fetch_array($query)):
  echo "<td><a href='Form.php?token=$token'>" . $row['eventLink'] . "</a></td>";
  echo "<td> <a id='aEditEvent' href='editForm.php?token=$token'><span class='fa fa-edit' style='font-size:24px;'></span></a>
 			        <a href='#' id='aDeletEvent' class='adelete' data-id=" . $row['event_ID'] . "><span  class=' fa fa-trash' style='font-size:24px;color:red;  '></span> </a></td>
-			      </tr>";
+			      </tr>";}
+  }
+        else{if ($flag == false ){
+            echo "<tr>";
+		echo "<td colspan='4'> <div class='alert alert-danger alert-dismissible'>
+        <button type='button' class='close' name ='update' data-dismiss='alert'>&times;</button>
+         <strong> فشل عملية البحث</strong> لم يتم العثور على نتيجة.
+         <a href='manageForm.php' ><br> <div  class='glyphicon glyphicon-refresh' style='font-size:24px  '></div></a>  
+       </div> 
+            
+        
+         </td>";
+            
+            echo "</tr>";}}
 
  ?>
-	<?php endwhile;?>
 
 
     </table>
