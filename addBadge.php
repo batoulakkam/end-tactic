@@ -15,88 +15,82 @@ $badgeTypeQuery = mysqli_query($con, "SELECT * FROM badgetype") or die(mysqli_er
 
 
 if ( !empty($_FILES["fileToUpload"]["name"])) {
- $eventId     = $_POST['eventId'];
- $badgeTypeId = $_POST['badgeTypeId'];
- $checkQuery  = mysqli_query($con, "SELECT * FROM badge WHERE event_ID='$eventId' and
- BadgeTypeId='$badgeTypeId'
-  ") or die(mysqli_error());
-
- if (mysqli_num_rows($checkQuery) > 0) {
-  $message= " <div class='alert alert-danger alert-dismissible'>
-        <button type='button' class='close' data-dismiss='alert'>&times;</button>
-        <strong> فشل</strong>  الحدث مرتبط ببطاقة مسبقا لايمكن اتمام العملية
-        </div> ";
-
- } else {
-
-  $name     = $_FILES['fileToUpload']['name'];
-  $size     = $_FILES['fileToUpload']['size'];
-  $type     = $_FILES['fileToUpload']['type'];
-  $tmp_name = $_FILES['fileToUpload']['tmp_name'];
-$badgeName=substr($type,6);
-// add eventId & badgeTypeId to the name of file to make sure the name is unique
-  $location = "UploadFile/".$eventId."/".$badgeTypeId.$eventId.".".$badgeName;
-  //$location = "UploadFile/badges/Captureclasssmall.png";
-  $max_size = 100000;
-  if ($size <= $max_size) {
-    // check the type of image 
-    if ($type=="image/jpg"|| $type=="image/JPG" ||$type=="image/jpeg"|| $type=="image/JPEG"){
-      // save image in Specific position 
-   if (move_uploaded_file($tmp_name, $location)) {
-    // add info of new badge to the DB
-if (isset($_POST['add']))  {
-  $visitorName    = $_POST["name"];//position 
-  $visitorCareer  = $_POST["career"];//position
-  $visitorBarcode = $_POST["barcode"];//position
-  $imgPosition=  $_POST["imgPosition"];//position
-  
-  $color=$_POST["color"];
-  $barSize=$_POST["barSize"];
-  $fontSize=$_POST["fontSize"];
-
-    $sql = mysqli_query($con, "INSERT INTO badge (BadgeTypeId,event_ID,badgeTemplateName,badgeTemplateSize,badgeTemplateType,badgeTemplateLocation)
-   VALUES ('$badgeTypeId','$eventId','$name' ,'$size', '$type', '$location')") or die(mysqli_error($con));
-// get the badge id to insert it to imageinfo table 
-    $badgeID = mysqli_query($con,"SELECT badge_ID  FROM badge where event_ID ='$eventId' AND BadgeTypeId='$badgeTypeId' ")or die(mysqli_error());
-    $row = mysqli_fetch_array($badgeID);
-    $badgeId =$row['badge_ID'];
-
-    $sqlimage = mysqli_query($con, "INSERT INTO imageinfo (imageId  ,color ,barSize ,fontSize ,badgeId,namePosition,careerPosition,barcodePosition,imgPosition)
-    VALUES ('','$color','$barSize','$fontSize','$badgeId','$visitorName ','$visitorCareer','$visitorBarcode', '$imgPosition')") or die(mysqli_error($con));
-    ///Check if add badge to DB has been done Successfully
-    if ($sql & $sqlimage) {
-     header("location: /tactic/manageBadge.php");
-    } else {
-     $message=" <div class='alert alert-danger alert-dismissible'>
-        <button type='button' class='close' data-dismiss='alert'>&times;</button>
-        <strong> فشل</strong>  لم تتم عملية الاضافة بنجاح يرجى التحقق
-        </div> ";
-    }
-} /*else {
-    $message= " <div class='alert alert-danger alert-dismissible'>
-        <button type='button' class='close' data-dismiss='alert'>&times;</button>
-        <strong> فشل</strong>  يوجد خطأ في حفظ الملف
-        </div> ";
-
-   }*/
-  }// end if (isset($_POST['add']))
-   
+  $eventId     = $_POST['eventId'];
+  $badgeTypeId = $_POST['badgeTypeId'];
+  $checkQuery  = mysqli_query($con, "SELECT * FROM badge WHERE event_ID='$eventId' and
+  BadgeTypeId='$badgeTypeId'
+   ") or die(mysqli_error());
+  if (mysqli_num_rows($checkQuery) > 0) {
+   $message= " <div class='alert alert-danger alert-dismissible'>
+         <button type='button' class='close' data-dismiss='alert'>&times;</button>
+         <strong> فشل</strong>  الحدث مرتبط ببطاقة مسبقا لايمكن اتمام العملية
+         </div> ";
   } else {
-// for size message
-$message= " <div class='alert alert-danger alert-dismissible'>
+   $name     = $_FILES['fileToUpload']['name'];
+   $size     = $_FILES['fileToUpload']['size'];
+   $type     = $_FILES['fileToUpload']['type'];
+   $tmp_name = $_FILES['fileToUpload']['tmp_name'];
+ $badgeName=substr($type,6);
+ // add eventId & badgeTypeId to the name of file to make sure the name is unique
+   $location = "UploadFile/".$eventId."/".$badgeTypeId.$eventId.".".$badgeName;
+   //$location = "UploadFile/badges/Captureclasssmall.png";
+   $max_size = 100000;
+   if ($size <= $max_size) {
+     // check the type of image 
+     if ($type=="image/jpg"|| $type=="image/JPG" ||$type=="image/jpeg"|| $type=="image/JPEG"){
+       // save image in Specific position 
+    if (move_uploaded_file($tmp_name, $location)) {
+     // add info of new badge to the DB
+ if (isset($_POST['add']))  {
+   $visitorName    = $_POST["name"];//position 
+   $visitorCareer  = $_POST["career"];//position
+   $visitorBarcode = $_POST["barcode"];//position
+   $imgPosition=  $_POST["imgPosition"];//position
+   
+   $color=$_POST["color"];
+   $barSize=$_POST["barSize"];
+   $fontSize=$_POST["fontSize"];
+     $sql = mysqli_query($con, "INSERT INTO badge (BadgeTypeId,event_ID,badgeTemplateName,badgeTemplateSize,badgeTemplateType,badgeTemplateLocation)
+    VALUES ('$badgeTypeId','$eventId','$name' ,'$size', '$type', '$location')") or die(mysqli_error($con));
+ // get the badge id to insert it to imageinfo table 
+     $badgeID = mysqli_query($con,"SELECT badge_ID  FROM badge where event_ID ='$eventId' AND BadgeTypeId='$badgeTypeId' ")or die(mysqli_error());
+     $row = mysqli_fetch_array($badgeID);
+     $badgeId =$row['badge_ID'];
+     $sqlimage = mysqli_query($con, "INSERT INTO imageinfo (imageId  ,color ,barSize ,fontSize ,badgeId,namePosition,careerPosition,barcodePosition,imgPosition)
+     VALUES ('','$color','$barSize','$fontSize','$badgeId','$visitorName ','$visitorCareer','$visitorBarcode', '$imgPosition')") or die(mysqli_error($con));
+     ///Check if add badge to DB has been done Successfully
+     if ($sql & $sqlimage) {
+      header("location: /tactic/manageBadge.php");
+     } else {
+      $message=" <div class='alert alert-danger alert-dismissible'>
+         <button type='button' class='close' data-dismiss='alert'>&times;</button>
+         <strong> فشل</strong>  لم تتم عملية الاضافة بنجاح يرجى التحقق
+         </div> ";
+     }
+ } //end if (isset($_POST['add']))
+}else {
+     $message= " <div class='alert alert-danger alert-dismissible'>
+         <button type='button' class='close' data-dismiss='alert'>&times;</button>
+         <strong> فشل</strong>  يوجد خطأ في حفظ الملف
+         </div> ";
+    }
+   } else {
+ // for size message
+ $message= " <div class='alert alert-danger alert-dismissible'>
+             <button type='button' class='close' data-dismiss='alert'>&times;</button>
+             يرجى التحقق من صيغة الملف يجب ان تكون من نوع (JPG)(JPEG)
+             </div> ";
+   }
+ } else {
+ $message= " <div class='alert alert-danger alert-dismissible'>
             <button type='button' class='close' data-dismiss='alert'>&times;</button>
-            يرجى التحقق من صيغة الملف يجب ان تكون من نوع (JPG)(JPEG)
-            </div> ";
+              تنبيه أكبر حجم للملف هو 10 ميغا
+             </div> ";
   }
-} else 
-$message= " <div class='alert alert-danger alert-dismissible'>
-           <button type='button' class='close' data-dismiss='alert'>&times;</button>
-             تنبيه أكبر حجم للملف هو 10 ميغا
-            </div> ";
  }
 }// end if ( !empty($_FILES["fileToUpload"]["name"]))
-?>
-
+ ?>
+ 
 
 <!DOCTYPE html>
 <html lang="ar">
@@ -294,7 +288,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
       </div>
 
       <div class="modal-body">
-      <img sur="" id="viewBadge" height="345px" width="217px"/>
+      <img sur="#" id="viewBadge" height="345px" width="217px"/>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">إغلاق</button>
@@ -341,7 +335,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
   <script>
     // this part for call navBar
     $(function () {
-      //$("#includedContent").load("php/TopNav.php");
+      $("#includedContent").load("php/TopNav.php");
       $("#includedContent2").load("HTML/rightNav.html");
     });
   </script>
