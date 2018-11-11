@@ -46,22 +46,25 @@ $badgeIfo = mysqli_query($con, "SELECT * FROM  badge b  INNER JOIN imageinfo img
     $careerPosition=$row[13];
     $barcodePosition=$row[14];
     $imagePosition=$row[15];
-if ( !empty($_FILES["fileToUpload"]["name"])) {
-  
- $eventId     = $_POST['eventId'];
- $badgeTypeId = $_POST['badgeTypeId'];
- $chech=1;
 
- $checkQuery  = mysqli_query($con, "SELECT * FROM badge WHERE event_ID='$eventId' and BadgeTypeId='$badgeTypeId'") or die(mysqli_error());
+    $name     = $row[3];
+    $size     = $row[4];
+    $type     = $row[5];
+    $location = $row[6];
+  $badgeName=substr($type,6);
+  $chechUpload=0;
+  if (isset($_POST['add']))  {
+    $eventId     = $_POST['eventId'];
+    $badgeTypeId = $_POST['badgeTypeId'];
 
  if ($BadgeTypeEd!= $badgeTypeId){
+  $checkQuery  = mysqli_query($con, "SELECT * FROM badge WHERE event_ID='$eventId' and BadgeTypeId='$badgeTypeId'") or die(mysqli_error());
   if (mysqli_num_rows($checkQuery) > 0) {
     $chech=0; 
   }else{
-    $chech=1;
-  }
-  
- }//end if 
+    $chech=1;} 
+ }else{
+  $chech=1;}
 
  if ($chech== 0) {
   $message= " <div class='alert alert-danger alert-dismissible'>
@@ -71,6 +74,8 @@ if ( !empty($_FILES["fileToUpload"]["name"])) {
 
  } else {
 
+if ( !empty($_FILES["fileToUpload"]["name"])) {
+
   $name     = $_FILES['fileToUpload']['name'];
   $size     = $_FILES['fileToUpload']['size'];
   $type     = $_FILES['fileToUpload']['type'];
@@ -78,15 +83,25 @@ if ( !empty($_FILES["fileToUpload"]["name"])) {
 $badgeName=substr($type,6);
 // add eventId & badgeTypeId to the name of file to make sure the name is unique
   $location = "UploadFile/".$eventId."/".$badgeTypeId.$eventId.".".$badgeName;
-  //$location = "UploadFile/badges/Captureclasssmall.png";
+  $chechUpload=1;
+  // save image in Specific position 
+  if (move_uploaded_file($tmp_name, $location)) {
+    true;
+  }else $message= " <div class='alert alert-danger alert-dismissible'>
+  <button type='button' class='close' data-dismiss='alert'>&times;</button>
+  <strong> فشل</strong>  يوجد خطأ في حفظ الملف
+  </div> ";
+}
+
+  if ($chechUpload=1||$chechUpload=0){
   $max_size = 100000;
   if ($size <= $max_size) {
     // check the type of image 
     if ($type=="image/jpg"|| $type=="image/JPG" ||$type=="image/jpeg"|| $type=="image/JPEG"){
-      // save image in Specific position 
-   if (move_uploaded_file($tmp_name, $location)) {
+      
+  
     // add info of new badge to the DB
-if (isset($_POST['add']))  {
+
   $visitorName    = $_POST["name"];//position 
   $visitorCareer  = $_POST["career"];//position
   $visitorBarcode = $_POST["barcode"];//position
@@ -109,15 +124,7 @@ barcodePosition='$visitorBarcode',imgPosition='$imgPosition' where imageId='$ima
         <strong> فشل</strong>  لم تتم عملية التعديل بنجاح يرجى التحقق
         </div> ";
     }
-} /*else {
-    $message= " <div class='alert alert-danger alert-dismissible'>
-        <button type='button' class='close' data-dismiss='alert'>&times;</button>
-        <strong> فشل</strong>  يوجد خطأ في حفظ الملف
-        </div> ";
 
-   }*/
-  }// end if (isset($_POST['add']))
-   
   } else {
 // for size message
 $message= " <div class='alert alert-danger alert-dismissible'>
@@ -131,7 +138,8 @@ $message= " <div class='alert alert-danger alert-dismissible'>
              تنبيه أكبر حجم للملف هو 10 ميغا
             </div> ";
  }//end 
-}// end if ( !empty($_FILES["fileToUpload"]["name"]))
+}// end else
+} //end add 
 ?>
 
 <!DOCTYPE html>
@@ -171,7 +179,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
           <h4 class="panelTitle"> تعديل بطاقة </h4>
         </div>
         <div class="panel-body">
-          <form action="" class="formDivAddBadge" method="post" enctype="multipart/form-data">
+          <form action="" class="formDivEditBadge" method="post" enctype="multipart/form-data">
             <?php echo $message; ?>
             <div class="col-md-12 ">
               <div class="form-group form-group-lg">
@@ -213,8 +221,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="eventName" class="control-label"> ارفاق قالب البطاقة<label style="color:red">*&nbsp;
-                  </label></label>
+                <label for="eventName" class="control-label"> ارفاق قالب البطاقة</label>
                 <input type="file" class="form-control" onchange="readURL(this);" id="fileToUpload" name="fileToUpload">
                 <!--<br> <label  class="btn-primary btn" for="files"  style="width:100; float:right;" > ارفع الملف</label>
                  <input type="file" onchange="readURL(this);" id="fileToUpload" name="fileToUpload"  style="visibility:hidden;" >&nbsp; <span  id="fileC" for= "files"> لم اختيار الملف</span>
@@ -234,9 +241,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
                         }else{
                             echo "<option value='" . $row['value'] . "'>" . $row['name'] . "</option>";
                         }
-                    
-                    ?>
-                  <?php endwhile;?>
+                   endwhile;?>
                 </select>
               </div>
             </div>
@@ -254,8 +259,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
                         echo "<option value='" . $row['size'] . "'>" . $row['size'] . "</option>";
                     }
                     
-                    ?>
-                  <?php endwhile;?>
+                   endwhile;?>
                 </select>
               </div>
             </div>
@@ -274,8 +278,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
                             echo "<option value='" . $row['size'] . "'>" . $row['name'] . "</option>";
                         }
                    
-                    ?>
-                  <?php endwhile;?>
+                    endwhile;?>
                 </select>
               </div>
             </div>
@@ -452,7 +455,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
   <script>
     // this part for call navBar
     $(function () {
-      //$("#includedContent").load("php/TopNav.php");
+      $("#includedContent").load("php/TopNav.php");
       $("#includedContent2").load("HTML/rightNav.html");
     });
   </script>
