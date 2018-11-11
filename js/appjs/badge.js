@@ -1,16 +1,5 @@
 $(document).ready(function() {
 
-    $("#lblVisitorName").draggable({
-        refreshPositions: true
-    });
-    $("#lblCareer").draggable({
-        refreshPositions: true
-    });
-    $("#dvBarcode").draggable({
-        refreshPositions: true
-    });
-
-
     //delete event
     $(".adelete").click(function() {
         $("#hdBadgeId").val($(this).data("id"));
@@ -48,6 +37,18 @@ $(document).ready(function() {
             }
         });
     });
+
+    
+    $("#lblVisitorName").draggable({
+        refreshPositions: true
+    });
+    $("#lblCareer").draggable({
+        refreshPositions: true
+    });
+    $("#dvBarcode").draggable({
+        refreshPositions: true
+    });
+
  
     // send the info of image to write it on the image for testing
     $('#passImageIfon').click(function() {
