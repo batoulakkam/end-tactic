@@ -91,6 +91,27 @@ $(document).ready(function() {
            
         });
     });
+  
+document.getElementById("btnPrintBadge").onclick = function () {
+    printElement(document.getElementById("printmy"));
+}
+
+function printElement(elem) {
+    var domClone = elem.cloneNode(true);
+    
+    var $printSection = document.getElementById("printSection");
+    
+    if (!$printSection) {
+        var $printSection = document.createElement("div");
+        $printSection.id = "printSection";
+        document.body.appendChild($printSection);
+    }
+    
+    $printSection.innerHTML = "";
+    $printSection.appendChild(domClone);
+    window.print();
+}
+
 
     $('#add').click(function() {
         // get value of required variable and pass it to imagetext.php
@@ -107,18 +128,6 @@ $(document).ready(function() {
         document.getElementById('barcode').value =barcode;
         document.getElementById('imgPosition').value =myImg;
     });
-// to show pop message include updated badge
-   
-
-    $('#btnPrintBadge').click(function(e) {
-        var objBrowse = window.navigator;
-        if (objBrowse.appName == "Opera" || objBrowse.appName == "Netscape") {
-            setTimeout("window.print()", 1000);
-        } else {
-            window.print();
-        }
-    });
-    
 
     $(".formDivAddBadge").validate({
         // Specify validation rules
