@@ -86,12 +86,12 @@ $(document).ready(function() {
             success: function(data) {
                 data=data+"?"+new Date().getTime();
                 $('#viewBadge').attr('src',data);
-                 $('#viewAttendeeBadge').modal('show');
+                $('#viewAttendeeBadge').modal('show');
             },
            
         });
     });
-  
+  // this part for print image 
 document.getElementById("btnPrintBadge").onclick = function () {
     printElement(document.getElementById("printmy"));
 }
