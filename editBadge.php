@@ -297,68 +297,73 @@ $message= " <div class='alert alert-danger alert-dismissible'>
                 <ul class="image-group">
                   <li class="list-group-item image-item-list" >
                   <?php
-          /*
+                  //-905      -638
                   $leftPosition=calculateX($namePosition);
                   $topPosition=calculateY($namePosition);
-                  $topImg=calculateY($imagePosition);
+                 $topImg=calculateY($imagePosition);
                   $leftImg=calculateX($imagePosition);
                   if($leftPosition>=16.9375 && $leftPosition<=212.9375){
                     if($topPosition>=5 && $topPosition<=327){
-                      $leftImg= floatval($leftPosition)-16.9375;
-                      $topImg=floatval($topPosition)+5;
-                      
-                    echo "<label id='lblVisitorName' style='top:".$topImg."px; left:".$leftImg."px' > اسم الزائر </label>";
+                      $leftPosition=floatval($leftPosition)+ floatval($leftImg);
+                      $topPosition=floatval($topPosition)+floatval($topImg);
+                      $leftImg=floatval($leftPosition)-905 ;
+                      $topImg=floatval($topPosition)-638; 
+                  
+                    echo "<label id='lblVisitorName' style='top:".$topImg."px; left:".$leftImg."px;' > اسم الزائر </label>";
                   }
                 }
                   else
-                  {*/
+                  {
                     echo "<label id='lblVisitorName'> اسم الزائر </label>";
-                 // }
+                  }
                   ?>
-                 <!--<label id="lblVisitorName"> اسم الزائر </label>-->
                   </li>
                   <li class="list-group-item image-item-list"  >
                   <?php
-          /*
+                
                   $leftPosition=calculateX($careerPosition);
                   $topPosition=calculateY($careerPosition);
-                  $topImg=calculateY($imagePosition);
+                 $topImg=calculateY($imagePosition);
                   $leftImg=calculateX($imagePosition);
                   if($leftPosition>=16.9375 && $leftPosition<=212.9375){
                     if($topPosition>=5 && $topPosition<=327){
-                      $leftImg= floatval($leftPosition);//+floatval($leftImg)
-                      $topImg=floatval($topPosition);//+floatval($topImg)
+                      $leftPosition=floatval($leftPosition)+ floatval($leftImg);
+                      $topPosition=floatval($topPosition)+floatval($topImg);
+                      $leftImg=floatval($leftPosition)-900 ;
+                      $topImg=floatval($topPosition)-678; 
                       
                     echo "<label id='lblCareer' style='top:".$topImg."px; left:".$leftImg."px' > مهنة الزائر </label>";
                   }
                 }
                   else
-                  {*/
+                  {
                     echo "<label id='lblCareer'> مهنة الزائر </label>";
-                  //}
+                  }
                   ?>
                    
                   </li>
                   <li class="list-group-item image-item-list"   >
                   <?php
-                  /* 
-                  $barcodePosition="X584Y682";
-                  $leftPosition=round(calculateX($barcodePosition));
+                  
+                  $leftPosition=calculateX($barcodePosition);
                   $topPosition=calculateY($barcodePosition);
-                  $topImg=calculateY($imagePosition);
+                 $topImg=calculateY($imagePosition);
                   $leftImg=calculateX($imagePosition);
-                 if($leftPosition>=16.9375 && $leftPosition<=212.9375){
+                  if($leftPosition>=16.9375 && $leftPosition<=212.9375){
                     if($topPosition>=5 && $topPosition<=327){
-                      $leftImg= floatval($leftPosition);//-floatval($leftImg)
-                      $topImg=floatval($topPosition);//+floatval($topImg) 
+                      $leftPosition=floatval($leftPosition)+ floatval($leftImg);
+                      $topPosition=floatval($topPosition)+floatval($topImg);
+                      $leftImg=floatval($leftPosition)-876;
+                      $topImg=floatval($topPosition)-718; 
+
                    
-                    echo "<img id='dvBarcode'  src='image/bar.png' style='top:".$topPosition."px; left:".$leftPosition."px'/>";
+                    echo "<img id='dvBarcode'  src='image/bar.png' style='top:".$topImg."px; left:".$leftImg."px'/>";
                  }
                   }
                   else
-                  {*/
+                  {
                     echo "<img id='dvBarcode'  src='image/bar.png' />";
-                 // }
+                 }
                   ?>
                    
                   </li>
@@ -457,7 +462,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
   <script>
     // this part for call navBar
     $(function () {
-      $("#includedContent").load("php/TopNav.php");
+      //$("#includedContent").load("php/TopNav.php");
       $("#includedContent2").load("HTML/rightNav.html");
     });
   </script>
