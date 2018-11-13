@@ -309,12 +309,12 @@ $message= " <div class='alert alert-danger alert-dismissible'>
                       $leftImg=floatval($leftPosition)-905 ;
                       $topImg=floatval($topPosition)-638; 
                   
-                    echo "<label id='lblVisitorName' style='top:".$topImg."px; left:".$leftImg."px;' > اسم الزائر </label>";
+                    echo "<label id='lblVisitorName' style='top:".$topImg."px; left:".$leftImg."px;' >اسم الزائر</label>";
                   }
                 }
                   else
                   {
-                    echo "<label id='lblVisitorName'> اسم الزائر </label>";
+                    echo "<label id='lblVisitorName'>اسم الزائر</label>";
                   }
                   ?>
                   </li>
