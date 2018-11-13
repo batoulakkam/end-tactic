@@ -47,11 +47,9 @@ $barSize        = $_GET["barSize"];
 $fontSize       = $_GET["fontSize"];
 $imageName      = $_GET["sorce"];
 $eventId        =$_GET["eventId"];
-$visitorNameVal =$_SESSION['OrgName'];
+$visitorNameVal = "بتول "; //$_SESSION['OrgName'];//
 $visitorCareerVal="منظم فعاليات";
-$date=$_GET['date'];
 $sorce = "image/" . $imageName;
-$imageName = $date.$imageName;
 }
 else{
   $attende = mysqli_query($con, "SELECT *
@@ -85,7 +83,7 @@ file_put_contents('UploadFile/'.$eventId .'/barcode/'.$attendeeID.'.png', $barco
 // Load And Create Image From Source this bacground image
 $image = imagecreatefromjpeg($sorce);
 // Load the stamp and the photo to apply the watermark to this barcode image
-$stamp = imagecreatefrompng('UploadFile/barcood/code.png');
+$stamp = imagecreatefrompng('UploadFile/'.$eventId .'/barcode/'.$attendeeID.'.png');
 //the url of the result barcod.jpg
 //$name="name.jpg";
 $output = "UploadFile/".$eventId."/badge/". $imageName;
@@ -110,17 +108,15 @@ switch ($color) {
 // attende Name
 $leftName = calculateX($visitorName) ;
 $topName  = calculateY($visitorName) ;
-
-// Print Text On Image
-imagettftext($image, $fontSize, $angle, $leftName, $topName, $color, $fontfile, setText($Arabic, $visitorNameVal));
+$test=$leftName-strlen($visitorNameVal);
+// Print Text On Image   -55+strlen("اسم الزائر")
+imagettftext($image, $fontSize, $angle, $test -strlen($visitorNameVal)-5 , $topName, $color, $fontfile, setText($Arabic, $visitorNameVal));
 
 //attende Career
-
 $leftCareer = calculateX($visitorCareer) ;
 $topCareer  = calculateY($visitorCareer) ;
-
 //Print Text On Image
-imagettftext($image, $fontSize, $angle, $leftCareer-5, $topCareer, $color, $fontfile, setText($Arabic, $visitorCareerVal));
+imagettftext($image, $fontSize, $angle, $leftCareer-strlen("مهنة الزائر"), $topCareer, $color, $fontfile, setText($Arabic, $visitorCareerVal));
 
 // attende Barcode
 
