@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 10, 2018 at 02:36 PM
+-- Generation Time: Nov 18, 2018 at 05:32 PM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 7.2.9
 
@@ -19,8 +19,488 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
+-- Database: `phpmyadmin`
+--
+CREATE DATABASE IF NOT EXISTS `phpmyadmin` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+USE `phpmyadmin`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__bookmark`
+--
+
+CREATE TABLE `pma__bookmark` (
+  `id` int(11) NOT NULL,
+  `dbase` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `user` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `label` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `query` text COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Bookmarks';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__central_columns`
+--
+
+CREATE TABLE `pma__central_columns` (
+  `db_name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `col_name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `col_type` varchar(64) COLLATE utf8_bin NOT NULL,
+  `col_length` text COLLATE utf8_bin,
+  `col_collation` varchar(64) COLLATE utf8_bin NOT NULL,
+  `col_isNull` tinyint(1) NOT NULL,
+  `col_extra` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `col_default` text COLLATE utf8_bin
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Central list of columns';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__column_info`
+--
+
+CREATE TABLE `pma__column_info` (
+  `id` int(5) UNSIGNED NOT NULL,
+  `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `table_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `column_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `comment` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `mimetype` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `transformation` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `transformation_options` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `input_transformation` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `input_transformation_options` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Column information for phpMyAdmin';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__designer_settings`
+--
+
+CREATE TABLE `pma__designer_settings` (
+  `username` varchar(64) COLLATE utf8_bin NOT NULL,
+  `settings_data` text COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Settings related to Designer';
+
+--
+-- Dumping data for table `pma__designer_settings`
+--
+
+INSERT INTO `pma__designer_settings` (`username`, `settings_data`) VALUES
+('root', '{\"relation_lines\":\"true\",\"snap_to_grid\":\"off\",\"angular_direct\":\"direct\"}');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__export_templates`
+--
+
+CREATE TABLE `pma__export_templates` (
+  `id` int(5) UNSIGNED NOT NULL,
+  `username` varchar(64) COLLATE utf8_bin NOT NULL,
+  `export_type` varchar(10) COLLATE utf8_bin NOT NULL,
+  `template_name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `template_data` text COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Saved export templates';
+
+--
+-- Dumping data for table `pma__export_templates`
+--
+
+INSERT INTO `pma__export_templates` (`id`, `username`, `export_type`, `template_name`, `template_data`) VALUES
+(1, 'root', 'table', 'Lookup', '{\"quick_or_custom\":\"quick\",\"what\":\"sql\",\"allrows\":\"1\",\"aliases_new\":\"\",\"output_format\":\"sendit\",\"filename_template\":\"@TABLE@\",\"remember_template\":\"on\",\"charset\":\"utf-8\",\"compression\":\"none\",\"maxsize\":\"\",\"codegen_structure_or_data\":\"data\",\"codegen_format\":\"0\",\"csv_separator\":\",\",\"csv_enclosed\":\"\\\"\",\"csv_escaped\":\"\\\"\",\"csv_terminated\":\"AUTO\",\"csv_null\":\"NULL\",\"csv_structure_or_data\":\"data\",\"excel_null\":\"NULL\",\"excel_columns\":\"something\",\"excel_edition\":\"win\",\"excel_structure_or_data\":\"data\",\"json_structure_or_data\":\"data\",\"json_unicode\":\"something\",\"latex_caption\":\"something\",\"latex_structure_or_data\":\"structure_and_data\",\"latex_structure_caption\":\"Structure of table @TABLE@\",\"latex_structure_continued_caption\":\"Structure of table @TABLE@ (continued)\",\"latex_structure_label\":\"tab:@TABLE@-structure\",\"latex_relation\":\"something\",\"latex_comments\":\"something\",\"latex_mime\":\"something\",\"latex_columns\":\"something\",\"latex_data_caption\":\"Content of table @TABLE@\",\"latex_data_continued_caption\":\"Content of table @TABLE@ (continued)\",\"latex_data_label\":\"tab:@TABLE@-data\",\"latex_null\":\"\\\\textit{NULL}\",\"mediawiki_structure_or_data\":\"data\",\"mediawiki_caption\":\"something\",\"mediawiki_headers\":\"something\",\"htmlword_structure_or_data\":\"structure_and_data\",\"htmlword_null\":\"NULL\",\"ods_null\":\"NULL\",\"ods_structure_or_data\":\"data\",\"odt_structure_or_data\":\"structure_and_data\",\"odt_relation\":\"something\",\"odt_comments\":\"something\",\"odt_mime\":\"something\",\"odt_columns\":\"something\",\"odt_null\":\"NULL\",\"pdf_report_title\":\"\",\"pdf_structure_or_data\":\"data\",\"phparray_structure_or_data\":\"data\",\"sql_include_comments\":\"something\",\"sql_header_comment\":\"\",\"sql_use_transaction\":\"something\",\"sql_compatibility\":\"NONE\",\"sql_structure_or_data\":\"structure_and_data\",\"sql_create_table\":\"something\",\"sql_auto_increment\":\"something\",\"sql_create_view\":\"something\",\"sql_create_trigger\":\"something\",\"sql_backquotes\":\"something\",\"sql_type\":\"INSERT\",\"sql_insert_syntax\":\"both\",\"sql_max_query_size\":\"50000\",\"sql_hex_for_binary\":\"something\",\"sql_utc_time\":\"something\",\"texytext_structure_or_data\":\"structure_and_data\",\"texytext_null\":\"NULL\",\"xml_structure_or_data\":\"data\",\"xml_export_events\":\"something\",\"xml_export_functions\":\"something\",\"xml_export_procedures\":\"something\",\"xml_export_tables\":\"something\",\"xml_export_triggers\":\"something\",\"xml_export_views\":\"something\",\"xml_export_contents\":\"something\",\"yaml_structure_or_data\":\"data\",\"\":null,\"lock_tables\":null,\"csv_removeCRLF\":null,\"csv_columns\":null,\"excel_removeCRLF\":null,\"json_pretty_print\":null,\"htmlword_columns\":null,\"ods_columns\":null,\"sql_dates\":null,\"sql_relation\":null,\"sql_mime\":null,\"sql_disable_fk\":null,\"sql_views_as_tables\":null,\"sql_metadata\":null,\"sql_drop_table\":null,\"sql_if_not_exists\":null,\"sql_procedure_function\":null,\"sql_truncate\":null,\"sql_delayed\":null,\"sql_ignore\":null,\"texytext_columns\":null}');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__favorite`
+--
+
+CREATE TABLE `pma__favorite` (
+  `username` varchar(64) COLLATE utf8_bin NOT NULL,
+  `tables` text COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Favorite tables';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__history`
+--
+
+CREATE TABLE `pma__history` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `username` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `db` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `table` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `timevalue` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `sqlquery` text COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='SQL history for phpMyAdmin';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__navigationhiding`
+--
+
+CREATE TABLE `pma__navigationhiding` (
+  `username` varchar(64) COLLATE utf8_bin NOT NULL,
+  `item_name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `item_type` varchar(64) COLLATE utf8_bin NOT NULL,
+  `db_name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `table_name` varchar(64) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hidden items of navigation tree';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__pdf_pages`
+--
+
+CREATE TABLE `pma__pdf_pages` (
+  `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `page_nr` int(10) UNSIGNED NOT NULL,
+  `page_descr` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='PDF relation pages for phpMyAdmin';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__recent`
+--
+
+CREATE TABLE `pma__recent` (
+  `username` varchar(64) COLLATE utf8_bin NOT NULL,
+  `tables` text COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Recently accessed tables';
+
+--
+-- Dumping data for table `pma__recent`
+--
+
+INSERT INTO `pma__recent` (`username`, `tables`) VALUES
+('root', '[{\"db\":\"tactic\",\"table\":\"event\"},{\"db\":\"tactic\",\"table\":\"rate\"},{\"db\":\"tactic\",\"table\":\"ratingvalue\"},{\"db\":\"tactic\",\"table\":\"ratingvalues\"},{\"db\":\"tactic\",\"table\":\"attendee\"},{\"db\":\"tactic\",\"table\":\"certificate\"},{\"db\":\"tactic\",\"table\":\"subeventattendee\"},{\"db\":\"tactic\",\"table\":\"certificateimageinfo\"},{\"db\":\"tactic\",\"table\":\"imageinfo\"},{\"db\":\"tactic\",\"table\":\"badge\"}]');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__relation`
+--
+
+CREATE TABLE `pma__relation` (
+  `master_db` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `master_table` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `master_field` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `foreign_db` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `foreign_table` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `foreign_field` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Relation table';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__savedsearches`
+--
+
+CREATE TABLE `pma__savedsearches` (
+  `id` int(5) UNSIGNED NOT NULL,
+  `username` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `search_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `search_data` text COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Saved searches';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__table_coords`
+--
+
+CREATE TABLE `pma__table_coords` (
+  `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `table_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `pdf_page_number` int(11) NOT NULL DEFAULT '0',
+  `x` float UNSIGNED NOT NULL DEFAULT '0',
+  `y` float UNSIGNED NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table coordinates for phpMyAdmin PDF output';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__table_info`
+--
+
+CREATE TABLE `pma__table_info` (
+  `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `table_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `display_field` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table information for phpMyAdmin';
+
+--
+-- Dumping data for table `pma__table_info`
+--
+
+INSERT INTO `pma__table_info` (`db_name`, `table_name`, `display_field`) VALUES
+('tactic', 'attendee', 'email'),
+('tactic', 'badge', 'badgeTemplateName'),
+('tactic', 'certificateimageinfo', 'eventnameposition'),
+('tactic', 'imageinfo', 'namePosition'),
+('tactic', 'prize', 'namePrize');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__table_uiprefs`
+--
+
+CREATE TABLE `pma__table_uiprefs` (
+  `username` varchar(64) COLLATE utf8_bin NOT NULL,
+  `db_name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `table_name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `prefs` text COLLATE utf8_bin NOT NULL,
+  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tables'' UI preferences';
+
+--
+-- Dumping data for table `pma__table_uiprefs`
+--
+
+INSERT INTO `pma__table_uiprefs` (`username`, `db_name`, `table_name`, `prefs`, `last_update`) VALUES
+('root', 'tactic', 'attendee', '{\"sorted_col\":\"`attendee`.`name`  DESC\"}', '2018-10-30 21:55:18'),
+('root', 'tactic', 'badge', '{\"sorted_col\":\"`badge`.`BadgeTypeId` ASC\"}', '2018-10-13 16:04:52'),
+('root', 'tactic', 'prize', '{\"sorted_col\":\"`prize`.`subevent_ID`  ASC\"}', '2018-10-30 19:39:59');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__tracking`
+--
+
+CREATE TABLE `pma__tracking` (
+  `db_name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `table_name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `version` int(10) UNSIGNED NOT NULL,
+  `date_created` datetime NOT NULL,
+  `date_updated` datetime NOT NULL,
+  `schema_snapshot` text COLLATE utf8_bin NOT NULL,
+  `schema_sql` text COLLATE utf8_bin,
+  `data_sql` longtext COLLATE utf8_bin,
+  `tracking` set('UPDATE','REPLACE','INSERT','DELETE','TRUNCATE','CREATE DATABASE','ALTER DATABASE','DROP DATABASE','CREATE TABLE','ALTER TABLE','RENAME TABLE','DROP TABLE','CREATE INDEX','DROP INDEX','CREATE VIEW','ALTER VIEW','DROP VIEW') COLLATE utf8_bin DEFAULT NULL,
+  `tracking_active` int(1) UNSIGNED NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Database changes tracking for phpMyAdmin';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__userconfig`
+--
+
+CREATE TABLE `pma__userconfig` (
+  `username` varchar(64) COLLATE utf8_bin NOT NULL,
+  `timevalue` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `config_data` text COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User preferences storage for phpMyAdmin';
+
+--
+-- Dumping data for table `pma__userconfig`
+--
+
+INSERT INTO `pma__userconfig` (`username`, `timevalue`, `config_data`) VALUES
+('root', '2018-11-18 16:30:47', '{\"Console\\/Mode\":\"collapse\"}');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__usergroups`
+--
+
+CREATE TABLE `pma__usergroups` (
+  `usergroup` varchar(64) COLLATE utf8_bin NOT NULL,
+  `tab` varchar(64) COLLATE utf8_bin NOT NULL,
+  `allowed` enum('Y','N') COLLATE utf8_bin NOT NULL DEFAULT 'N'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User groups with configured menu items';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__users`
+--
+
+CREATE TABLE `pma__users` (
+  `username` varchar(64) COLLATE utf8_bin NOT NULL,
+  `usergroup` varchar(64) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Users and their assignments to user groups';
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `pma__bookmark`
+--
+ALTER TABLE `pma__bookmark`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pma__central_columns`
+--
+ALTER TABLE `pma__central_columns`
+  ADD PRIMARY KEY (`db_name`,`col_name`);
+
+--
+-- Indexes for table `pma__column_info`
+--
+ALTER TABLE `pma__column_info`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `db_name` (`db_name`,`table_name`,`column_name`);
+
+--
+-- Indexes for table `pma__designer_settings`
+--
+ALTER TABLE `pma__designer_settings`
+  ADD PRIMARY KEY (`username`);
+
+--
+-- Indexes for table `pma__export_templates`
+--
+ALTER TABLE `pma__export_templates`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `u_user_type_template` (`username`,`export_type`,`template_name`);
+
+--
+-- Indexes for table `pma__favorite`
+--
+ALTER TABLE `pma__favorite`
+  ADD PRIMARY KEY (`username`);
+
+--
+-- Indexes for table `pma__history`
+--
+ALTER TABLE `pma__history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `username` (`username`,`db`,`table`,`timevalue`);
+
+--
+-- Indexes for table `pma__navigationhiding`
+--
+ALTER TABLE `pma__navigationhiding`
+  ADD PRIMARY KEY (`username`,`item_name`,`item_type`,`db_name`,`table_name`);
+
+--
+-- Indexes for table `pma__pdf_pages`
+--
+ALTER TABLE `pma__pdf_pages`
+  ADD PRIMARY KEY (`page_nr`),
+  ADD KEY `db_name` (`db_name`);
+
+--
+-- Indexes for table `pma__recent`
+--
+ALTER TABLE `pma__recent`
+  ADD PRIMARY KEY (`username`);
+
+--
+-- Indexes for table `pma__relation`
+--
+ALTER TABLE `pma__relation`
+  ADD PRIMARY KEY (`master_db`,`master_table`,`master_field`),
+  ADD KEY `foreign_field` (`foreign_db`,`foreign_table`);
+
+--
+-- Indexes for table `pma__savedsearches`
+--
+ALTER TABLE `pma__savedsearches`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `u_savedsearches_username_dbname` (`username`,`db_name`,`search_name`);
+
+--
+-- Indexes for table `pma__table_coords`
+--
+ALTER TABLE `pma__table_coords`
+  ADD PRIMARY KEY (`db_name`,`table_name`,`pdf_page_number`);
+
+--
+-- Indexes for table `pma__table_info`
+--
+ALTER TABLE `pma__table_info`
+  ADD PRIMARY KEY (`db_name`,`table_name`);
+
+--
+-- Indexes for table `pma__table_uiprefs`
+--
+ALTER TABLE `pma__table_uiprefs`
+  ADD PRIMARY KEY (`username`,`db_name`,`table_name`);
+
+--
+-- Indexes for table `pma__tracking`
+--
+ALTER TABLE `pma__tracking`
+  ADD PRIMARY KEY (`db_name`,`table_name`,`version`);
+
+--
+-- Indexes for table `pma__userconfig`
+--
+ALTER TABLE `pma__userconfig`
+  ADD PRIMARY KEY (`username`);
+
+--
+-- Indexes for table `pma__usergroups`
+--
+ALTER TABLE `pma__usergroups`
+  ADD PRIMARY KEY (`usergroup`,`tab`,`allowed`);
+
+--
+-- Indexes for table `pma__users`
+--
+ALTER TABLE `pma__users`
+  ADD PRIMARY KEY (`username`,`usergroup`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `pma__bookmark`
+--
+ALTER TABLE `pma__bookmark`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pma__column_info`
+--
+ALTER TABLE `pma__column_info`
+  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pma__export_templates`
+--
+ALTER TABLE `pma__export_templates`
+  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `pma__history`
+--
+ALTER TABLE `pma__history`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pma__pdf_pages`
+--
+ALTER TABLE `pma__pdf_pages`
+  MODIFY `page_nr` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pma__savedsearches`
+--
+ALTER TABLE `pma__savedsearches`
+  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
 -- Database: `tactic`
 --
+CREATE DATABASE IF NOT EXISTS `tactic` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `tactic`;
 
 -- --------------------------------------------------------
 
@@ -280,7 +760,25 @@ CREATE TABLE `certificate` (
 
 INSERT INTO `certificate` (`certificate_ID`, `event_ID`, `templateName`, `templateSize`, `templateType`, `templateLocation`) VALUES
 (6, 49, 'ClassDiagramV3.PNG', 52666, 'image/png', 'UploadFile/certificate/ClassDiagramV3.PNG'),
-(7, 53, 'badges_badges_ClassDiagramV2 (1) (1).PNG', 48534, 'image/png', 'UploadFile/certificate/badges_badges_ClassDiagramV2 (1) (1).PNG');
+(7, 53, 'badges_badges_ClassDiagramV2 (1) (1).PNG', 48534, 'image/png', 'UploadFile/certificate/badges_badges_ClassDiagramV2 (1) (1).PNG'),
+(8, 57, 'certificate.jpg', 771823, 'image/jpeg', 'certificate.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `certificateimageinfo`
+--
+
+CREATE TABLE `certificateimageinfo` (
+  `Id` int(11) NOT NULL,
+  `color` int(11) NOT NULL,
+  `fontSize` int(11) NOT NULL,
+  `certificateId` int(11) NOT NULL,
+  `eventnameposition` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `visitornameposition` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `eventdateposition` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `imageposition` varchar(30) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -343,6 +841,10 @@ CREATE TABLE `event` (
   `organization_name_Event` varchar(30) CHARACTER SET utf8 NOT NULL,
   `eventLink` varchar(140) NOT NULL,
   `maxNumOfAttendee` int(11) NOT NULL,
+  `templateName` varchar(256) NOT NULL,
+  `templateSize` int(11) NOT NULL,
+  `templateType` varchar(256) NOT NULL,
+  `templateLocation` varchar(256) NOT NULL,
   `organizer_ID` int(11) NOT NULL,
   `VIPCode` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -351,12 +853,13 @@ CREATE TABLE `event` (
 -- Dumping data for table `event`
 --
 
-INSERT INTO `event` (`event_ID`, `name_Event`, `descrption_Event`, `sartDate_Event`, `endDate_Event`, `location_Event`, `organization_name_Event`, `eventLink`, `maxNumOfAttendee`, `organizer_ID`, `VIPCode`) VALUES
-(49, 'test manage', 'test manage', '2018-10-11', '2018-10-18', 'test manage', 'test manage', 'http://localhost/tactic2-master/Form.php?token=&rfnjJaKgu', 100, 12, 0),
-(50, 'badge', 'bad', '2018-10-03', '2018-10-17', 'bad', 'bad', '', 100, 12, 0),
-(53, 'ola', 'desc', '2018-10-13', '2018-10-20', 'حجازي', 'اسم الشركة المنظمة', '', 100, 12, 0),
-(55, 'marwa', 'marwa', '2018-10-03', '2018-10-09', 'مروة', '', '', 0, 12, 0),
-(57, 'ahmed', 'ahmed', '2018-10-12', '2018-10-26', 'ahmed', 'ahmed', '', 100, 12, 0);
+INSERT INTO `event` (`event_ID`, `name_Event`, `descrption_Event`, `sartDate_Event`, `endDate_Event`, `location_Event`, `organization_name_Event`, `eventLink`, `maxNumOfAttendee`, `templateName`, `templateSize`, `templateType`, `templateLocation`, `organizer_ID`, `VIPCode`) VALUES
+(49, 'test manage', 'test manage', '2018-10-11', '2018-10-18', 'test manage', 'test manage', 'http://localhost/tactic2-master/Form.php?token=&rfnjJaKgu', 100, '', 0, '', '', 12, 0),
+(50, 'badge', 'bad', '2018-10-03', '2018-10-17', 'bad', 'bad', 'http://localhost/tactic/Form.php?token=MrsBCoqSA6', 100, '', 0, '', '', 12, 0),
+(53, 'ola', 'desc', '2018-10-13', '2018-10-20', 'حجازي', 'اسم الشركة المنظمة', '', 100, '', 0, '', '', 12, 0),
+(55, 'marwa', 'marwa', '2018-10-03', '2018-10-09', 'مروة', '', '', 0, '', 0, '', '', 12, 0),
+(57, 'ahmed', 'ahmed', '2018-10-12', '2018-10-26', 'ahmed', 'ahmed', '', 100, '', 0, '', '', 12, 0),
+(58, 'test batoul', 'test', '2018-11-15', '2018-11-23', 'test', 'test', '', 100, '', 0, '', '', 12, 0);
 
 -- --------------------------------------------------------
 
@@ -412,20 +915,26 @@ INSERT INTO `gender` (`Id`, `Name`) VALUES
 
 CREATE TABLE `imageinfo` (
   `imageId` int(11) NOT NULL,
-  `xyposition` varchar(20) NOT NULL,
   `color` varchar(25) NOT NULL,
   `barSize` varchar(20) NOT NULL,
   `fontSize` int(11) NOT NULL,
-  `badgeId` int(11) NOT NULL
+  `badgeId` int(11) NOT NULL,
+  `namePosition` varchar(30) NOT NULL,
+  `careerPosition` varchar(30) NOT NULL,
+  `barcodePosition` varchar(30) NOT NULL,
+  `imgPosition` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `imageinfo`
 --
 
-INSERT INTO `imageinfo` (`imageId`, `xyposition`, `color`, `barSize`, `fontSize`, `badgeId`) VALUES
-(9, 'X228Y65', 'black', '100x100', 10, 15),
-(10, 'X228Y65', 'black', '100x100', 10, 16);
+INSERT INTO `imageinfo` (`imageId`, `color`, `barSize`, `fontSize`, `badgeId`, `namePosition`, `careerPosition`, `barcodePosition`, `imgPosition`) VALUES
+(9, 'black', '100x100', 10, 15, 'X228Y65', '', '', ''),
+(10, 'black', '100x100', 10, 16, 'X228Y65', '', '', ''),
+(11, 'red', '50x50', 10, 10, 'X96.375Y217 ', 'X140.671875Y122', 'X26.25Y87', 'X503.171875Y627'),
+(12, 'red', '50x50', 12, 11, 'X101.9375Y125 ', 'X139.796875Y205', 'X34.3125Y211', 'X503.171875Y632'),
+(13, 'red', '50x50', 10, 12, 'X109.046875Y65 ', 'X87.765625Y176', 'X76.3125Y234', 'X503.171875Y627');
 
 -- --------------------------------------------------------
 
@@ -733,8 +1242,81 @@ CREATE TABLE `rate` (
   `rate_ID` int(11) NOT NULL,
   `rateValue` tinyint(1) NOT NULL,
   `event_ID` int(11) NOT NULL,
-  `subevent_ID` int(11) NOT NULL
+  `subevent_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `rate`
+--
+
+INSERT INTO `rate` (`rate_ID`, `rateValue`, `event_ID`, `subevent_ID`) VALUES
+(2, 1, 49, NULL),
+(3, 1, 50, NULL),
+(4, 1, 53, 11),
+(5, 1, 55, NULL),
+(6, 1, 57, NULL),
+(7, 1, 58, NULL),
+(10, 2, 49, NULL),
+(11, 2, 50, NULL),
+(12, 2, 53, 11),
+(13, 2, 55, NULL),
+(14, 2, 57, NULL),
+(15, 2, 58, NULL),
+(17, 3, 49, NULL),
+(18, 3, 50, NULL),
+(20, 3, 55, NULL),
+(21, 3, 57, NULL),
+(22, 3, 58, NULL),
+(24, 4, 49, NULL),
+(25, 4, 50, NULL),
+(26, 4, 53, 11),
+(27, 4, 55, NULL),
+(28, 4, 57, NULL),
+(29, 4, 58, NULL),
+(31, 5, 49, NULL),
+(32, 5, 50, NULL),
+(33, 5, 53, 11),
+(34, 5, 55, NULL),
+(35, 5, 57, NULL),
+(36, 5, 58, NULL),
+(38, 5, 53, NULL),
+(39, 5, 53, NULL),
+(40, 5, 53, NULL),
+(41, 5, 53, NULL),
+(42, 2, 53, NULL),
+(43, 2, 53, NULL),
+(44, 2, 53, NULL),
+(45, 2, 53, NULL),
+(46, 3, 53, NULL),
+(47, 3, 53, NULL),
+(48, 3, 53, NULL),
+(49, 3, 53, NULL),
+(50, 3, 53, NULL),
+(51, 4, 53, NULL),
+(52, 4, 53, NULL),
+(53, 4, 53, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ratingvalue`
+--
+
+CREATE TABLE `ratingvalue` (
+  `Id` int(11) NOT NULL,
+  `Name` varchar(50) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `ratingvalue`
+--
+
+INSERT INTO `ratingvalue` (`Id`, `Name`) VALUES
+(1, 'سيء جدا'),
+(2, 'سيء'),
+(3, 'جيد'),
+(4, 'جيد جداٌ'),
+(5, 'ممتاز');
 
 -- --------------------------------------------------------
 
@@ -762,7 +1344,15 @@ INSERT INTO `registration_form` (`form_ID`, `token`, `name_of_field`, `selected_
 (3, '', '??????', 1, 0, 0, 49),
 (4, '', '?????', 1, 0, 0, 49),
 (5, '', '??????', 1, 0, 0, 49),
-(6, '', '??????', 1, 0, 0, 49);
+(6, '', '??????', 1, 0, 0, 49),
+(7, 'MrsBCoqSA6', '?????', 1, 1, 0, 50),
+(8, 'MrsBCoqSA6', '???????', 1, 1, 0, 50),
+(9, 'MrsBCoqSA6', '?????', 1, 1, 0, 50),
+(10, 'MrsBCoqSA6', '???????', 1, 1, 0, 50),
+(11, 'MrsBCoqSA6', '?????', 1, 1, 0, 50),
+(12, 'MrsBCoqSA6', '???????', 1, 1, 0, 50),
+(13, 'MrsBCoqSA6', '?????', 1, 1, 0, 50),
+(14, 'MrsBCoqSA6', '???????', 1, 1, 0, 50);
 
 -- --------------------------------------------------------
 
@@ -892,6 +1482,15 @@ ALTER TABLE `certificate`
   ADD KEY `certificate_ibfk_1` (`event_ID`);
 
 --
+-- Indexes for table `certificateimageinfo`
+--
+ALTER TABLE `certificateimageinfo`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `fk_certificateId` (`certificateId`),
+  ADD KEY `fk_color` (`color`),
+  ADD KEY `fk_fontSize` (`fontSize`);
+
+--
 -- Indexes for table `color`
 --
 ALTER TABLE `color`
@@ -959,6 +1558,12 @@ ALTER TABLE `rate`
   ADD KEY `rate_ibfk_2` (`subevent_ID`);
 
 --
+-- Indexes for table `ratingvalue`
+--
+ALTER TABLE `ratingvalue`
+  ADD PRIMARY KEY (`Id`);
+
+--
 -- Indexes for table `registration_form`
 --
 ALTER TABLE `registration_form`
@@ -1006,7 +1611,7 @@ ALTER TABLE `attendeewinners`
 -- AUTO_INCREMENT for table `badge`
 --
 ALTER TABLE `badge`
-  MODIFY `badge_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `badge_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `badgetype`
@@ -1024,7 +1629,13 @@ ALTER TABLE `barcodesize`
 -- AUTO_INCREMENT for table `certificate`
 --
 ALTER TABLE `certificate`
-  MODIFY `certificate_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `certificate_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `certificateimageinfo`
+--
+ALTER TABLE `certificateimageinfo`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `color`
@@ -1060,7 +1671,7 @@ ALTER TABLE `gender`
 -- AUTO_INCREMENT for table `imageinfo`
 --
 ALTER TABLE `imageinfo`
-  MODIFY `imageId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `imageId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `nationality`
@@ -1078,13 +1689,19 @@ ALTER TABLE `prize`
 -- AUTO_INCREMENT for table `rate`
 --
 ALTER TABLE `rate`
-  MODIFY `rate_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `rate_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+
+--
+-- AUTO_INCREMENT for table `ratingvalue`
+--
+ALTER TABLE `ratingvalue`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `registration_form`
 --
 ALTER TABLE `registration_form`
-  MODIFY `form_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `form_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `subevent`
@@ -1096,7 +1713,7 @@ ALTER TABLE `subevent`
 -- AUTO_INCREMENT for table `subeventattendee`
 --
 ALTER TABLE `subeventattendee`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- Constraints for dumped tables
@@ -1129,6 +1746,14 @@ ALTER TABLE `badge`
 --
 ALTER TABLE `certificate`
   ADD CONSTRAINT `certificate_ibfk_1` FOREIGN KEY (`event_ID`) REFERENCES `event` (`event_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `certificateimageinfo`
+--
+ALTER TABLE `certificateimageinfo`
+  ADD CONSTRAINT `fk_certificateId` FOREIGN KEY (`certificateId`) REFERENCES `certificate` (`certificate_ID`),
+  ADD CONSTRAINT `fk_color` FOREIGN KEY (`color`) REFERENCES `color` (`ID`),
+  ADD CONSTRAINT `fk_fontSize` FOREIGN KEY (`fontSize`) REFERENCES `fontsize` (`ID`);
 
 --
 -- Constraints for table `event`
@@ -1173,6 +1798,11 @@ ALTER TABLE `subevent`
 ALTER TABLE `subeventattendee`
   ADD CONSTRAINT `fk_attendeeSub` FOREIGN KEY (`attendeeId`) REFERENCES `attendee` (`Id`),
   ADD CONSTRAINT `fk_subevent` FOREIGN KEY (`subEventId`) REFERENCES `subevent` (`subevent_ID`);
+--
+-- Database: `test`
+--
+CREATE DATABASE IF NOT EXISTS `test` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `test`;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
