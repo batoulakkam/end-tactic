@@ -56,7 +56,16 @@ GROUP BY event_ID";
    where ((att.eventId=$eventId) or (att.eventId in(
        select eventId from event where organizer_ID  =$organizerID) and $eventId=-1  ))
    GROUP BY att.checkInEventAttende";
-    break;
+	break;
+
+	case "8":
+    $query = "SELECT count(rate_ID), rv.Name  FROM rate ra inner JOIN ratingvalue rv on 
+              ra.rateValue=rv.Id where event_ID='$eventId' or $eventId=-1
+ 	     GROUP BY ra.rateValue";
+	break;
+
+
+	
   }
  } //end if subEventId=-1
  else {
@@ -100,7 +109,14 @@ GROUP BY event_ID";
     where (att.id in
 	   (select att.id from subeventattendee where subeventId='$subEventId' and checkInSubeventAttende=1) )
 	     GROUP BY att.checkInEventAttende";
-    break;
+	break;
+	
+		case "8":
+    $query = "SELECT count(rate_ID),  rv.Name  FROM rate ra inner JOIN ratingvalue rv on 
+              ra.rateValue=rv.Id 
+     where ra.subevent_ID='$subEventId'
+	     GROUP BY ra.rateValue";
+	break;
    }
   } //end else
  if(isset($query))
@@ -129,142 +145,133 @@ GROUP BY event_ID";
  ?>
 
 
-	<!DOCTYPE html>
-	<html>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>الإحصائيات</title>
+<title>الإحصائيات</title>
 
-	<link href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' rel='stylesheet' type='text/css' />
-	<link href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' rel='stylesheet' type='text/css' />
-	<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+<link href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' rel='stylesheet' type='text/css' />
+<link href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
 
-	<link rel="stylesheet" href="css/layouts/custom.css">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
-	<link rel="stylesheet" href="css/icon.css">
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/main-rtl.css">
+<link rel="stylesheet" href="css/layouts/custom.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/icon.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/main-rtl.css">
 
-	<link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
 
 
-	<!-------------------------------------------------------------------------->
+<!-------------------------------------------------------------------------->
 
-	</head>
+</head>
 
-	<body>
-	    <div id="includedContent"></div>
-	    <div id="includedContent2"></div>
+<body>
+	<div id="includedContent"></div>
+	<div id="includedContent2"></div>
 
-	    <div class="mainContent">
+	<div class="mainContent">
 
-	        <div class="container">
-	            <div class="panel panel-primary">
-	                <div class="panel-heading">
-	                    <h4 class="panelTitle">الإحصائيات</h4>
-	                </div>
-	                <div class="panel-body">
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4 class="panelTitle">الإحصائيات</h4>
+				</div>
+				<div class="panel-body">
 
-	                    <form action="statistics.php" class="statisticsFrm" method="Get">
+					<form action="statistics.php" class="statisticsFrm" method="Get">
 
-	                        <div class="col-md-16 printhide">
-	                            <div class="col-md-12">
-	                                <div class="form-group form-group-lg">
-	                                    <label class="control-label">تصنيف الإحصائيات</label>
-	                                    <select class="form-control" id="statisticsClassificationId" name="statisticsClassificationId">
+						<div class="col-md-16 printhide">
+							<div class="col-md-12">
+								<div class="form-group form-group-lg">
+									<label class="control-label">تصنيف الإحصائيات</label>
+									<select class="form-control" id="statisticsClassificationId" name="statisticsClassificationId">
 
-	                                        <option value="1" <?php if ($statisticsClassificationId == "1") {
-  echo
-   ' selected="selected"';}?> > حسب الحدث</option>
-	                                        <option value="2" <?php if ($statisticsClassificationId == "2") {
-  echo
-   ' selected="selected"';}?> >حسب الجنس</option>
-	                                        <option value="3" <?php if ($statisticsClassificationId == "3") {
-  echo
-   ' selected="selected"';}?> >حسب الجنسية</option>
-	                                        <option value="4" <?php if ($statisticsClassificationId == "4") {
-  echo
-   ' selected="selected"';}?> >حسب مستوى التعليم</option>
-	                                        <option value="5" <?php if ($statisticsClassificationId == "5") {
-  echo
-   ' selected="selected"';}?> >حسب العمر</option>
-	                                        <option value="6" <?php if ($statisticsClassificationId == "6") {
-  echo
-   ' selected="selected"';}?> >حسب المهنة</option>
-	                                        <option value="7" <?php if ($statisticsClassificationId == "7") {
-  echo
-   ' selected="selected"';}?> >حسب حالة الحضور</option>
-	                                    </select>
-	                                </div>
-	                            </div>
+										<option value="1" <?php if ($statisticsClassificationId=="1" ) { echo ' selected="selected"' ;}?> > حسب الحدث</option>
+										<option value="2" <?php if ($statisticsClassificationId=="2" ) { echo ' selected="selected"' ;}?> >حسب الجنس</option>
+										<option value="3" <?php if ($statisticsClassificationId=="3" ) { echo ' selected="selected"' ;}?> >حسب
+											الجنسية</option>
+										<option value="4" <?php if ($statisticsClassificationId=="4" ) { echo ' selected="selected"' ;}?> >حسب مستوى
+											التعليم</option>
+										<option value="5" <?php if ($statisticsClassificationId=="5" ) { echo ' selected="selected"' ;}?> >حسب العمر</option>
+										<option value="6" <?php if ($statisticsClassificationId=="6" ) { echo ' selected="selected"' ;}?> >حسب المهنة</option>
+										<option value="7" <?php if ($statisticsClassificationId=="7" ) { echo ' selected="selected"' ;}?> >حسب حالة
+											الحضور</option>
+										<option value="8" <?php if ($statisticsClassificationId=="8" ) { echo ' selected="selected"' ;}?> >حسب
+											التقييم</option>
+									</select>
+								</div>
+							</div>
 
 
 
-	                            <div class="col-md-12">
-	                                <div class="form-group form-group-lg">
-	                                    <label for="eventName" class="control-label"> اسم الحدث</label>
-	                                    <select class="form-control" id="eventName" name="eventId">
-	                                        <?php
+							<div class="col-md-12">
+								<div class="form-group form-group-lg">
+									<label for="eventName" class="control-label"> اسم الحدث</label>
+									<select class="form-control" id="eventName" name="eventId">
+										<?php
  echo '<option  value="-1" ' . ($eventId === -1 ? ' selected="selected"' : '') . '>الكل</option>';
  while ($row = mysqli_fetch_array($eventQuery)):
   echo "<option value='" . $row['event_ID'] . "'>" . $row['name_Event'] . "</option>";
   ?>
-		                                        <?php endwhile;?>
+										<?php endwhile;?>
 
-	                                    </select>
-	                                </div>
-	                            </div>
+									</select>
+								</div>
+							</div>
 
-	                            <div class="col-md-12">
-	                                <div class="form-group form-group-lg">
-	                                    <label for="subEventName" class="control-label"> اسم الحدث الفرعي</label>
-	                                    <select class="form-control" id="subEventName" name="subEventId">
-	                                        <option value="-1"> اختيار </option>
-	                                    </select>
-	                                </div>
-	                            </div>
-
-
-	                            <div class="col-md-12">
-	                                <div class="form-group form-group-lg">
-	                                    <input type="button" value="طباعة الإحصائيات" Id="btnPrintStatistics" class=" btn btn-nor-primary btn-sm">
-
-	                                    <input type="submit" value="مشاهدة الإحصائيات" name="btnDisplayStatistics" class=" btnDisplayStatistics btn btn-nor-primary btn-sm">
-
-	                                </div>
-	                            </div>
-	                        </div>
-	                        <div class="col-md-12">
-	                            <div id="divstatistics" class="chartdiv" style="display:none"></div>
-	                        </div>
-	                    </form>
-	                </div>
-	            </div>
-
-	        </div>
+							<div class="col-md-12">
+								<div class="form-group form-group-lg">
+									<label for="subEventName" class="control-label"> اسم الحدث الفرعي</label>
+									<select class="form-control" id="subEventName" name="subEventId">
+										<option value="-1"> اختيار </option>
+									</select>
+								</div>
+							</div>
 
 
+							<div class="col-md-12">
+								<div class="form-group form-group-lg">
+									<input type="button" value="طباعة الإحصائيات" Id="btnPrintStatistics" class=" btn btn-nor-primary btn-sm">
 
-	        <script src="js/jquery.min.js"></script>
-	        <script src="js/bootstrap.min.js"></script>
-	        <script src="js/appjs/common.js"></script>
-	        <script src="js/amcharts/amcharts.js"></script>
-	        <script src="js/amcharts/serial.js"></script>
-	        <script src="js/amcharts/ammap.js"></script>
-	        <script src="js/amcharts/saudiArabiaLow.js"></script>
-	        <script src="js/amcharts/pie.js"></script>
-	        <script src="js/amcharts/themes/light.js"></script>
-	        <script src="js/appjs/app.dashboard.js"></script>
-	        <script src="js/appjs/statistics.js"></script>
+									<input type="submit" value="مشاهدة الإحصائيات" name="btnDisplayStatistics" class=" btnDisplayStatistics btn btn-nor-primary btn-sm">
 
-	        <script>
-	            $(function () {
-	                $("#includedContent").load("php/TopNav.php");
-	                $("#includedContent2").load("HTML/rightNav.html");
-	            });
-	        </script>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div id="divstatistics" class="chartdiv" style="display:none"></div>
+						</div>
+					</form>
+				</div>
+			</div>
 
-	</body>
+		</div>
 
-	</html>
+
+
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/appjs/common.js"></script>
+		<script src="js/amcharts/amcharts.js"></script>
+		<script src="js/amcharts/serial.js"></script>
+		<script src="js/amcharts/ammap.js"></script>
+		<script src="js/amcharts/saudiArabiaLow.js"></script>
+		<script src="js/amcharts/pie.js"></script>
+		<script src="js/amcharts/themes/light.js"></script>
+		<script src="js/appjs/app.dashboard.js"></script>
+		<script src="js/appjs/statistics.js"></script>
+
+		<script>
+			$(function () {
+				$("#includedContent").load("php/TopNav.php");
+				$("#includedContent2").load("HTML/rightNav.html");
+			});
+		</script>
+
+</body>
+
+</html>
