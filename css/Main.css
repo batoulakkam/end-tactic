@@ -1,197 +1,180 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
-
-
-
-
-
-
 .rating-container {
-
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  padding: 1em 1em;
-
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 1em 1em;
 }
-
 
 .card {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin-top:50px;
-  -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 26, 0.19), 0 0.3rem 0.3rem rgba(0, 5, 16, 0.23);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 16, 0.19), 0 0.3rem 0.3rem rgba(0, 0, 16, 0.23);
-  background-color: rgb(255, 255, 255);
-  padding: 0.8rem;
-  width: 50em;
-position: relative;
-	right: 20%;
-	
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: 50px;
+    -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 26, 0.19), 0 0.3rem 0.3rem rgba(0, 5, 16, 0.23);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 16, 0.19), 0 0.3rem 0.3rem rgba(0, 0, 16, 0.23);
+    background-color: rgb(255, 255, 255);
+    padding: 0.8rem;
+    width: 50em;
+    position: relative;
+    right: 20%;
 }
-.card h4{
-	position: relative;
-	top:5%;
-	color: cornflowerblue;
-	padding: 20px;
-	
+
+.card h4 {
+    position: relative;
+    top: 5%;
+    color: cornflowerblue;
+    padding: 20px;
 }
-.card h5{
-	
-	margin: 20px;
+
+.card h5 {
+    margin: 20px;
 }
+
 .rating {
-margin-top: 60px;
-  padding-right: 60px;
-  border-radius: 2.2rem;
+    margin-top: 60px;
+    padding-right: 60px;
+    border-radius: 2.2rem;
 }
 
 svg {
-	margin-top: 20px;
-  fill: lightblue;
-  height: 10em;
-  width: 10em;
- 
-	margin-left:2em ;
-
-
+    margin-top: 20px;
+    fill: lightblue;
+    height: 10em;
+    width: 10em;
+    margin-left: 2em;
 }
-
-
 
 input[type="radio"] {
-  position: absolute;
-  opacity: 0;
+    position: absolute;
+    opacity: 0;
 }
 
-input[type="radio"] + svg {
-  -webkit-transition: all 0.2s;
-  transition: all 0.2s;
+input[type="radio"]+svg {
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
 }
 
-input[type="radio"]+ svg {
-  cursor: pointer;
+input[type="radio"]+svg {
+    cursor: pointer;
 }
 
-input[class="super-happy"]:hover + svg,
-input[class="super-happy"]:checked + svg,
-input[class="super-happy"]:focus + svg {
-  fill: rgb(0, 109, 217);
+input[class="super-happy"]:hover+svg,
+input[class="super-happy"]:checked+svg,
+input[class="super-happy"]:focus+svg {
+    fill: rgb(0, 109, 217);
 }
 
-
-input[class="happy"]:hover + svg,
-input[class="happy"]:checked + svg,
-input[class="happy"]:focus + svg {
-  fill: rgb(0, 204, 79);
-
+input[class="happy"]:hover+svg,
+input[class="happy"]:checked+svg,
+input[class="happy"]:focus+svg {
+    fill: rgb(0, 204, 79);
 }
 
-input[class="neutral"]:hover + svg,
-input[class="neutral"]:checked + svg,
-input[class="neutral"]:focus + svg {
-  fill: rgb(232, 214, 0);
+input[class="neutral"]:hover+svg,
+input[class="neutral"]:checked+svg,
+input[class="neutral"]:focus+svg {
+    fill: rgb(232, 214, 0);
 }
 
-input[class="sad"]:hover + svg,
-input[class="sad"]:checked + svg,
-input[class="sad"]:focus + svg {
-  fill: rgb(229, 132, 0);
+input[class="sad"]:hover+svg,
+input[class="sad"]:checked+svg,
+input[class="sad"]:focus+svg {
+    fill: rgb(229, 132, 0);
 }
 
-input[class="super-sad"]:hover + svg,
-input[class="super-sad"]:checked + svg,
-input[class="super-sad"]:focus + svg {
-  fill: rgb(239, 42, 16);
-}
-input[name="submit"]:default{
-	margin-top: 20px;
-	margin-left: 200px;
+input[class="super-sad"]:hover+svg,
+input[class="super-sad"]:checked+svg,
+input[class="super-sad"]:focus+svg {
+    fill: rgb(239, 42, 16);
 }
 
-
+input[name="submit"]:default {
+    margin-top: 20px;
+    margin-left: 200px;
+}
 
 @media screen and (max-width: 650px) and (max-height: 700px) {
-  body,
-  html {
-    font-size: 0.7rem;
-  }
-  header h1 {
-    font-size: 4em;
-  }
+    body,
+    html {
+        font-size: 0.7rem;
+    }
+    header h1 {
+        font-size: 4em;
+    }
 }
 
 @media screen and (max-height: 700px) {
-  body,
-  html {
-    font-size: 0.7rem;
-  }
-  header h1 {
-    font-size: 4em;
-  }
+    body,
+    html {
+        font-size: 0.7rem;
+    }
+    header h1 {
+        font-size: 4em;
+    }
 }
 
 @media screen and (max-width: 650px) {
-  body,
-  html {
-    font-size: 0.7rem;
-  }
-  header h1 {
-    font-size: 4em;
-  }
+    body,
+    html {
+        font-size: 0.7rem;
+    }
+    header h1 {
+        font-size: 4em;
+    }
 }
 
 @media screen and (max-width: 450px) and (max-height: 550px) {
-  body,
-  html {
-    font-size: 0.6rem;
-  }
-  header h1 {
-    font-size: 4.6em;
-  }
+    body,
+    html {
+        font-size: 0.6rem;
+    }
+    header h1 {
+        font-size: 4.6em;
+    }
 }
 
 @media screen and (max-height: 550px) {
-  body,
-  html {
-    font-size: 0.6rem;
-  }
-  header h1 {
-    font-size: 4.6em;
-  }
+    body,
+    html {
+        font-size: 0.6rem;
+    }
+    header h1 {
+        font-size: 4.6em;
+    }
 }
 
 @media screen and (max-width: 450px) {
-  body,
-  html {
-    font-size: 0.6rem;
-  }
-  header h1 {
-    font-size: 4.6em;
-  }
+    body,
+    html {
+        font-size: 0.6rem;
+    }
+    header h1 {
+        font-size: 4.6em;
+    }
 }
 
 @media screen and (max-width: 400px) and (max-height: 500px) {
-  body,
-  html {
-    height: 500px;
-    width: 400px;
-  }
+    body,
+    html {
+        height: 500px;
+        width: 400px;
+    }
 }
 
 @media screen and (max-height: 500px) {
-  body,
-  html {
-    height: 500px;
-  }
+    body,
+    html {
+        height: 500px;
+    }
 }
 
 @media screen and (max-width: 400px) {
-  body,
-  html {
-    width: 400px;
-  }
+    body,
+    html {
+        width: 400px;
+    }
 }
