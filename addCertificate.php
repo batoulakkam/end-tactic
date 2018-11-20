@@ -1,6 +1,7 @@
 <?php
 // connect to DB
 require_once 'php/connectTosql.php';
+if(isset($_SESSION['organizerID']) ){
 $organizerid = $_SESSION['organizerID'];
 $message = "";
 
@@ -13,7 +14,7 @@ $fontsize = mysqli_query($con, "SELECT * FROM fontsize ") or die(mysqli_error())
 if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
 
  $eventId     = $_POST['eventId'];
- $color       = $_POST["color"];
+ $color=$_POST["color"];
  $fontSize    = $_POST["fontSize"];
  $eventNamePosition   = $_POST["eventNamePosition"];
  $imagePosition       = $_POST["imagePosition"];
@@ -24,10 +25,10 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
  $checkQuery    = mysqli_query($con, "SELECT * FROM certificate WHERE event_ID='$eventId'") or die(mysqli_error());
  // get the certificate id to insert it to certificateimageinfo table
  $row           = mysqli_fetch_array($checkQuery);
- $certificateId = $row['certificate_ID'];
+ 
 
  if (mysqli_num_rows($checkQuery) > 0) {
-  echo " <div class='alert alert-danger alert-dismissible'>
+  $message = " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
         <strong> فشل</strong>  الحدث مرتبط بشهادة مسبقا لايمكن اتمام العملية
         </div> ";
@@ -38,28 +39,30 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
   $size     = $_FILES['fileToUpload']['size'];
   $type     = $_FILES['fileToUpload']['type'];
   $tmp_name = $_FILES['fileToUpload']['tmp_name'];
-  $location = "UploadFile/" . $eventId . "/" .$eventId . "." . $name;
+  $extention=substr($type,6);
+  $location = "UploadFile/" . $eventId . "/certificate.".$extention;
 
   $max_size = 1000000;
   if ($size <= $max_size) {
     // check the type of image
    if ($type == "image/jpg" || $type == "image/JPG" || $type == "image/jpeg" || $type == "image/JPEG") {
-   if (move_uploaded_file($tmp_name, $location /*. $name*/)) {
+   if (move_uploaded_file($tmp_name, $location)) {
 
     // add info of new certificate to the DB
-
+    
     $mainQuery = mysqli_query($con, "INSERT INTO certificate
-    (event_ID,templateName,
-    templateSize,templateType, templateLocation)
-   VALUES ('$eventId','$name' ,'$size', '$type', '$location$name')") or die(mysqli_error($con));
+    (event_ID,templateName,templateSize,templateType, templateLocation)
+   VALUES ('$eventId','$name' ,'$size', '$type', '$location')") or die(mysqli_error($con));
 
+$certificateId = mysqli_insert_id($con);
 
-    $imageQuery = mysqli_query($con, "INSERT INTO certificateimageinfo (Id ,color,fontSize ,certificateId,eventnameposition,visitorNameposition,eventDateposition,imagePosition )
-    VALUES ('','$color','$fontSize','$certificateId','$eventNamePosition','$visitorNamePosition ','$eventDatePosition', '$imagePosition')") or die(mysqli_error($con));
+    $imageQuery = mysqli_query($con, "INSERT INTO certificateimageinfo
+     (color,fontSize ,certificateId,eventnameposition,visitorNameposition,eventDateposition,imagePosition )
+    VALUES ('$color','$fontSize','$certificateId','$eventNamePosition','$visitorNamePosition','$eventDatePosition', '$imagePosition')") or die(mysqli_error($con));
 
     ///Check if add certificate to DB has been done Successfully
     if ($mainQuery & $imageQuery) {
-     header("location: /tactic/manageCertificate.php");
+     header("location:manageCertificate.php");
     } else {
      $message = " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
@@ -82,13 +85,17 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
    }
   } else {
 // for size message
-   echo "<div class='alert alert-danger alert-dismissible'>
+$message = "<div class='alert alert-danger alert-dismissible'>
            <button type='button' class='close' data-dismiss='alert'>&times;</button>
              تنبيه أكبر حجم للملف هو 10 ميغا
           </div> ";
 
   }
  }
+}
+}//end if ($_SESSION['organizerID'])
+else{
+  header("location:LogIn.php");
 }
 ?>
 
@@ -116,7 +123,7 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
   <link rel="stylesheet" href="css/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
 
-  <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="image/logo.png" type="image/x-icon" />
 
 
   <!-------------------------------------------------------------------------->
@@ -135,7 +142,7 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
         <div class="panel-body">
 
           <form action="" class="formDivAddCertificate" method="post" enctype="multipart/form-data">
-
+          <?php echo $message; ?>
             <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <label for="eventId" class="control-label"> اسم الحدث<label style="color:red">*&nbsp; </label></label>
@@ -166,10 +173,8 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
 
                   <?php
                           while ($row = mysqli_fetch_array($color)):
-
                           echo "<option value='" . $row['value'] . "'>" . $row['name'] . "</option>";
-                          ?>
-		                  <?php endwhile;?>
+                          endwhile;?>
                 </select>
               </div>
             </div>
@@ -183,8 +188,7 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
                       while ($row = mysqli_fetch_array($fontsize)):
 
                       echo "<option value='" . $row['size'] . "'>" . $row['size'] . "</option>";
-                      ?>
-		                  <?php endwhile;?>
+                       endwhile;?>
                 </select>
               </div>
             </div>
@@ -215,7 +219,7 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
               <div class="certificate_container">
                 <div class="form-group form-group-lg">
 
-                  <img id="myImg"  class="certificatealign" src="image/certificate.jpg" />
+                  <img id="myImg"  class="certificatealign " src="image/certificate.jpg" />
 
                 </div>
               </div>
@@ -228,7 +232,7 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
             <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <a href="/tactic/manageCertificate.php" class="bodyform btn btn-nor-danger btn-sm">عودة</a>
-                <input type="submit" value="حفظ التغيرات" id ="add" name="add" class="btn btn-nor-primary btn-lg enable-overlay">
+                <input type="submit" value="حفظ " id ="add" name="add" class="btn btn-nor-primary btn-lg enable-overlay">
                 <button type="button" id="passImageInfo" name="passImageInfo" class="btn btn-nor-primary btn-lg enable-overlay">
                   معاينة الصورة </button>
               </div>
@@ -251,11 +255,11 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title"> معاينة الشهادة</h4>
       </div>
-     <div class="certificate_container">
-      <div class="modal-body"id ="printCertificate">
-      <img sur="#" id="viewCertificate" />
+     
+      <div class="modal-body" id ="printCertificate">
+      <img src='' id="viewCertificate" />
       </div>
-      </div>
+      
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">إغلاق</button>
         <button type="button" id="btnPrintCertificate" class="btn btn-primary" > طباعة</button>
@@ -286,7 +290,7 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
   <script>
     // this part for call navBar
     $(function () {
-      // $("#includedContent").load("php/TopNav.php");
+      $("#includedContent").load("php/TopNav.php");
       $("#includedContent2").load("HTML/rightNav.html");
     });
   </script>

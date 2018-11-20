@@ -2,6 +2,7 @@
 // connect to DB
 require_once 'php/connectTosql.php';
 $message="";
+if(isset($_SESSION['organizerID']) ){
 $organizerID  = $_SESSION['organizerID'];
 $badgeIdForEdit=$_GET['badgeid'];
 
@@ -119,7 +120,7 @@ $sqlimage = mysqli_query($con, "UPDATE  imageinfo set color='$color' ,barSize='$
 barcodePosition='$visitorBarcode',imgPosition='$imgPosition' where imageId='$imageinfoId'") or die(mysqli_error($con));
 ///Check if add badge to DB has been done Successfully
     if ($sql && $sqlimage) {
-     header("location: /tactic/manageBadge.php");
+     header("location:manageBadge.php");
     } else {
      $message=" <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
@@ -142,6 +143,10 @@ $message= " <div class='alert alert-danger alert-dismissible'>
  }//end 
 }// end else
 } //end add 
+}//end if ($_SESSION['organizerID'])
+else{
+  header("location:LogIn.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -224,9 +229,9 @@ $message= " <div class='alert alert-danger alert-dismissible'>
             <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <label for="eventName" class="control-label"> ارفاق قالب البطاقة</label>
-                <input type="file" class="form-control" onchange="readURL(this);" id="fileToUpload" name="fileToUpload">
-                <!--<br> <label  class="btn-primary btn" for="files"  style="width:100; float:right;" > ارفع الملف</label>
-                 <input type="file" onchange="readURL(this);" id="fileToUpload" name="fileToUpload"  style="visibility:hidden;" >&nbsp; <span  id="fileC" for= "files"> لم اختيار الملف</span>
+               <input type="file" class="form-control" onchange="readURL(this);" id="fileToUpload" name="fileToUpload">
+               <!--  <br> <a class="btn-primary btn fileToUpload" for="files"  style="width:100; float:right;" > ارفع الملف</a>
+                 <input type="file" onchange="readURL(this);" id="fileToUpload" name="fileToUpload"  style="visibility:hidden;" >&nbsp; <span  id="fileC" for= "files"> لم يتم اختيار الملف</span>
                 -->
               </div>
             </div>
@@ -293,11 +298,10 @@ $message= " <div class='alert alert-danger alert-dismissible'>
             <div class="image-header">
               <h4> اسحب العناصر التالية لتحديد مكانها على الصورة </h4>
 
-              <div class="col-md-5">
+              <div class="col-md-5" >
                 <ul class="image-group">
                   <li class="list-group-item image-item-list" >
                   <?php
-                  //-905      -638
                   $leftPosition=calculateX($namePosition);
                   $topPosition=calculateY($namePosition);
                  $topImg=calculateY($imagePosition);
@@ -429,15 +433,10 @@ $message= " <div class='alert alert-danger alert-dismissible'>
   
   /*
   $("#fileToUpload").change(function() {
-        filename = this.files[0].name
-        console.log(filename);
-        });
-        
-        $("#fileToUpload").change(function() {
-        $("#fileC").empty();
-        $("#fileC").append(filename = this.files[0].name);
-        });
-*/
+    $( "#fileToUpload" ).change(function() {
+      $( ".fileToUpload" ).click();
+    })*/
+
 
     function readURL(input) {
       if (input.files && input.files[0]) {
@@ -462,7 +461,7 @@ $message= " <div class='alert alert-danger alert-dismissible'>
   <script>
     // this part for call navBar
     $(function () {
-      //$("#includedContent").load("php/TopNav.php");
+      $("#includedContent").load("php/TopNav.php");
       $("#includedContent2").load("HTML/rightNav.html");
     });
   </script>

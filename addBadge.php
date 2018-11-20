@@ -2,6 +2,7 @@
 // connect to DB
 require_once 'php/connectTosql.php';
 $message="";
+if(isset($_SESSION['organizerID']) ){
 $organizerID  = $_SESSION['organizerID'];
 // this section for get the event name from DB for curent organizer
 $query = mysqli_query($con, "SELECT * FROM event where organizer_ID='$organizerID ' ") or die(mysqli_error());
@@ -12,8 +13,7 @@ $fontsize=mysqli_query($con, "SELECT * FROM fontsize ") or die(mysqli_error());
 
 // to get the badge type from lookup tabel
 $badgeTypeQuery = mysqli_query($con, "SELECT * FROM badgetype") or die(mysqli_error());
-
-
+     
 if (isset($_POST['add'])) {
 
   $eventId     = $_POST['eventId'];
@@ -85,7 +85,7 @@ if (isset($_POST['add'])) {
      VALUES ('','$color','$barSize','$fontSize','$badgeId','$visitorName ','$visitorCareer','$visitorBarcode', '$imgPosition')") or die(mysqli_error($con));
      ///Check if add badge to DB has been done Successfully
      if ($sql & $sqlimage) {
-      header("location: /tactic/manageBadge.php");
+      header("location:manageBadge.php");
      } else {
       $message=" <div class='alert alert-danger alert-dismissible'>
          <button type='button' class='close' data-dismiss='alert'>&times;</button>
@@ -108,6 +108,10 @@ if (isset($_POST['add'])) {
   }
  }
 }//end if (isset($_POST['add']))
+}//end if ($_SESSION['organizerID'])
+else{
+  header("location:LogIn.php");
+}
  ?>
  
 
@@ -184,8 +188,7 @@ if (isset($_POST['add'])) {
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="eventName" class="control-label"> ارفاق قالب البطاقة<label style="color:red">*&nbsp;
-                  </label></label>
+                <label for="eventName" class="control-label"> ارفاق قالب البطاقة</label>
                 <input type="file" class="form-control" onchange="readURL(this);" id="fileToUpload" name="fileToUpload" >
                 <!--<br> <label  class="btn-primary btn" for="files"  style="width:100; float:right;" > ارفع الملف</label>
                  <input type="file" onchange="readURL(this);" id="fileToUpload" name="fileToUpload"  style="visibility:hidden;" >&nbsp; <span  id="fileC" for= "files"> لم اختيار الملف</span>
@@ -302,7 +305,7 @@ if (isset($_POST['add'])) {
       </div>
 
       <div class="modal-body"id ="printmy">
-      <img sur="#" id="viewBadge" height="345px" width="217px"/>
+      <img src="#" id="viewBadge" />
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">إغلاق</button>
@@ -324,8 +327,8 @@ if (isset($_POST['add'])) {
         $("#fileC").empty();
         $("#fileC").append(filename = this.files[0].name);
         });
-*/
 
+*/
     function readURL(input) {
       if (input.files && input.files[0]) {
         var reader = new FileReader();

@@ -1,9 +1,10 @@
 <?php
 //conect to database
 require_once 'php/connectTosql.php';
-
+if(isset($_SESSION['organizerID']) ){
+	$organizerid = $_SESSION['organizerID'];
 // this section for get the event name fro DB
-$query = mysqli_query($con, "SELECT * FROM event") or die(mysqli_error());
+$query = mysqli_query($con, "SELECT * FROM event  where organizer_ID=  '$organizerid'") or die(mysqli_error());
 
 // to get the badge type from lookup tabel
 $badgeTypeQuery = mysqli_query($con, "SELECT * FROM badgetype") or die(mysqli_error());
@@ -30,10 +31,12 @@ $sql = "SELECT ev.name_Event,ba.badge_ID,ba.badgeTemplateLocation,bt.Name as Bad
  if (isset($_GET['badgeId']) && $_GET['badgeId'] != '') {
   //retreive the hidden id in modal
   $badgeId = $_GET['badgeId'];
+  $sql1     = "delete from  imageinfo  WHERE  badgeId = '$badgeId'";
   $sql     = "delete from  badge  WHERE  badge_ID = '$badgeId'";
+  $query1   = mysqli_query($con, $sql1) or die(mysqli_error($con));
   $query   = mysqli_query($con, $sql) or die(mysqli_error($con));
   //succsess to retreive id
-  if ($query) {
+  if ($query & $query1) {
    $retVal = true;
    echo json_encode($retVal); //convert value to client side jQ
    exit;
@@ -49,6 +52,10 @@ $sql = "SELECT ev.name_Event,ba.badge_ID,ba.badgeTemplateLocation,bt.Name as Bad
           </div> ";
  }
 }
+}//end if ($_SESSION['organizerID'])
+else{
+    header("location:LogIn.php");
+  }
  ?>
 	<!-- lobrary of icon  fa fa- --->
 	<title>إدارة البطاقات التعريفية</title>
@@ -63,7 +70,7 @@ $sql = "SELECT ev.name_Event,ba.badge_ID,ba.badgeTemplateLocation,bt.Name as Bad
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/main-rtl.css">
 
-	<link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="image/logo.png" type="image/x-icon" />
 
 
 	<!-------------------------------------------------------------------------->

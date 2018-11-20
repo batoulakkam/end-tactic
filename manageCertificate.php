@@ -1,9 +1,10 @@
 <?php
 //conect to database
 require_once 'php/connectTosql.php';
-
+if(isset($_SESSION['organizerID']) ){
+$organizerid = $_SESSION['organizerID'];
 $sql = "SELECT ev.name_Event,ce.certificate_ID,ce.templateLocation FROM event ev INNER JOIN certificate ce
-         ON ev.event_ID = ce.event_ID";
+         ON ev.event_ID = ce.event_ID AND 	ev.organizer_ID='$organizerid' ";
 // Search for  event name
 if (isset($_GET['searchValue']) && $_GET['searchValue'] != '') {
 
@@ -25,12 +26,14 @@ else {
   if (isset($_GET['certificateId']) && $_GET['certificateId'] != '') {
    //retreive the hidden id in modal
    $certificateId = $_GET['certificateId'];
+   $sql1          = "delete from certificateimageinfo where certificateId = '$certificateId'";
    $sql           = "delete from certificate where certificate_ID = '$certificateId'";
+   $query1         = mysqli_query($con, $sql1) or die(mysqli_error($con));
    $query         = mysqli_query($con, $sql) or die(mysqli_error($con));
 
    //succsess to retreive id
 
-   if ($query) {
+   if ($query & $query1 ) {
     $retVal = true;
     echo json_encode($retVal); //convert value to client side jQ
     exit;
@@ -49,7 +52,10 @@ else {
 
  }
 }
-
+}//end if ($_SESSION['organizerID'])
+else{
+    header("location:LogIn.php");
+  }
 ?>
 
 
@@ -69,7 +75,7 @@ else {
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/main-rtl.css">
 
-<link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="image/logo.png" type="image/x-icon" />
 
 
 <!-------------------------------------------------------------------------->
@@ -125,9 +131,9 @@ else {
 
         echo "<tr>";
         echo "<td>" . $row['name_Event'] . "</td>";
-        echo "<td> <a id='aEditcertificate' href='editCertificate.php?eventid=" . $row['certificate_ID'] . "'><span class='fa fa-edit' style='font-size:24px;'></span></a>
-                   <a href='#' id='aDeletCertificate' class='adelete' data-id=" . $row['certificate_ID'] . "><span  class=' fa fa-trash' style='font-size:24px;color:red;  '></span> </a>
-                   <a href='download.php?file=" . $row['templateLocation'] . "'   data-id=" . $row['certificate_ID'] . "><span  class=' glyphicon glyphicon-download-alt ' style='font-size:20px;  '></span> </a></td>
+        echo "<td> <a id='aEditcertificate' title='تعديل' href='editCertificate.php?certificateid=" . $row['certificate_ID'] . "'><span class='fa fa-edit' style='font-size:24px;'></span></a>
+                   <a href='#' id='aDeletCertificate' title='حذف' class='adelete' data-id=" . $row['certificate_ID'] . "><span  class=' fa fa-trash' style='font-size:24px;color:red;  '></span> </a>
+                   <a title='تنزيل' href='download.php?file=" . $row['templateLocation'] . "'   data-id=" . $row['certificate_ID'] . "><span  class=' glyphicon glyphicon-download-alt ' style='font-size:20px;  '></span> </a></td>
         </tr>";
 
     ?>
