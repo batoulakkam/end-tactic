@@ -74,7 +74,6 @@
 
          var name = $("#fileToUpload")[0].files[0] == undefined ? "certificate.jpg" : $("#fileToUpload")[0].files[0].name;
          var attendeeID = 0;
-
          var fd = new FormData();
          var files = $('#fileToUpload')[0].files[0];
          fd.append('file', files);
@@ -113,7 +112,7 @@
              //success enter data  
              success: function(data) {
                  data = data + "?" + new Date().getTime();
-                 $('#viewCertificate').attr('src', data);
+                 $('#viewCertificate').attr('src', data); //"UploadFile/58/certificate/certificate.jpg"
                  $('#viewAttendeeCertificate').modal('show');
              }
 

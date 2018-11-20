@@ -1,4 +1,9 @@
 $(document).ready(function() {
+
+    if ($('.table tr').length > 1) {
+        $('#modalWarninngalreadyHasWinner').modal('show');
+    }
+
     // $("#btnPrintWinners").hide();
     // update this name to be subEvent ,clean code
     $("#subEventName").prop("disabled", true);
@@ -28,6 +33,7 @@ $(document).ready(function() {
 
                 }
                 $("#subEventName").prop("disabled", false);
+
             },
             error: function(xhr, ajaxOptions, thrownError) {
                 $("#subEventName").empty();
@@ -38,9 +44,23 @@ $(document).ready(function() {
     });
 
 
+    //delete event
+    $(".bodyform").on("click", function(event) {
+        event.preventDefault();
+        // in case the user click the choose winner button
+        if ($("#isSelectedchooseWinner").val() == "true") {
+            $("#hdId").val($(this).data("id"));
+
+        } else {
+            // in case the user not click the choose winner button
+            window.location.href = "/tactic/managePrize.php"
+        }
+    });
+
 
     //delete event
     $(".adelete").click(function() {
+
         $("#hdPrizeId").val($(this).data("id"));
         $('#modalDelete').modal('show');
     });

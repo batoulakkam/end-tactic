@@ -61,7 +61,7 @@
                 var len = data.length;
                 // to clear old data befor statr fill new data
                 $("#subEventName").empty();
-                $("#subEventName").append("<option value=''>اختيار</option>");
+                $("#subEventName").append("<option value='-1'>اختيار</option>");
                 for (var i = 0; i < len; i++) {
                     var subeventId = data[i]['subeventId'];
                     var subEventName = data[i]['subEventName'];
