@@ -5,7 +5,7 @@ require_once 'php/connectTosql.php';
 include 'phar://ArPHP.phar/Arabic.php';
 // the image sourse to display in html
 // test image
-$sorce = "image/download.jpg";
+//$sorce = "image/download.jpg";
 // get the value of input
 
 function calculateX($value)
@@ -36,20 +36,40 @@ $fontfile = 'C:/xampp/htdocs/tactic/css/fonts/arial.ttf';
 $Arabic = new I18N_Arabic('Glyphs');
 
 $angle          = 0;
-$attendeeID =$_GET["attendeeID"];
+$attendeeID =$_POST["attendeeID"];
 
 if ($attendeeID==0){
-$visitorName    = $_GET["visitorName"];//position 
-$visitorCareer  = $_GET["visitorCareer"];//position
-$visitorBarcode = $_GET["visitorBarcode"];//position
-$color          = $_GET["color"];
-$barSize        = $_GET["barSize"];
-$fontSize       = $_GET["fontSize"];
-$imageName      = $_GET["sorce"];
-$eventId        =$_GET["eventId"];
-$visitorNameVal = "بتول "; //$_SESSION['OrgName'];//
+$visitorName    = $_POST["visitorName"];//position 
+$visitorCareer  = $_POST["visitorCareer"];//position
+$visitorBarcode = $_POST["barcode"];//position
+$color          = $_POST["color"];
+$barSize        = $_POST["barSize"];
+$fontSize       = $_POST["fontSize"];
+$imageName      = $_POST["sorce"];
+$eventId        =$_POST["eventId"];
+$visitorNameVal =$_SESSION['OrgName'];//
 $visitorCareerVal="منظم فعاليات";
 $sorce = "image/" . $imageName;
+
+if (!empty($_FILES["file"]["name"])) {
+
+  $name     = $_FILES['file']['name'];
+  $size     = $_FILES['file']['size'];
+  $type     = $_FILES['file']['type'];
+  $tmp_name = $_FILES['file']['tmp_name'];
+
+  $badgeName=substr($type,6);
+  $sorce = "UploadFile/".$eventId."/badge/badge.".$badgeName;
+$imageName ="badge.".$badgeName;
+  $max_size = 2000000;
+  if ($size <= $max_size) {
+    // check the type of image
+   if ($type == "image/jpg" || $type == "image/JPG" || $type == "image/jpeg" || $type == "image/JPEG") {
+   move_uploaded_file($tmp_name, $sorce );
+   }
+  }
+}
+
 }
 else{
   $attende = mysqli_query($con, "SELECT *
@@ -108,9 +128,8 @@ switch ($color) {
 // attende Name
 $leftName = calculateX($visitorName) ;
 $topName  = calculateY($visitorName) ;
-$test=$leftName-strlen($visitorNameVal);
-// Print Text On Image   -55+strlen("اسم الزائر")
-imagettftext($image, $fontSize, $angle, $test -strlen($visitorNameVal)-5 , $topName, $color, $fontfile, setText($Arabic, $visitorNameVal));
+
+imagettftext($image, $fontSize, $angle, $leftName, $topName, $color, $fontfile, setText($Arabic, $visitorNameVal));
 
 //attende Career
 $leftCareer = calculateX($visitorCareer) ;
@@ -131,8 +150,9 @@ $stampy       = imagesy($stamp);
 imagecopy($image, $stamp, $marge_right, $marge_bottom, 0, 0, $stampx, $stampy);
 
 // Send Image to Browser
-imagepng($image, $output);
+imagejpeg($image, $output);
 if($attendeeID !=0){
 header("location:confirmRegisterEvent.php?attendeeId=$attendeeID");}
 echo json_encode($output);
 ?>
+

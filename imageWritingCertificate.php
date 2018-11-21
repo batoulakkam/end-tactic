@@ -4,9 +4,6 @@ require_once 'php/connectTosql.php';
 // to enable write arabic letter in image
 include 'phar://ArPHP.phar/Arabic.php';
 // the image sourse to display in html
-// test image
-$source = "image/certificate.jpg";
-// get the value of input
 
 function calculateX($value)
 {
@@ -30,8 +27,8 @@ function setText($Arabic, $text)
 }
 
 // Set Path to Font File
-putenv('GDFONTPATH=D:/xampp/htdocs/tactic/css/fonts');
-$fontfile = 'D:/xampp/htdocs/tactic/css/fonts/arial.ttf';
+putenv('GDFONTPATH=C:/xampp/htdocs/tactic/css/fonts');
+$fontfile = 'C:/xampp/htdocs/tactic/css/fonts/arial.ttf';
 // Set Text to Be Printed On Image in arabic
 $Arabic = new I18N_Arabic('Glyphs');
 
@@ -49,7 +46,6 @@ $eventNameVal = $_POST["lblEventNameVal"];
 $visitorNameVal   = $_POST["lblVisitorNameVal"];
 $eventDateVal = $_POST["lblEventDateVal"];
 $eventId     = $_POST['eventId'];
-$source = "image/" . $imageName;
 
 if (!empty($_FILES["file"]["name"])) {
 
@@ -57,47 +53,54 @@ if (!empty($_FILES["file"]["name"])) {
   $size     = $_FILES['file']['size'];
   $type     = $_FILES['file']['type'];
   $tmp_name = $_FILES['file']['tmp_name'];
-  $location = "image/";
 
+  $extention=substr($type,6);
+  $source = "UploadFile/".$eventId."/certificate/certificate.".$extention;
+  $imageName ="certificate.".$extention;
   $max_size = 1000000;
   if ($size <= $max_size) {
     // check the type of image
    if ($type == "image/jpg" || $type == "image/JPG" || $type == "image/jpeg" || $type == "image/JPEG") {
-   move_uploaded_file($tmp_name, $source /*. $name*/);
+   move_uploaded_file($tmp_name, $source);
    }
   }
 }
 
  }
- //else {
-//   $QueryAttende=mysqli_query($con, "SELECT *
-// FROM ((attendee att INNER JOIN certificate ce ON att.eventId=ce.event_ID) INNER JOIN certificateimageinfo cer ON cer.certificateId=ce.certificate_ID) where att.id='$attendeeID '")
-// or die(mysqli_error());
-// while ($row = mysqli_fetch_array($QueryAttende)){
+ else {
+  $QueryAttende=mysqli_query($con, "SELECT *
+ FROM (certificate ce INNER JOIN certificateimageinfo img ON img.certificateId=ce.certificate_ID)
+  INNER JOIN attendee att ON att.eventId=ce.event_ID
+   where att.id='$attendeeID '")
+ or die(mysqli_error());
+ while ($row = mysqli_fetch_array($QueryAttende)){
+  $eventId     = $row[1];
+  $eventName    = $row[9];//postion
+  $visitorName  = $row[10];//postion
+  $eventDate = $row[11];//postion
+  $color          = $row[7];
+  $fontSize       = $row[8];
+  $visitorNameVal   = $row[15];
+  $source =$row[5];
+  $type=$row[4];
+  $extention=substr($type,6);
+  $imageName      = $attendeeID.$extention;
+ }//end while
 
-//  $visitorNameVal   = $row[2];
-//  $eventNameVal = $row[1];
-//  $eventDateVal= $row[3];
+ $QueryAttende=mysqli_query($con, "SELECT name_Event,	sartDate_Event FROM event where event_ID='$eventId'") or die(mysqli_error());
 
-//  $eventName = $row[29];//position
-//  $visitorName      = $row[28]; //position 
-//  $eventDate    = $row[29]; //position
+ while ($row = mysqli_fetch_array($QueryAttende)){
+  $eventNameVal = $row[1];
+  $eventDateVal = $row[2];
+ }
 
-//  $color            = $row[24];
-//  $fontSize          = $row[25];
-//  $eventId          = $row[18]; //certificate.eventId
-//  $imageName        = $attendeeID . ".jpg";
-//  $source            = $row[22]; //certificate TemplateLocation
-// }//end while
-// }
+ }//end else
 
 
 
 // Load And Create Image From Source this bacground image
 $image = imagecreatefromjpeg($source);
-$output = "UploadFile/" . $eventId . "/certificate/" . $imageName;
-
-
+$output = "UploadFile/".$eventId."/certificate/".$imageName;
 // Allocate A Color For The Text Enter
 switch ($color) {
  case "white":
@@ -139,10 +142,9 @@ imagettftext($image, $fontSize, $angle, $leftEventDate + 105 - strlen($eventDate
 
 // Send Image to Browser
 imagejpeg($image, $output);
-
+if ($attendeeID!=0){
+  
+}
 // to send the source of image to position.js
-echo '<img src="' . $output . '"  />';
+echo json_encode($output);
 ?>
-
- <form method="post" action="" enctype="multipart/form-data" id="myform">
-</form>
