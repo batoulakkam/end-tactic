@@ -70,7 +70,7 @@ else{
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/main-rtl.css">
 
-	<link rel="shortcut icon" href="image/logo.png" type="image/x-icon" />
+	<link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
 
 
 	<!-------------------------------------------------------------------------->

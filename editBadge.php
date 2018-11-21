@@ -166,6 +166,7 @@ else{
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/main-rtl.css">
   <link rel="stylesheet" href="css/jquery-ui.css">
+  <link rel="stylesheet" href="css/print.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
 
   <link rel="shortcut icon" href="image/logo.png" type="image/x-icon" />

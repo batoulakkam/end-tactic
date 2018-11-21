@@ -3,15 +3,17 @@
 require_once 'php/connectTosql.php';
 if(isset($_SESSION['organizerID']) ){
 $organizerid = $_SESSION['organizerID'];
+$flag = true;
 $sql = "SELECT ev.name_Event,ce.certificate_ID,ce.templateLocation FROM event ev INNER JOIN certificate ce
          ON ev.event_ID = ce.event_ID AND 	ev.organizer_ID='$organizerid' ";
 // Search for  event name
-if (isset($_GET['searchValue']) && $_GET['searchValue'] != '') {
+if (isset($_GET['eventName']) && $_GET['eventName'] != '') {
 
- $searchValue = $_GET['searchValue'];
+ $searchValue = $_GET['eventName'];
 
- $mainQuery = mysqli_query($con, $sql . " where  ev.name_Event like '%$searchValue%' "
- ) or die(mysqli_error($con));
+ $mainQuery = mysqli_query($con, $sql . " where  ev.name_Event like '%$searchValue%' ") or die(mysqli_error($con));
+ if (mysqli_num_rows($mainQuery) == 0)
+    $flag = false;
 
 } // end Search
 // this query for present all badges that related to organizer
@@ -100,7 +102,7 @@ else{
                         <div class="col-md-12">
                             <div class="form-group form-group-lg">
                                 <label for="eventName" class="control-label"> اسم الحدث </label>
-                                <input type="text" class="form-control" id="txtEventName" name="eventName">
+                                <input type="text" class="form-control" id="txtEventName" name="eventName" placeholder="بحث باسم الحدث  ...">
                             </div>
                         </div>
 
@@ -126,7 +128,7 @@ else{
 
 
     <?php
-
+        if ($flag){
         while ($row = mysqli_fetch_array($mainQuery)):
 
         echo "<tr>";
@@ -136,8 +138,23 @@ else{
                    <a title='تنزيل' href='download.php?file=" . $row['templateLocation'] . "'   data-id=" . $row['certificate_ID'] . "><span  class=' glyphicon glyphicon-download-alt ' style='font-size:20px;  '></span> </a></td>
         </tr>";
 
-    ?>
-	                <?php endwhile;?>
+         endwhile;
+        }
+        else{if ($flag == false ){
+            echo "<tr>";
+		echo "<td colspan='6'> <div class='alert alert-danger alert-dismissible'>
+        <button type='button' class='close' name ='update' data-dismiss='alert'>&times;</button>
+         لم يتم العثور على نتيجة.
+         <a href='manageCertificate.php' ><br> <div  class='glyphicon glyphicon-refresh' style='font-size:24px  '></div></a>  
+       </div> 
+            
+        
+         </td>";
+            
+            echo "</tr>";}}
+
+         
+         ?>
 
 
             </table>

@@ -136,6 +136,7 @@ else{
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/main-rtl.css">
   <link rel="stylesheet" href="css/jquery-ui.css">
+  <link rel="stylesheet" href="css/print.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
 
   <link rel="shortcut icon" href="image/logo.png" type="image/x-icon" />
@@ -190,9 +191,6 @@ else{
               <div class="form-group form-group-lg">
                 <label for="eventName" class="control-label"> ارفاق قالب البطاقة</label>
                 <input type="file" class="form-control" onchange="readURL(this);" id="fileToUpload" name="fileToUpload" >
-                <!--<br> <label  class="btn-primary btn" for="files"  style="width:100; float:right;" > ارفع الملف</label>
-                 <input type="file" onchange="readURL(this);" id="fileToUpload" name="fileToUpload"  style="visibility:hidden;" >&nbsp; <span  id="fileC" for= "files"> لم اختيار الملف</span>
-                -->
               </div>
             </div>
 
@@ -317,18 +315,7 @@ else{
 
 
   <script type="text/javascript">
-  /*
-  $("#fileToUpload").change(function() {
-        filename = this.files[0].name
-        console.log(filename);
-        });
-        
-        $("#fileToUpload").change(function() {
-        $("#fileC").empty();
-        $("#fileC").append(filename = this.files[0].name);
-        });
-
-*/
+  
     function readURL(input) {
       if (input.files && input.files[0]) {
         var reader = new FileReader();

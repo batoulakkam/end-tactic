@@ -121,6 +121,7 @@ else{
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/main-rtl.css">
   <link rel="stylesheet" href="css/jquery-ui.css">
+  <link rel="stylesheet" href="css/print.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
 
   <link rel="shortcut icon" href="image/logo.png" type="image/x-icon" />
@@ -219,7 +220,7 @@ else{
               <div class="certificate_container">
                 <div class="form-group form-group-lg">
 
-                  <img id="myImg"  class="certificatealign " src="image/certificate.jpg" />
+                  <img id="myImg"  class="certificatealign " src="" style="display: none;"/>
 
                 </div>
               </div>
@@ -277,6 +278,7 @@ else{
           $('#myImg').attr('src', e.target.result);
         }
         reader.readAsDataURL(input.files[0]);
+        $('#myImg').show();
       }
     }
   </script>
