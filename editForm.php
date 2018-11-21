@@ -24,24 +24,16 @@ if(isset($_GET['token'])){
           
     }
     $length    = count($selected);
-
 // 
-
-
   if (isset($_POST['create'])){
       $sql =  mysqli_query($con,"Delete FROM registration_form WHERE event_ID = '$EditeventID'");
 	 $EditID= $_SESSION['EditeventID'];
 	$requierdField =0;
 	$selectedField = 0;
 // Name
-
 	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,event_ID) VALUES  ('','الاسم',1,1,'$EditID')")or die(mysqli_error($con));
-
-
 // email
-
 	$sql = mysqli_query($con, "INSERT INTO registration_form (form_ID, name_of_field, selected_field,required_field,event_ID) VALUES ('','الايميل',1,1,'$EditID')")or die(mysqli_error($con));
-
 // phone
 	if(isset($_POST['choicedPhone'])){
 	$selectedField = $_POST['choicedPhone'];
