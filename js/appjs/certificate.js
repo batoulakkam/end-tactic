@@ -49,11 +49,6 @@ $(document).ready(function() {
         refreshPositions: true
     });
 
-
-
-
-
-
     // send the info of image to write it on the image 
     $('#passImageInfo').click(function() {
         // get value of required variable and pass it to imagetext.php
