@@ -66,7 +66,7 @@ $(document).ready(function() {
         eventName = "X" + ((eventName.left )- (myImg.left)) + "Y" + ((eventName.top) - (myImg.top));
         visitorName = "X" + ((visitorName.left) - (myImg.left)) + "Y" + ((visitorName.top) - (myImg.top));
         eventDate = "X" + ((eventDate.left) - (myImg.left)) + "Y" + ((eventDate.top) - (myImg.top));
-        myImg="x"+myImg.left+"y"+myImg.top;
+        //myImg="x"+myImg.left+"y"+myImg.top;
         var name = $("#fileToUpload")[0].files[0] == undefined ? "certificate.jpg" : $("#fileToUpload")[0].files[0].name;
         var attendeeID = 0;
 
