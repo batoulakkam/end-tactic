@@ -49,7 +49,6 @@ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
    if (move_uploaded_file($tmp_name, $location)) {
 
     // add info of new certificate to the DB
-    
     $mainQuery = mysqli_query($con, "INSERT INTO certificate
     (event_ID,templateName,templateSize,templateType, templateLocation)
    VALUES ('$eventId','$name' ,'$size', '$type', '$location')") or die(mysqli_error($con));

@@ -156,3 +156,21 @@ header("location:confirmRegisterEvent.php?attendeeId=$attendeeID");}
 echo json_encode($output);
 ?>
 
+// attende Name
+$leftName=calculateX($visitorName);
+$topName=calculateY($visitorName);
+$str = mb_strlen("اسم الزائر") + 20;
+
+$visitorNameVal = "علا"; // ($namelength * 4 + 4)
+
+$visitorNameVal = "علا حجازي";//($namelength * 4 + 15)
+
+$namelength=mb_strlen($visitorNameVal,"UTF8")-1;
+if (preg_match('/\s/',$visitorNameVal))
+{
+$strLeft =($leftName + $str)-($namelength * 4 + 15);
+}
+  else
+  {
+$strLeft =($leftName + $str)-($namelength * 4 + 4 );
+  }

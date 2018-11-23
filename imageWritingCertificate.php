@@ -100,7 +100,7 @@ if (!empty($_FILES["file"]["name"])) {
 
 // Load And Create Image From Source this bacground image
 $image = imagecreatefromjpeg($source);
-$output = "UploadFile/".$eventId."/certificate/".$imageName;
+$output = 'UploadFile/'.$eventId.'/certificate/'.$imageName;
 // Allocate A Color For The Text Enter
 switch ($color) {
  case "white":
@@ -143,7 +143,7 @@ imagettftext($image, $fontSize, $angle, $leftEventDate + 105 - strlen($eventDate
 // Send Image to Browser
 imagejpeg($image, $output);
 if ($attendeeID!=0){
-  
+
 }
 // to send the source of image to position.js
 echo json_encode($output);
