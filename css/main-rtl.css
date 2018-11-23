@@ -2315,3 +2315,9 @@ MOBILE
     /* width: 960px; */
     /* float: left; */
 }
+.scrollable-menu {
+    height: auto;
+    max-height: 300px;
+    overflow-x: hidden;
+   
+}
