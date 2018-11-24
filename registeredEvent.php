@@ -46,7 +46,8 @@ else {
 </head>
 
 <body>
-  
+    <div id="includedContent"></div>
+  <div id="includedContent2"></div>
   <div class="mainContent">
 
     <div class="container">
@@ -56,21 +57,23 @@ else {
         </div>
         <div class="panel-body">
 		   <form action="registeredEvent.php"  method="Get">
-
-            <div class="col-md-12">
-              <div class="form-group form-group ">
-                <label  class="control-label"> البحث عن مسجل بالبريد أو رقم الهاتف</label>
-				 <div class="form-inline">
-                <input type="text" class=" form-control" id="txtEventName" name="attendeeInfo"  style="width: 450px">
-				<input type="text"   name="eID" value = "<?php echo $eID; ?>" style="display:none"> 
-				 <input type="submit"  class=" btn btn-nor-primary  "  name="update" value = "بحث" style="width:145px"> 
-				 
-			</div>
+   <div class="col-md-12">
+              <div class="form-group form-group-lg">
+                <label for="eventName" class="control-label"> البحث بالبريد الالكتروني او رقم الهاتف</label>
 				
-              </div>
+                <input type="text" class="form-control" id="txtEventName" name="attendeeInfo" placeholder="بحث   ..." >
+                  <input type="text"   name="eID" value = "<?php echo $eID; ?>" style="display:none">
 
-	
+		
+                  
+                 </div>
+
+              </div>
+              <div class="col-md-12">
+              <div class="form-group form-group-lg">
+            <input type="submit"  class=" btn btn-nor-primary  "  name="update" value = "بحث" >
             </div>
+              </div>
 
           
           </form>
@@ -104,10 +107,14 @@ else {
 		}}
         else{if ($flag == false ){
             echo "<tr>";
-		echo "<td colspan='5'> <div class='alert alert-danger alert-dismissible'>
+					echo "<td colspan='6'> <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' name ='update' data-dismiss='alert'>&times;</button>
-         <strong> حدث خطأ </strong> لم يتم العثور على نتيجة البحث.
-       </div>  </td>";
+         لم يتم العثور على نتيجة.
+         <a href='registeredEvent.php?eID=$eID'' ><br> <div  class='fas fa-undo'></i> </div></a>  
+       </div> 
+            
+        
+         </td>";
             echo "</tr>";}}?>
 		</table>	
 	 </div>
