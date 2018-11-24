@@ -34,48 +34,8 @@ $fontfile = 'C:/xampp/htdocs/tactic/css/fonts/arial.ttf';
 $Arabic = new I18N_Arabic('Glyphs');
 
 $angle          = 0;
-$attendeeID=$_POST["attendeeID"];
-
-if ($attendeeID==0) {
-$eventName    = $_POST["eventName"];
-$visitorName  = $_POST["visitorName"];
-$eventDate = $_POST["eventDate"];
-$color          = $_POST["color"];
-$fontSize       = $_POST["fontSize"];
-$imageName      = $_POST["source"];
-$eventNameVal = $_POST["lblEventNameVal"];
-$visitorNameVal   = $_POST["lblVisitorNameVal"];
-$eventDateVal = $_POST["lblEventDateVal"];
-$eventId     = $_POST['eventId'];
-
-$query = mysqli_query($con, "SELECT templateLocation,templateType FROM certificate where event_ID='$eventId' ") or die(mysqli_error());
-$row = mysqli_fetch_array($query);
-$source =$row[0];
-$type =$row[1];
-$extention=substr($type,6);
-$imageName ="certificate.".$extention;;
-if (!empty($_FILES["file"]["name"])) {
-
-  $name     = $_FILES['file']['name'];
-  $size     = $_FILES['file']['size'];
-  $type     = $_FILES['file']['type'];
-  $tmp_name = $_FILES['file']['tmp_name'];
-
-  $extention=substr($type,6);
-  $source = "UploadFile/".$eventId."/certificate/certificate.".$extention;
-  $imageName ="certificate.".$extention;
-  $max_size = 1000000;
-  if ($size <= $max_size) {
-    // check the type of image
-   if ($type == "image/jpg" || $type == "image/JPG" || $type == "image/jpeg" || $type == "image/JPEG") {
-   move_uploaded_file($tmp_name, $source);
-   }
-  }
-}
-
- }
- else {
-  $QueryAttende= mysqli_query($con, "SELECT *
+$attendeeID=$_GET["attendeeID"];
+$QueryAttende= mysqli_query($con, "SELECT *
   FROM ((certificate ce INNER JOIN certificateimageinfo img ON img.certificateId=ce.certificate_ID)
     INNER JOIN attendee att ON att.eventId=ce.event_ID)
     where att.id='$attendeeID' ") or die(mysqli_error($con));
@@ -101,12 +61,6 @@ if (!empty($_FILES["file"]["name"])) {
     $eventDateVal = $row[3];
 } //$row
  }//end while
-
- 
-}//end else
-
-
-
 // Load And Create Image From Source this bacground image
 $image = imagecreatefromjpeg($source);
 $output = 'UploadFile/'.$eventId.'/certificate/'.$imageName;
@@ -130,8 +84,6 @@ $leftEventName = calculateX($eventName) ;
 $topEventName  = calculateY($eventName) ;
 
 // Print Text On Image
-$visitorNameVal="بتول";
-
 imagettftext($image, $fontSize, $angle, $leftEventName + 105 - strlen($eventName), $topEventName  , $color, $fontfile, setText($Arabic, $eventNameVal));
 
 // Visitor Name
@@ -157,5 +109,7 @@ if ($attendeeID!=0){
   true;
 }
 // to send the source of image to position.js
-echo json_encode($extention);
+
 ?>
+
+

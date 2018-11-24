@@ -361,7 +361,7 @@ else{
       </div>
      <div class="certificate_container">
       <div class="modal-body"id ="printCertificate">
-      <img sur="#" id="viewCertificate" />
+      <img sur='' id="viewCertificate" />
       </div>
       </div>
       <div class="modal-footer">
@@ -394,7 +394,7 @@ else{
   <script>
     // this part for call navBar
     $(function () {
-      // $("#includedContent").load("php/TopNav.php");
+      $("#includedContent").load("php/TopNav.php");
       $("#includedContent2").load("HTML/rightNav.html");
     });
   </script>

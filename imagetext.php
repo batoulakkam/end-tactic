@@ -46,7 +46,7 @@ $color          = $_POST["color"];
 $barSize        = $_POST["barSize"];
 $fontSize       = $_POST["fontSize"];
 $imageName      = $_POST["sorce"];
-$eventId        =$_POST["eventId"];
+$eventId        =$_PORST["eventId"];
 $visitorNameVal =$_SESSION['OrgName'];//
 $visitorCareerVal="منظم فعاليات";
 $sorce = "image/" . $imageName;
@@ -76,7 +76,7 @@ else{
   FROM ((attendee att INNER JOIN badge b ON att.eventId = b.event_ID)
     INNER JOIN imageinfo img ON img.badgeId = b.badge_ID)
     where att.id='$attendeeID ' ")
-    or die(mysqli_error());
+    or die(mysqli_error($con));
   
   
   while ($row = mysqli_fetch_array($attende)):
@@ -128,8 +128,10 @@ switch ($color) {
 // attende Name
 $leftName = calculateX($visitorName) ;
 $topName  = calculateY($visitorName) ;
+///setText($Arabic, $visitorNameVal)
 
-imagettftext($image, $fontSize, $angle, $leftName, $topName, $color, $fontfile, setText($Arabic, $visitorNameVal));
+//$text = fagd($visitorNameVal,'fa','nastaligh');
+imagettftext($image, $fontSize, $angle, $leftName, $topName, $color, $fontfile, setText($Arabic, $visitorNameVal) );
 
 //attende Career
 $leftCareer = calculateX($visitorCareer) ;
@@ -156,21 +158,4 @@ header("location:confirmRegisterEvent.php?attendeeId=$attendeeID");}
 echo json_encode($output);
 ?>
 
-// attende Name
-$leftName=calculateX($visitorName);
-$topName=calculateY($visitorName);
-$str = mb_strlen("اسم الزائر") + 20;
 
-$visitorNameVal = "علا"; // ($namelength * 4 + 4)
-
-$visitorNameVal = "علا حجازي";//($namelength * 4 + 15)
-
-$namelength=mb_strlen($visitorNameVal,"UTF8")-1;
-if (preg_match('/\s/',$visitorNameVal))
-{
-$strLeft =($leftName + $str)-($namelength * 4 + 15);
-}
-  else
-  {
-$strLeft =($leftName + $str)-($namelength * 4 + 4 );
-  }
