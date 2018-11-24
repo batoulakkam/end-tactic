@@ -52,7 +52,6 @@ $(document).ready(function() {
     // send the info of image to write it on the image 
     $('#passImageInfo').click(function() {
         // get value of required variable and pass it to imagetext.php
-        debugger;
         var eventId = $("#eventId").val();
         var color = $("#color").val();
         var fontSize = $("#fontSize").val();
@@ -67,12 +66,13 @@ $(document).ready(function() {
         visitorName = "X" + ((visitorName.left) - (myImg.left)) + "Y" + ((visitorName.top) - (myImg.top));
         eventDate = "X" + ((eventDate.left) - (myImg.left)) + "Y" + ((eventDate.top) - (myImg.top));
         //myImg="x"+myImg.left+"y"+myImg.top;
-        var name = $("#fileToUpload")[0].files[0] == undefined ? "certificate.jpg" : $("#fileToUpload")[0].files[0].name;
-        var attendeeID = 0;
+        var name = $("#fileToUpload")[0].files[0] == undefined ? "notUpload" : $("#fileToUpload")[0].files[0].name;
+        var attendeeID =0;
 
         var fd = new FormData();
+        if (name!="notUpload"){
         var files = $('#fileToUpload')[0].files[0];
-        fd.append('file', files);
+        fd.append('file', files);}
         fd.append('lblEventNameVal', lblEventNameVal);
         fd.append('lblVisitorNameVal', lblVisitorNameVal);
         fd.append('lblEventDateVal', lblEventDateVal);
@@ -93,6 +93,9 @@ $(document).ready(function() {
             processData: false,
             //success enter data  
             success: function(data) {
+                data =data.substring(1);
+                data =data.substring(data.length-1,0);
+                data= "UploadFile/"+eventId+"/certificate/certificate."+data;
                  data = data + "?" + new Date().getTime();
                 $('#viewCertificate').attr('src', data);
                 $('#viewAttendeeCertificate').modal('show');
