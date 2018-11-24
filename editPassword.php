@@ -15,7 +15,7 @@ if($password == $confirm_password ){
 $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 $select =mysqli_query($con,"UPDATE account SET passwordOrg= '$hashedPassword' WHERE organizer_ID ='$id'  ");
  if ($select!=null){
- header('Location:LogIn.php?edit=true');
+ header('Location:home.php');
     exit();}}
 else {
 $masg= " <div class='alert alert-danger alert-dismissible'>
@@ -32,7 +32,7 @@ $masg= " <div class='alert alert-danger alert-dismissible'>
 
  else {}   
 }
-else{header('Location:LogIn.php');}
+else{header('Location:LogIn.php.php');}
 
 
 ?>
@@ -63,9 +63,9 @@ else{header('Location:LogIn.php');}
 
 </head>
 <body>
-<!-- <div id="includedContent"></div>
+<div id="includedContent"></div>
   <div id="includedContent2"></div>
-	 Body of register Page -->
+	<!-- Body of register Page -->
 <div class="mainContent">
     <div class="container">
       <div class="panel panel-primary">
