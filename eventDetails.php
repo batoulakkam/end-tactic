@@ -5,7 +5,7 @@ if (isset($_GET['eventid']) && $_GET['eventid'] != '') {
  $eventId = $_GET['eventid'];
  $query   = mysqli_query($con, "SELECT * FROM event  WHERE event_ID ='$eventId' ") or die(mysqli_error($con));
  if ($query == null) {
- echo  "id is not exist";
+  echo "id is not exist";
  }
 } else {
  header('Location: myerrorpage.php');
@@ -22,6 +22,7 @@ if ($query) {
  $location         = $row[5];
  $organizationName = $row[6];
  $maxAttendee      = $row[8];
+ $image            = $row[12];
 }
 ?>
 <!DOCTYPE html>
@@ -87,19 +88,19 @@ if ($query) {
                                 <label for="txtMaxAttendee" class="control-label"> الحد الاقصى</label>
                                 <select id="txtMaxAttendee" name="maxAttendee" class="form-control" style="enable:false"
                                     value="<?php echo $maxAttendee ?>">
-                                    <option value="100" <?php if ($maxAttendee=="100" ) {echo ' selected="selected"'
+                                    <option value="100" <?php if ($maxAttendee=="100" ) { echo ' selected="selected"'
                                         ;}?> >100</option>
-                                    <option value="200" <?php if ($maxAttendee=="200" ) {echo ' selected="selected"'
+                                    <option value="200" <?php if ($maxAttendee=="200" ) { echo ' selected="selected"'
                                         ;}?>>200</option>
-                                    <option value="500" <?php if ($maxAttendee=="500" ) {echo ' selected="selected"'
+                                    <option value="500" <?php if ($maxAttendee=="500" ) { echo ' selected="selected"'
                                         ;}?>>500</option>
-                                    <option value="1000" <?php if ($maxAttendee=="1000" ) {echo ' selected="selected"'
+                                    <option value="1000" <?php if ($maxAttendee=="1000" ) { echo ' selected="selected"'
                                         ;}?>>1000</option>
-                                    <option value="1500" <?php if ($maxAttendee=="1500" ) {echo ' selected="selected"'
+                                    <option value="1500" <?php if ($maxAttendee=="1500" ) { echo ' selected="selected"'
                                         ;}?>>1500</option>
-                                    <option value="2000" <?php if ($maxAttendee=="2000" ) {echo ' selected="selected"'
+                                    <option value="2000" <?php if ($maxAttendee=="2000" ) { echo ' selected="selected"'
                                         ;}?>>2000</option>
-                                    <option value="unfinite" <?php if ($maxAttendee=='unfinite' ) {echo
+                                    <option value="unfinite" <?php if ($maxAttendee=='unfinite' ) { echo
                                         ' selected="selected"' ;}?>>غير
                                         محدود</option>
                                 </select>
@@ -130,6 +131,15 @@ if ($query) {
                             </div>
                         </div>
 
+                        
+                            <div class="col-md-12">
+                            <div class="form-group form-group-lg">
+                                <label class='control-label'>شعار الحدث</label>
+                             <?php
+  echo " <div class='intro_image'> <img width='301px' height='200px' src=" . $row[12] . "></div></div>  ";?>
+
+</div>
+                        </div>
 
                         <div class="col-md-12">
                             <div class="form-group form-group-lg">

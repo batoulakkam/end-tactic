@@ -1,7 +1,7 @@
 <?php
 require_once 'php/connectTosql.php';
-if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
- if (isset($_POST['add'])) {
+$message="";
+ if (isset($_POST['add']) && !empty($_FILES["fileToUpload"]["name"])) {
 $eventName        = $_POST['eventName'];
 $EventDescription = $_POST['description'];
 $sdate            = $_POST['sdaytime'] . ' 00:00:00.000';
@@ -11,38 +11,80 @@ $dateend          = date('Y-m-d', strtotime($edate));
 $location         = $_POST['location'];
 $organizationName = $_POST['organizer'];
 $maxAttendee      = $_POST['maxAttendee'];
-  if ($datestart > $dateend) {
-   echo " <div class='alert alert-danger alert-dismissible'>
-        <button type='button' class='close' data-dismiss='alert'>&times;</button>
-         <strong> فشل  </strong>  يرجى التحقق من تاريخ بداية ونهاية الحدث
-       </div> ";
-  } else {
+$name     = $_FILES['fileToUpload']['name'];
+$size     = $_FILES['fileToUpload']['size'];
+$type     = $_FILES['fileToUpload']['type'];
+$tmp_name = $_FILES['fileToUpload']['tmp_name'];
+$extention = substr($type, 6);
+
+
+
+$max_size = 200000;
+if ($datestart <= $dateend) {
+  if ($size <= $max_size) {
+$templateLocation = "UploadFile/";
+
    $IDT = $_SESSION['organizerID'];
-   $sql = mysqli_query($con, "INSERT INTO event ( event_ID, name_Event, descrption_Event ,sartDate_Event,endDate_Event,location_Event,organization_name_Event,maxNumOfAttendee,organizer_ID) VALUES ('','$eventName','$EventDescription','$datestart','$dateend','$location','$organizationName','$maxAttendee','$IDT')") or die(mysqli_error($con));
+   $sql = mysqli_query($con, "INSERT INTO event ( event_ID, name_Event, descrption_Event ,sartDate_Event,endDate_Event,location_Event,organization_name_Event,maxNumOfAttendee,templateName,
+    templateSize,templateType, templateLocation,organizer_ID) 
+    VALUES ('','$eventName','$EventDescription','$datestart','$dateend','$location','$organizationName','$maxAttendee','$name' ,'$size', '$type', '$templateLocation$name','$IDT')") or die(mysqli_error($con));
    if ($sql) {
-    $eventId = mysqli_insert_id($con);
-    // create folder
-    mkdir("UploadFile/".$eventId);
-    mkdir("UploadFile/".$eventId."/badge");
-    mkdir("UploadFile/".$eventId."/certificate");
-    mkdir("UploadFile/".$eventId."/barcode");
-    //move to manage page 
-    header("location: /tactic/manageEvent.php");
-   exit;
-   } else {
-    echo " <div class='alert alert-danger alert-dismissible'>
+      $eventId = mysqli_insert_id($con);
+      // create folder
+mkdir("UploadFile/" . $eventId);
+mkdir("UploadFile/" . $eventId . "/badge");
+mkdir("UploadFile/" . $eventId . "/certificate");
+mkdir("UploadFile/" . $eventId . "/barcode");
+
+$templateLocation = "UploadFile/" . $eventId."/logoEvent.".$extention;
+
+if (move_uploaded_file($tmp_name, $templateLocation)) {
+  $sqlEdit=mysqli_query($con,"UPDATE event set templateLocation= '$templateLocation' where event_ID='$eventId' ")or die(mysqli_error($con));
+//move to manage page
+if($sqlEdit)
+{header("location: /tactic/manageEvent.php");
+exit;
+}
+else
+$message = " <div class='alert alert-danger alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+         <strong> فشل</strong>  لم تتم عملية اضافة الحدث بنجاح
+       </div> ";
+//move
+}else
+    $message= " <div class='alert alert-danger alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+         <strong> فشل</strong>  لم تتم عملية اضافة الشعار بنجاح يرجى التحقق
+       </div> ";
+     
+
+}//sql
+else 
+    $message= " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
          <strong> فشل</strong>  لم تتم عملية الاضافة بنجاح يرجى التحقق
        </div> ";
-   }
-  }}
-  
-} else {
- echo " <div class='alert alert-danger alert-dismissible'>
+
+}//size
+  else
+    $message= " <div class='alert alert-danger alert-dismissible'>
+            <button type='button' class='close' data-dismiss='alert'>&times;</button>
+              <strong> يرجى</strong>  أكبر حجم للملف هو 10 ميغا
+            </div> "; 
+}//date
+else
+ $message= " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
-         <strong> يرجى</strong>   تثبيت الايميل لكي تتمكن من أضافة حدث
+         <strong> فشل  </strong>  يرجى التحقق من تاريخ بداية ونهاية الحدث
        </div> ";
-}
+ 
+ 
+}//end add
+
+
+
+
+
 ?>
 
 
@@ -85,8 +127,8 @@ $maxAttendee      = $_POST['maxAttendee'];
         </div>
         <div class="panel-body">
 
-          <form action="" class="formDivAddEvent" method="post">
-
+          <form action="" class="formDivAddEvent" method="post" enctype="multipart/form-data">
+<?php echo $message; ?>
             <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <label for="eventName" class="control-label"> اسم الحدث<label style="color:red">*&nbsp; </label></label>
@@ -140,6 +182,16 @@ $maxAttendee      = $_POST['maxAttendee'];
                 <label for="txtEdaytime" class="control-label">تاريخ نهاية الحدث<label style="color:red">*&nbsp; </label></label>
                 <input type="date" class="form-control" id="txtEdaytime" name="edaytime" 
                   >
+              </div>
+            </div>
+
+            
+            
+            <div class="col-md-12">
+              <div class="form-group form-group-lg">
+                <label for="fileToUpload" class="control-label"> ارفاق صورة شعار الحدث<label style="color:red">*&nbsp;
+                  </label></label>
+                <input type="file" class="form-control" id="fileToUpload" name="fileToUpload">
               </div>
             </div>
 

@@ -3,7 +3,7 @@
 
 if (!empty($_GET['file'])) {
     // Security, down allow to pass ANY PATH in your server
-    $fileName = basename($_GET['file']);
+    $fileName = str_replace("UploadFile/","",$_GET['file']); 
 } else {
     return;
 }

@@ -1,5 +1,8 @@
 <?php
 require_once 'php/connectTosql.php';
+$IDT     = $_SESSION['organizerID'];
+$message = "";
+
 if (isset($_POST['update'])) {
  $eventId          = $_GET['eventid'];
  $eventName        = $_POST['eventName'];
@@ -11,44 +14,83 @@ if (isset($_POST['update'])) {
  $location         = $_POST['location'];
  $organizationName = $_POST['organizer'];
  $maxAttendee      = $_POST['maxAttendee'];
+ $fileDeatils      = "";
+
+// to check date
  if ($datestart > $dateend) {
-  echo " <div class='alert alert-danger alert-dismissible'>
+  //date
+
+  $message = " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
          <strong> فشل  </strong>  يرجى التحقق من تاريخ بداية ونهاية الحدث
        </div> ";
+
  } else {
 
-  $sql = " update event set
+  if (isset($_FILES["fileToUpload"])) {
+
+   $name             = $_FILES['fileToUpload']['name'];
+   $size             = $_FILES['fileToUpload']['size'];
+   $type             = $_FILES['fileToUpload']['type'];
+   $tmp_name         = $_FILES['fileToUpload']['tmp_name'];
+   $templateLocation = "UploadFile/" . $eventId . "/logoEvent." . $extention;
+
+   $max_size = 200000;
+
+   if ($size <= $max_size) {
+    if (move_uploaded_file($tmp_name, $templateLocation)) {
+     $fileDeatils = " ,templateName='$name',
+                            templateSize='$size',
+                            templateType='$type',
+                            templateLocation='$templateLocation' ";
+    } else {
+     // file saved in files directory
+     $message = " <div class='alert alert-danger alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+        <strong> فشل</strong>  يوجد خطأ في حفظ الملف
+        </div> ";
+
+    }
+   } else // size
+   {
+    $message = " <div class='alert alert-danger alert-dismissible'>
+            <button type='button' class='close' data-dismiss='alert'>&times;</button>
+              <strong> يرجى</strong>  أكبر حجم للملف هو 20 ميغا
+            </div> ";
+
+   }
+  }
+   // end if file exist
+   $sql = " UPDATE event set
    name_Event='$eventName',
    descrption_Event='$EventDescription',
    sartDate_Event='$datestart',
    endDate_Event='$dateend',
    location_Event='$location',
    organization_name_Event='$organizationName',
-   maxNumOfAttendee='$maxAttendee'
+   maxNumOfAttendee='$maxAttendee' $fileDeatils
    where event_ID ='$eventId' ";
-  $sql = mysqli_query($con, $sql) or die(mysqli_error($con));
-  if ($sql) {
-   header("location: /tactic/manageEvent.php");
-   exit;
-  } else {
-   echo " <div class='alert alert-danger alert-dismissible'>
+   $sql = mysqli_query($con, $sql) or die(mysqli_error($con));
+
+   if ($sql) {
+    header("location:manageEvent.php");
+    exit;
+//sql
+   } else {
+    $message = " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
-         <strong> فشل</strong>  لم تتم عملية الاضافة بنجاح يرجى التحقق
+         <strong> فشل</strong>  لم تتم عملية تعديل الحدث بنجاح
        </div> ";
-  }
- }}
+   }
+
+ 
+
+ }
+}
 $query = null;
 if (isset($_GET['eventid']) && $_GET['eventid'] != '') {
  $eventId = $_GET['eventid'];
  $query   = mysqli_query($con, "SELECT * FROM event  WHERE event_ID ='$eventId' ") or die(mysqli_error($con));
- if ($query == null) {
-//TODO
-  //show hime error message to tell him that the id is not exist
- }
-} else {
- // TODO
- //you shouls redirect him to error page
 }
 $return_arr = array();
 $row        = null;
@@ -62,6 +104,8 @@ if ($query) {
  $location         = $row[5];
  $organizationName = $row[6];
  $maxAttendee      = $row[8];
+ $templateLocation = $row[12];
+
 }
 //Retrieve inserted values:*/
 ?>
@@ -100,26 +144,24 @@ if ($query) {
     <div class="container">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h4 class="panelTitle" >تعديل حدث </h4>
+          <h4 class="panelTitle">تعديل حدث </h4>
         </div>
         <div class="panel-body">
 
           <form action="" class="formDivEditEvent" method="post">
-
+            <?php echo $message; ?>
             <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <label for="eventName" class="control-label"> اسم الحدث<label style="color:red">*&nbsp; </label></label>
-                <input type="text" class="form-control" id="txtEventName"  name="eventName" value="<?php echo $eventName ?>"
-                  >
+                <input type="text" class="form-control" id="txtEventName" name="eventName" value="<?php echo $eventName ?>">
               </div>
             </div>
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="txtOrganizer" class="control-label">اسم الشركة المنظمة<label style="color:red">*&nbsp; </label></label>
-                <input type="text" class="form-control" id="txtOrganizer" name="organizer"
-                value="<?php echo $organizationName ?>"
-                  >
+                <label for="txtOrganizer" class="control-label">اسم الشركة المنظمة<label style="color:red">*&nbsp;
+                  </label></label>
+                <input type="text" class="form-control" id="txtOrganizer" name="organizer" value="<?php echo $organizationName ?>">
               </div>
             </div>
 
@@ -142,43 +184,50 @@ if ($query) {
             <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <label for="txtLocation" class="control-label">مكان الحدث<label style="color:red">*&nbsp; </label></label>
-                <input type="text" class="form-control" id="txtLocation" name="location" value="<?php echo $location ?>"
-                  >
+                <input type="text" class="form-control" id="txtLocation" name="location" value="<?php echo $location ?>">
               </div>
             </div>
             <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <label for="txtSdaytime" class="control-label">تاريخ بدء الحدث<label style="color:red">*&nbsp; </label></label>
-                <input type="date" class="form-control" id="txtSdaytime" name="sdaytime" value="<?php echo $sdaytime ?>"
-                  >
+                <input type="date" class="form-control" id="txtSdaytime" name="sdaytime" value="<?php echo $sdaytime ?>">
               </div>
             </div>
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="txtEdaytime" class="control-label">تاريخ نهاية الحدث<label style="color:red">*&nbsp; </label></label>
-                <input type="date" class="form-control" id="txtEdaytime" name="edaytime" value="<?php echo $edaytime ?>"
-                  >
+                <label for="txtEdaytime" class="control-label">تاريخ نهاية الحدث<label style="color:red">*&nbsp;
+                  </label></label>
+                <input type="date" class="form-control" id="txtEdaytime" name="edaytime" value="<?php echo $edaytime ?>">
               </div>
             </div>
+            <div class="col-md-12">
+              <div class="form-group form-group-lg">
+                <label for="fileToUpload" class="control-label"> ارفاق صورة شعار الحدث<label style="color:red">*&nbsp;
+                  </label></label>
+                <input type="file" class="form-control" id="fileToUpload" name="fileToUpload">
+                <?php echo "
+               <div class='download-file-container'><p class='UploaderNotes'>في حال لم تقم بإرفاق ملف سيتم المحافظة على الملف القديم</p><p><a title='تحميل الملف'
+                href='download.php?file=" . $templateLocation . "' data-id=" . $eventId . ">تنزيل الملف</a></p></div>" ?>
 
-
+              </div>
+            </div>
             <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <label for="txtDescription" class="control-label">وصف الحدث<label style="color:red">*&nbsp; </label></label>
-                <textarea type="textarea" class="form-control" id="txtDescription" rows="3" name="description" ><?php echo $EventDescription ?></textarea>
+                <textarea type="textarea" class="form-control" id="txtDescription" rows="3" name="description"><?php echo $EventDescription ?></textarea>
               </div>
             </div>
 
-            <a  href="/tactic/manageEvent.php"  class="bodyform btn btn-nor-danger btn-sm">عودة</a>
-             <input type="submit" value="تعديل" name = "update" class="btn btn-nor-primary btn-lg enable-overlay">
-
-            </div>
-          </form>
+            <a href="/tactic/manageEvent.php" class="bodyform btn btn-nor-danger btn-sm">عودة</a>
+            <input type="submit" value="تعديل" name="update" class="btn btn-nor-primary btn-lg enable-overlay">
 
         </div>
+        </form>
+
       </div>
     </div>
+  </div>
   </div>
   </div>
   </div>
@@ -191,7 +240,7 @@ if ($query) {
 
   <script>
     $(function () {
-      $("#includedContent").load("php/TopNav.php");
+        $("#includedContent").load("php/TopNav.php");
       $("#includedContent2").load("HTML/rightNav.html");
     });
   </script>
