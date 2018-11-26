@@ -1,9 +1,9 @@
-* {
-    box-sizing: border-box;
-}
-
-.rightNav {
-    /*  margin: 0;
+                                                                        * {
+                                                                            box-sizing: border-box;
+                                                                        }
+                                                                        
+                                                                        .rightNav {
+                                                                            /*  margin: 0;
     z-index: 1000;
     float: right;
     width: 15%;
@@ -11,193 +11,183 @@
     background-color: black;
     color:white;
     font-size: 15px;*/
-    margin: 0;
-    width: 200px;
-    position: fixed;
-    top: 50px;
-    right: 0;
-    z-index: 900;
-    /* so the menu or its navicon stays above all content */
-    background: #191818;
-    overflow-y: auto;
-    text-align: right;
-    height: 800px;
-    -webkit-overflow-scrolling: touch;
-}
-
-.field-icon {
-    float: right;
-    margin-left: -25px;
-    margin-top: -25px;
-    position: relative;
-    z-index: 2;
-}
-
-.leftForm {
-    float: left;
-    padding: 10px;
-}
-
-.rightForm {
-    float: right;
-    padding: 10px;
-}
-
-.deleteEventDiv {
-    font-size: 15px;
-    height: 300px;
-    float: right;
-}
-
-#titleOfdelete {
-    font-size: 20px;
-}
-
-#deleteEvent {
-    width: 200px;
-    text-align: right;
-}
-
-
-/* Style the list inside the menu */
-
-.rightNav ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.rightNav ul a {
-    color: white;
-    text-decoration: none;
-    text-align: right;
-    font-size: 17px;
-}
-
-.rightNav a:hover,
-.rightNav a:focus {
-    background: grey;
-}
-
-.titleNav {
-    color: red;
-    font-weight: bold;
-    font-size: 20px;
-    font-family: 'Noto Nastaliq Urdu Draft', serif;
-    text-decoration: none;
-}
-
-.headerNav {
-    position: fixed;
-    top: 0;
-    z-index: 100;
-    width: 100%;
-}
-
-.mainContent {
-    margin: 0;
-    margin-right: 20%;
-    width: 80%;
-    height: 900px;
-}
-
-
-/* Style the footer */
-
-footer {
-    background-color: black;
-    padding: 10px;
-    text-align: center;
-}
-
-
-/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
-
-@media (max-width: 600px) {
-    .rightNav,
-    .mainContent {
-        width: 7%;
-        height: auto;
-    }
-}
-
-.panel-primary {
-    border-color: #337ab7;
-    border: 0px !important;
-}
-
-.form-group-lg .form-control {
-    height: 46px;
-    padding: 10px 16px;
-    font-size: 17px !important;
-    line-height: 1.3333333;
-    border-radius: 6px;
-}
-
-.pageTitel {
-    position: relative;
-    top: 70px;
-    right: 5%;
-    z-index: -1;
-    text-align: right;
-    font-family: 'Noto Nastaliq Urdu Draft', serif;
-    color: gray;
-    border: 2px;
-    width: 100%;
-    color: cornflowerblue;
-}
-
-.panelTitle {
-    font-weight: bold;
-    font-size: 20px;
-    font-family: 'Noto Nastaliq Urdu Draft', serif;
-    text-decoration: none;
-}
-
-.container {
-    position: relative;
-    left: 15%;
-    top: 10%;
-    z-index: 0;
-    border-radius: 10px;
-    box-shadow: 5px 5px 30px cornflowerblue;
-    max-width: 700px;
-    text-align: right;
-}
-
-.tabelForm {
-    border-collapse: collapse;
-}
-
-.tabelForm td {
-    text-align: right;
-    padding-top: 30px;
-    padding-right: 10px;
-    width: 500px;
-    padding-bottom: 20px;
-}
-
-.tabelClass th,
-.tabelClass {
-    text-align: right;
-}
-
-textarea {
-    width: 300px;
-}
-
-.rightTd {
-    float: right;
-}
-
-::placeholder {
-    text-align: right;
-}
-
-
-/*  */
-
-
-/* .btn {
+                                                                            margin: 0;
+                                                                            width: 200px;
+                                                                            position: fixed;
+                                                                            top: 50px;
+                                                                            right: 0;
+                                                                            z-index: 900;
+                                                                            /* so the menu or its navicon stays above all content */
+                                                                            background: #191818;
+                                                                            overflow-y: auto;
+                                                                            text-align: right;
+                                                                            height: 800px;
+                                                                            -webkit-overflow-scrolling: touch;
+                                                                        }
+                                                                        
+                                                                        .field-icon {
+                                                                            float: right;
+                                                                            margin-left: -25px;
+                                                                            margin-top: -25px;
+                                                                            position: relative;
+                                                                            z-index: 2;
+                                                                        }
+                                                                        
+                                                                        .leftForm {
+                                                                            float: left;
+                                                                            padding: 10px;
+                                                                        }
+                                                                        
+                                                                        .rightForm {
+                                                                            float: right;
+                                                                            padding: 10px;
+                                                                        }
+                                                                        
+                                                                        .deleteEventDiv {
+                                                                            font-size: 15px;
+                                                                            height: 300px;
+                                                                            float: right;
+                                                                        }
+                                                                        
+                                                                        #titleOfdelete {
+                                                                            font-size: 20px;
+                                                                        }
+                                                                        
+                                                                        #deleteEvent {
+                                                                            width: 200px;
+                                                                            text-align: right;
+                                                                        }
+                                                                        /* Style the list inside the menu */
+                                                                        
+                                                                        .rightNav ul {
+                                                                            list-style-type: none;
+                                                                            padding: 0;
+                                                                        }
+                                                                        
+                                                                        .rightNav ul a {
+                                                                            color: white;
+                                                                            text-decoration: none;
+                                                                            text-align: right;
+                                                                            font-size: 17px;
+                                                                        }
+                                                                        
+                                                                        .rightNav a:hover,
+                                                                        .rightNav a:focus {
+                                                                            background: grey;
+                                                                        }
+                                                                        
+                                                                        .titleNav {
+                                                                            color: red;
+                                                                            font-weight: bold;
+                                                                            font-size: 20px;
+                                                                            font-family: 'Noto Nastaliq Urdu Draft', serif;
+                                                                            text-decoration: none;
+                                                                        }
+                                                                        
+                                                                        .headerNav {
+                                                                            position: fixed;
+                                                                            top: 0;
+                                                                            z-index: 100;
+                                                                            width: 100%;
+                                                                        }
+                                                                        
+                                                                        .mainContent {
+                                                                            margin: 0;
+                                                                            margin-right: 20%;
+                                                                            width: 80%;
+                                                                            height: 900px;
+                                                                        }
+                                                                        /* Style the footer */
+                                                                        
+                                                                        footer {
+                                                                            background-color: black;
+                                                                            padding: 10px;
+                                                                            text-align: center;
+                                                                        }
+                                                                        /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+                                                                        
+                                                                        @media (max-width: 600px) {
+                                                                            .rightNav,
+                                                                            .mainContent {
+                                                                                width: 7%;
+                                                                                height: auto;
+                                                                            }
+                                                                        }
+                                                                        
+                                                                        .panel-primary {
+                                                                            border-color: #337ab7;
+                                                                            border: 0px !important;
+                                                                        }
+                                                                        
+                                                                        .form-group-lg .form-control {
+                                                                            height: 46px;
+                                                                            padding: 10px 16px;
+                                                                            font-size: 17px !important;
+                                                                            line-height: 1.3333333;
+                                                                            border-radius: 6px;
+                                                                        }
+                                                                        
+                                                                        .pageTitel {
+                                                                            position: relative;
+                                                                            top: 70px;
+                                                                            right: 5%;
+                                                                            z-index: -1;
+                                                                            text-align: right;
+                                                                            font-family: 'Noto Nastaliq Urdu Draft', serif;
+                                                                            color: gray;
+                                                                            border: 2px;
+                                                                            width: 100%;
+                                                                            color: cornflowerblue;
+                                                                        }
+                                                                        
+                                                                        .panelTitle {
+                                                                            font-weight: bold;
+                                                                            font-size: 20px;
+                                                                            font-family: 'Noto Nastaliq Urdu Draft', serif;
+                                                                            text-decoration: none;
+                                                                        }
+                                                                        
+                                                                        .container {
+                                                                            position: relative;
+                                                                            left: 15%;
+                                                                            top: 10%;
+                                                                            z-index: 0;
+                                                                            border-radius: 10px;
+                                                                            box-shadow: 5px 5px 30px cornflowerblue;
+                                                                            max-width: 700px;
+                                                                            text-align: right;
+                                                                        }
+                                                                        
+                                                                        .tabelForm {
+                                                                            border-collapse: collapse;
+                                                                        }
+                                                                        
+                                                                        .tabelForm td {
+                                                                            text-align: right;
+                                                                            padding-top: 30px;
+                                                                            padding-right: 10px;
+                                                                            width: 500px;
+                                                                            padding-bottom: 20px;
+                                                                        }
+                                                                        
+                                                                        .tabelClass th,
+                                                                        .tabelClass {
+                                                                            text-align: right;
+                                                                        }
+                                                                        
+                                                                        textarea {
+                                                                            width: 300px;
+                                                                        }
+                                                                        
+                                                                        .rightTd {
+                                                                            float: right;
+                                                                        }
+                                                                        
+                                                                         ::placeholder {
+                                                                            text-align: right;
+                                                                        }
+                                                                        /*  */
+                                                                        /* .btn {
     background-color:black;
     border: none;
     color: white;
@@ -207,85 +197,79 @@ textarea {
     margin-left: 20px;
     width: 90px;
 } */
-
-form .btn {
-    float: left;
-}
-
-input[type="date"] {
-    text-align: right;
-}
-
-
-/* Darker background on mouse-over */
-
-.btn:hover {
-    background-color: RoyalBlue;
-}
-
-
-/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
-
-@media screen and (max-width: 600px) {
-    .col-25,
-    .col-75,
-    input[type=submit] {
-        width: 100%;
-        margin-top: 0;
-    }
-}
-
-
-/*////////////////////////////////////////*/
-
-body {
-    margin: 0;
-}
-
-ul.topnav {
-    list-style-type: none;
-    /* margin: 0;
+                                                                        
+                                                                        form .btn {
+                                                                            float: left;
+                                                                        }
+                                                                        
+                                                                        input[type="date"] {
+                                                                            text-align: right;
+                                                                        }
+                                                                        /* Darker background on mouse-over */
+                                                                        
+                                                                        .btn:hover {
+                                                                            background-color: RoyalBlue;
+                                                                        }
+                                                                        /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+                                                                        
+                                                                        @media screen and (max-width: 600px) {
+                                                                            .col-25,
+                                                                            .col-75,
+                                                                            input[type=submit] {
+                                                                                width: 100%;
+                                                                                margin-top: 0;
+                                                                            }
+                                                                        }
+                                                                        /*////////////////////////////////////////*/
+                                                                        
+                                                                        body {
+                                                                            margin: 0;
+                                                                        }
+                                                                        
+                                                                        ul.topnav {
+                                                                            list-style-type: none;
+                                                                            /* margin: 0;
     padding: 0;
     overflow: hidden;
     background-color: #000;*/
-}
-
-ul.topnav li {
-    float: right;
-}
-
-ul.topnav li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 20px;
-}
-
-ul.topnav li a:hover:not(.active) {
-    background-color: #111;
-}
-
-ul.topnav li a.active {
-    background-color: lightslategrey;
-}
-
-ul.topnav li.right {
-    float: right;
-}
-
-@media screen and (max-width: 600px) {
-    ul.topnav li.right,
-    ul.topnav li {
-        float: none;
-    }
-}
-
-.RegisterInputs {
-    float: right;
-}
-
-.error {
-    color: #ff0000;
-}
+                                                                        }
+                                                                        
+                                                                        ul.topnav li {
+                                                                            float: right;
+                                                                        }
+                                                                        
+                                                                        ul.topnav li a {
+                                                                            display: block;
+                                                                            color: white;
+                                                                            text-align: center;
+                                                                            padding: 14px 16px;
+                                                                            text-decoration: none;
+                                                                            font-size: 20px;
+                                                                        }
+                                                                        
+                                                                        ul.topnav li a:hover:not(.active) {
+                                                                            background-color: #111;
+                                                                        }
+                                                                        
+                                                                        ul.topnav li a:active {
+                                                                            background-color: #476CC4;
+                                                                        }
+                                                                        
+                                                                        ul.topnav li.right {
+                                                                            float: right;
+                                                                        }
+                                                                        
+                                                                        @media screen and (max-width: 600px) {
+                                                                            ul.topnav li.right,
+                                                                            ul.topnav li {
+                                                                                float: none;
+                                                                            }
+                                                                        }
+                                                                        
+                                                                        .RegisterInputs {
+                                                                            float: right;
+                                                                        }
+                                                                        
+                                                                        .error {
+                                                                            color: #ff0000;
+                                                                        }
