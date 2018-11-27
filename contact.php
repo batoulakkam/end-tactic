@@ -43,9 +43,9 @@
 
                 <ul class="topnav">
                     <li><a href="register.php">الإشتراك</a></li>
-                    <li><a class="active" href="LogIn.php">تسجيل الدخول</a></li>
+                    <li><a href="LogIn.php">تسجيل الدخول</a></li>
                     <li><a href="contact.php">تواصل معنا</a></li>
-                    <li><a href="about.php">حولنا</a></li> >
+                    <li><a class="active" href="about.php">حولنا</a></li> >
                 </ul>
 
 
