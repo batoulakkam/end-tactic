@@ -1,3 +1,14 @@
+<?php
+//conect to database
+require_once 'php/connectTosql.php';
+if(isset($_SESSION['organizerID']) ){
+$organizerid = $_SESSION['organizerID'];
+$flag = true;
+}//end if ($_SESSION['organizerID'])
+else{
+    header("location:LogIn.php");
+  }
+  ?>
 <!DOCTYPE html>
 <html>
 
@@ -14,7 +25,7 @@
   <link rel="stylesheet" href="css/icon.css">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/main-rtl.css">
-
+  <link rel="shortcut icon" href="image/logo.png" type="image/x-icon" />
     <div class="panel panel-default nor-panel">
         <div class="panel-body">
             <div id="includedContent"></div>
@@ -69,6 +80,12 @@
                                                 <img src="image/form.png" alt="إدارة نموذج التسجيل" title="إدارة نموذج التسجيل">
                                             </span>
                                             <h3>إدارة نموذج التسجيل</h3>
+                                        </a>
+										<a href="manageOnsite.php" class="col-xs-6 col-s-4 col-md-3 text-center dashboard_item enable-overlay">
+                                            <span class="dashboard_item_img">
+                                                <img src="image/onsite.png" alt="إدارة" title="إدارة">
+                                            </span>
+                                            <h3>إدارة التسجيل الفوري</h3>
                                         </a>
 
                                         <a href="manageEmail.php" class="col-xs-6 col-s-4 col-md-3 text-center dashboard_item enable-overlay">
